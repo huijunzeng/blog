@@ -1,0 +1,13 @@
+## 用本地配置
+server:
+    port: 9777 # 启动端口
+spring:
+    application:
+        name: authorization-server
+    cloud:
+        nacos:
+            discovery: #nacos注册中心地址配置
+                server-addr: 127.0.0.1:8848
+    #profiles:
+    #    active: dev # 根据不同环境切换配置环境
+name: nacosConfig  #测试用
