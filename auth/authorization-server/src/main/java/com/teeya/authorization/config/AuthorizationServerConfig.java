@@ -1,5 +1,6 @@
 package com.teeya.authorization.config;
 
+import com.teeya.authorization.service.CustomeUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 /**
@@ -31,109 +33,119 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private static final String DEMO_RESOURCE_ID = "order";
 
+    /*@Autowired
+    DataSource dataSource;*/
+
+    //Authentication 管理者, 起到填充完整 Authentication的作用
     @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
-    CustomeUserDetailsService userDetailsService;
-
-    // 可在properties文件配置信息  这里采用redis默认信息
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
+
     /**
-     * 内存存储  实际应用需采用跟数据库
-     * 客户端相关配置 我们的认证服务器会给哪些第三方发令牌
+     * 配置客户端信息  clientId scope redirect_uri等  假如从数据库中读取，相对应的表为oauth_client_details
      * @param clients
      * @throws Exception
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        //配置两个客户端认证,一个用于password认证一个用于client认证
-        //clients.jdbc(dataSource)  //@Autowired  DataSource dataSource;  配置客户端信息，从数据库中读取，对应oauth_client_details表
-        // OAuth 2.0定义了五种授权方式 client_credentials,authorization_code,password,implicit,refresh_token分别对应客户端模式、授权码模式、密码模式、隐式授权模式   如果使用refresh_token端点，那么需要把refresh_token写入授权类型
-        // 生成的token有两种  一个是access_token，另一种是refresh_token，前者的有效期默认是12小时，后者有效期则比较长，在refresh_token未过期的情况下，可以使用后者重新获取新的access_token。refresh token有两种使用模式：重复使用和非重复使用（顾名思义，不做解释），前者会延用初次生成token的过期时间，后者则会重新返回新的默认或者设置的过期时间  jti：jwt token id  token的唯一属性
+
+//        password 方案一：明文存储，用于测试，不能用于生产
+//        String finalSecret = "123456";
+//        password 方案二：用 BCrypt 对密码编码
+//        String finalSecret = new BCryptPasswordEncoder().encode("123456");
+        // password 方案三：支持多种编码，通过密码的前缀区分编码方式
+        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+        //配置两个客户端,一个用于password认证一个用于client认证  内存方式
         clients.inMemory().withClient("client_1")
-                .secret("123456")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("authorization_code", "client_credentials", "password", "implicit", "refresh_token")//定义授权方式  只有使用匹配的类型才能获取token，比如这里不能使用password授权模式
-                .scopes("select")//相当于权限，配置了这个参数，请求里面可以不带scope参，如果带了参数，必须在配置的这个scope范围之内
-                .authorities("client")
+                .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token")
+                .scopes("select")
+                .authorities("oauth2")
+                .secret(finalSecret)
                 .redirectUris("http://www.baidu.com")
-                .accessTokenValiditySeconds(100)//access_token过期时间
-                .refreshTokenValiditySeconds(100)//fresh_token过期时间
                 .and().withClient("client_2")
                 .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("authorization_code", "refresh_token")
+                .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
-                .authorities("client")
-                .secret("123456")
-                .redirectUris("http://www.baidu.com")
-                .accessTokenValiditySeconds(100)//access_token过期时间
-                .refreshTokenValiditySeconds(100);//fresh_token过期时间
+                .authorities("oauth2")
+                .secret(finalSecret);
+        //从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表  数据库方式
+        //clients.jdbc(dataSource);
     }
 
     /**
-     *  配置AuthorizationServerEndpointsConfigurer众多相关类，包括配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
+     * 管理令牌  比如token保存等
      * @param endpoints
-     * @throws Exception
      */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        //tokenStore实现的三种保存方式（官网）：InMemoryTokenStore（内存）, JdbcTokenStore（数据库，许默认实现oauth_access_token以及oauth_refresh_token表结构）, JwtTokenStore（jwt的方式，既不保存到内存也不保存到数据库，而是将相关信息编码到token令牌里面）
+        //源码中则还有另外一个 RedisTokenStore（redis的方式） 可查看TokenStore接口的实现类，其中有两个JwtTokenStore的实现类，这里就归结于一种吧
+        //这里自定义redis的方式，使用jwt生成token，并保存到redis，方便token令牌的主动过期以及管理等
         endpoints
-                .tokenStore(new RedisTokenStore(redisConnectionFactory)) //token保存到redis
-                .tokenEnhancer(tokenEnhancerChain()) //自定义token  项目用的是JWT
+                .tokenStore(new RedisTokenStore(redisConnectionFactory))//需要配置redis
+                .tokenEnhancer(tokenEnhancerChain()) //token增强器，通过自定义token可添加额外的信息  项目用的是JWT
+                .tokenServices(tokenServices())
                 .authenticationManager(authenticationManager)
-                .reuseRefreshTokens(false)// 不能重复使用refresh_token，每次使用会重新生成一个新的refresh_token返回  默认是可以重复使用
-                .userDetailsService(userDetailsService);//访问refresh_token授权模式时，需要配置userDetailsService，否则报错java.lang.IllegalStateException: UserDetailsService is required.
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     /**
-     * 用来配置令牌端点(Token Endpoint)的安全约束
+     * 定义令牌端点上的安全约束
      * @param oauthServer
-     * @throws Exception
      */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        //允许表单认证
         oauthServer
-               // .tokenKeyAccess("isAuthenticated()")//开启/oauth/token_key验证端口需要权限访问  默认denyAll()
+                // .tokenKeyAccess("isAuthenticated()")//开启/oauth/token_key验证端口需要权限访问  默认denyAll()
                 //.tokenKeyAccess("permitAll()")//开启/oauth/token_key验证端口无权限访问  默认denyAll()
                 //.checkTokenAccess("isAuthenticated()")//开启/oauth/check_token验证端口需权限访问  默认denyAll()
                 .allowFormAuthenticationForClients();//允许表单认证
+        //oauthServer.allowFormAuthenticationForClients();
     }
 
 
     /**
-     * 自定义token
-     *
-     * @return tokenEnhancerChain
-     */
-    @Bean
-    public TokenEnhancerChain tokenEnhancerChain() {
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new customJwtToken(), accessTokenConverter()));
-        return tokenEnhancerChain;
-    }
-
-    /**
-     * jwt token的生成配置
-     *
+     * 这里tokenStore保存使用的是jwt的方式
      * @return
      */
     @Bean
+    public TokenStore tokenStore() {
+        //基于jwt实现令牌（Access Token）
+        return new JwtTokenStore(accessTokenConverter());
+    }
+
+    @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        String signingKey = "123456";//秘钥  对称性加密  实际可用RSA非对称公私钥加密
+        String signingKey = "123456";//使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(signingKey);
         return converter;
     }
 
+    /**
+     * 通过使用token增强器可往token添加额外的信息 这里往jwt令牌添加自定义的信息
+     * @return
+     */
     @Bean
-    @Primary
+    public TokenEnhancerChain tokenEnhancerChain() {
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomJwtToken(), accessTokenConverter()));
+        return tokenEnhancerChain;
+    }
+
+    @Bean
+    //@Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
+        //defaultTokenServices.setAccessTokenValiditySeconds(); refresh_token 的有效时长 (秒), 默认 30 天
+        //defaultTokenServices.setRefreshTokenValiditySeconds(); access_token 的有效时长 (秒), 默认 12 小时
+        //defaultTokenServices.setSupportRefreshToken(); refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());//token增强器  可往token添加额外的信息
+        defaultTokenServices.setTokenStore(tokenStore());//token存储方式
         return defaultTokenServices;
     }
 
