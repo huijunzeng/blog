@@ -1,6 +1,6 @@
 ## 用本地配置
 server:
-    port: 9778 # 启动端口
+    port: 1000 # 启动端口
 spring:
     application:
         name: authentication-server
@@ -12,4 +12,4 @@ spring:
                 server-addr: 127.0.0.1:8848
     #profiles:
     #    active: dev # 根据不同环境切换配置环境
-name: nacosConfig  #测试用
+name: authentication-server  #测试用

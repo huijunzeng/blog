@@ -1,0 +1,28 @@
+## 用本地配置
+server:
+    port: 8080 # 启动端口
+spring:
+    application:
+        name: zuul
+    cloud:
+        nacos:
+            discovery: #nacos注册中心地址配置
+                server-addr: 127.0.0.1:8848
+            config: #nacos配置中心地址配置
+                server-addr: 127.0.0.1:8848
+    #profiles:
+    #    active: dev # 根据不同环境切换配置环境
+
+zuul:
+    routes:
+        authorization-server: #自定义名称
+            service-id: authorization-server #服务的spring.application.name(所以前面说了个属性很重要，要注意) ant风格路径表达式，只能匹配一个层级
+            path: /authorization-server/**
+            #stripPrefix: true #如果stripPrefix=false，则去掉/ribbon，转发的请求是/**；如果为true，转发的请求是/ribbon/**
+        authentication-server: #自定义名称
+            service-id: authentication-server #服务的spring.application.name(所以前面说了个属性很重要，要注意) ant风格路径表达式，只能匹配一个层级
+            path: /authentication-server/**
+            #stripPrefix: true #如果stripPrefix=false，则去掉/feign，转发的请求是/**；如果为true，转发的请求是/feign/** ?????还没解决
+
+
+name: zuul  #测试用

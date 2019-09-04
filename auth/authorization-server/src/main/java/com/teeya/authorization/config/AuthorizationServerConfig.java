@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -39,6 +40,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     //Authentication 管理者, 起到填充完整 Authentication的作用
     @Autowired
     AuthenticationManager authenticationManager;
+    /*@Autowired
+    AuthorizationCodeServices authorizationCodeServices;*/
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
@@ -88,23 +91,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))//需要配置redis
                 .tokenEnhancer(tokenEnhancerChain()) //token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices())
+                //.authorizationCodeServices(authorizationCodeServices) 授权码模式
                 .authenticationManager(authenticationManager)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     /**
      * 定义令牌端点上的安全约束
-     * @param oauthServer
+     * @param security
      */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         //允许表单认证
-        oauthServer
+        /*security
                 // .tokenKeyAccess("isAuthenticated()")//开启/oauth/token_key验证端口需要权限访问  默认denyAll()
                 //.tokenKeyAccess("permitAll()")//开启/oauth/token_key验证端口无权限访问  默认denyAll()
                 //.checkTokenAccess("isAuthenticated()")//开启/oauth/check_token验证端口需权限访问  默认denyAll()
-                .allowFormAuthenticationForClients();//允许表单认证
+                .allowFormAuthenticationForClients();//允许表单认证*/
         //oauthServer.allowFormAuthenticationForClients();
+        security
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()") //isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
+                .allowFormAuthenticationForClients();  //允许表单认证
     }
 
 
@@ -137,8 +145,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return tokenEnhancerChain;
     }
 
+    /**
+     * 用作crud  用来改变访问 Token 的格式和存储
+     * @return
+     */
     @Bean
-    //@Primary
+    @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         //defaultTokenServices.setAccessTokenValiditySeconds(); refresh_token 的有效时长 (秒), 默认 30 天
