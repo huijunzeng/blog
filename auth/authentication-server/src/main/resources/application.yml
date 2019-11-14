@@ -6,10 +6,10 @@ spring:
         name: authentication-server
     cloud:
         nacos:
-            discovery: #nacos注册中心地址配置
-                server-addr: 127.0.0.1:8848
-            config: #nacos配置中心地址配置
-                server-addr: 127.0.0.1:8848
-    #profiles:
-    #    active: dev # 根据不同环境切换配置环境
-name: nacosConfig  #测试用
+            discovery: # nacos注册中心地址配置
+                server-addr: 129.211.34.120:8848
+            config: # nacos配置中心地址配置
+                server-addr: 129.211.34.120:8848
+    profiles:
+        active: dev # 根据不同环境切换配置环境
+name: nacosConfig  # 测试用
