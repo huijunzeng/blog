@@ -1,6 +1,6 @@
 ## 用本地配置
 server:
-    port: 9777 # 启动端口
+    port: 1001 # 启动端口
 spring:
     application:
         name: authorization-server
@@ -14,4 +14,4 @@ spring:
         host: 129.211.34.120
         port: 6379
         password:
-name: nacosConfig  #测试用
+name: authorization-server  #测试用

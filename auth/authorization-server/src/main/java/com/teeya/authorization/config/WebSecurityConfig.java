@@ -9,9 +9,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 
 /**
  * spring security配置
@@ -71,14 +73,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/*").authenticated();*/
         // @formatter:on
 
-        http.csrf().disable();
+       /* http.csrf().disable();
         http
                 .requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/oauth/**").authenticated()
                 .and()
-                .formLogin().permitAll(); //新增login form支持用户登录及授权
+                .formLogin().permitAll(); //新增login form支持用户登录及授权*/
+        http
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().and()
+                .csrf().disable()
+                .httpBasic();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        /*super.configure(web);*/
+        web.ignoring().antMatchers("/favor.ioc");
+    }
 }
