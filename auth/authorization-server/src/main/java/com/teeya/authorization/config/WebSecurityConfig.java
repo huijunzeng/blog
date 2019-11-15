@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
  * spring security配置
  */
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 //@EnableOAuth2Sso
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

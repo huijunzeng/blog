@@ -7,9 +7,11 @@ spring:
     cloud:
         nacos:
             discovery: #nacos注册中心地址配置
-                server-addr: 127.0.0.1:8848
+                server-addr: 129.211.34.120:8848
+                namespace: a4d0cf40-1125-4263-81e5-3f628bc90302 # 命名空间ID
+                #group: blog # 配置管理Group
             config: #nacos配置中心地址配置
-                server-addr: 127.0.0.1:8848
+                server-addr: 129.211.34.120:8848
     #profiles:
     #    active: dev # 根据不同环境切换配置环境
 
@@ -24,5 +26,26 @@ zuul:
             path: /authentication-server/**
             #stripPrefix: true #如果stripPrefix=false，则去掉/feign，转发的请求是/**；如果为true，转发的请求是/feign/** ?????还没解决
 
+#如果您通过指定URL配置了Zuul路由，则需要使用
+    max:
+        host:
+            connections: 500
+    host:
+        socket-timeout-millis: 60000
+        connect-timeout-millis: 60000
+#如果Zuul使用服务发现，则需要使用
+ribbon:
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
 
+#熔断机制超时
+hystrix:
+    command:
+        default:
+            execution:
+                timeout:
+                    enabled: true
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 60000
 name: zuul  #测试用

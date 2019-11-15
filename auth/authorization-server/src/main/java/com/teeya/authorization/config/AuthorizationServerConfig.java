@@ -54,6 +54,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
+
+
+        //  授权码模式：http://localhost:9777/oauth/authorize?client_id=client_1&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
+
+        // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=client_1&client_secret=123456&redirect_uri=http://www.baidu.com
+
 //        password 方案一：明文存储，用于测试，不能用于生产
 //        String finalSecret = "123456";
 //        password 方案二：用 BCrypt 对密码编码
@@ -65,14 +71,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token")
                 .scopes("select")
-                .authorities("oauth2")
+                .authorities("USER")
                 .secret(finalSecret)
                 .redirectUris("http://www.baidu.com")
                 .and().withClient("client_2")
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
-                .authorities("oauth2")
+                .authorities("USER")
                 .secret(finalSecret);
         //从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表  数据库方式
         //clients.jdbc(dataSource);

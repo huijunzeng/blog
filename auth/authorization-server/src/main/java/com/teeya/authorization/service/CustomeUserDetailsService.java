@@ -36,14 +36,14 @@ public class CustomeUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        /*InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
-
+*/
         //查询账号是否存在，是就返回一个UserDetails的对象，若不存在就抛出异常！
-        /*Set<GrantedAuthority> AuthoritiesSet = new HashSet<GrantedAuthority>();
-        AuthoritiesSet.add(new SimpleGrantedAuthority("ROLE_USER"));// 授权权限
-        return new User("user_1",new BCryptPasswordEncoder().encode("123456"), true, true, true, true,AuthoritiesSet);*/
-        return (UserDetails) manager;
+        Set<GrantedAuthority> AuthoritiesSet = new HashSet<GrantedAuthority>();
+        AuthoritiesSet.add(new SimpleGrantedAuthority("USER"));// 授权权限
+        return new User("user_1",new BCryptPasswordEncoder().encode("123456"), true, true, true, true,AuthoritiesSet);
+        //return (UserDetails) manager;
     }
 
 }
