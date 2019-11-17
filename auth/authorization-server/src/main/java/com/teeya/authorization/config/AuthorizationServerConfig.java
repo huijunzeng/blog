@@ -37,7 +37,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     /*@Autowired
     DataSource dataSource;*/
 
-    //Authentication 管理者, 起到填充完整 Authentication的作用
+    //Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
     AuthenticationManager authenticationManager;
     /*@Autowired
@@ -114,11 +114,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //.tokenKeyAccess("permitAll()")//开启/oauth/token_key验证端口无权限访问  默认denyAll()
                 //.checkTokenAccess("isAuthenticated()")//开启/oauth/check_token验证端口需权限访问  默认denyAll()
                 .allowFormAuthenticationForClients();//允许表单认证*/
-        //oauthServer.allowFormAuthenticationForClients();
         security
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()") //isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
-                .allowFormAuthenticationForClients();  //允许表单认证
+                // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
+                // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
+                // 开启后，则可以在路径后直接拼接client_id和client_secret参数就能请求到token，当然上面的请求格式也一样支持，相对来说上面的那一种会安全点，所以我们大多取默认就行
+                .allowFormAuthenticationForClients();
     }
 
 

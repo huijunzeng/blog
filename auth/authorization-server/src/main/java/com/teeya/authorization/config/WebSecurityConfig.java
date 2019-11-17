@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 认证对象管理
-     * springboot2.1.x版本需要注入authenticationManager  不然AuthorizationServerConfig授权服务器依赖AuthenticationManager报错
+     * springboot2.1.x版本需要注入父类的authenticationManager  不然AuthorizationServerConfig授权服务器依赖AuthenticationManager报错
      * Field authenticationManager in com.example.oauth.config.AuthorizationServerConfig required a bean of type 'org.springframework.security.authentication.AuthenticationManager' that could not be found.
      * @return
      * @throws Exception
@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 认证对象管理构造器
      * new BCryptPasswordEncoder().encode("123456")
+     * userDetailsService 自定义的用户管理类
      * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以内存密码时需要用以上方式
      * java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
      * @return

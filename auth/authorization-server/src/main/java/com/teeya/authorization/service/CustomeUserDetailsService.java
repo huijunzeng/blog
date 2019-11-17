@@ -29,6 +29,7 @@ public class CustomeUserDetailsService implements UserDetailsService {
 
     /**
      * 查出UserDetails并比较
+     * 可通过在这根据用户名从数据库查找该用户名数据
      * @param s
      * @return
      * @throws UsernameNotFoundException

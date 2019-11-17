@@ -20,7 +20,7 @@ public class CustomJwtToken implements TokenEnhancer {
 
         //自定义token内容
         Map<String, Object> additionalInfo = new HashMap();
-        additionalInfo.put("organization", oAuth2Authentication.getName());//加入组织机构信息  这里加入用户名
+        additionalInfo.put("organization", oAuth2Authentication.getName());//加入organization组织机构信息  这里加入用户名
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInfo);
         return oAuth2AccessToken;
     }
