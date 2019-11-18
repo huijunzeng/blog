@@ -22,7 +22,7 @@ public class AuthorizationServerApplication {
 public class AccountController {
 
     @GetMapping("/principal")
-    @PreAuthorize("hasAnyAuthority('user')")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public Principal user(Principal principal) {
         return principal;
     }

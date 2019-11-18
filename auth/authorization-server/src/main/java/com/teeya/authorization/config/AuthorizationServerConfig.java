@@ -2,12 +2,14 @@ package com.teeya.authorization.config;
 
 import com.teeya.authorization.service.CustomeUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -15,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -34,9 +37,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private static final String DEMO_RESOURCE_ID = "order";
 
-    /*@Autowired
-    DataSource dataSource;*/
-
+    @Autowired
+    DataSource dataSource;
+    // 自定义的用户管理类
+    @Autowired
+    private UserDetailsService userDetailsService;
     //Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
     AuthenticationManager authenticationManager;
@@ -54,8 +59,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-
-
         //  授权码模式：http://localhost:9777/oauth/authorize?client_id=client_1&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
 
         // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=client_1&client_secret=123456&redirect_uri=http://www.baidu.com
@@ -65,9 +68,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //        password 方案二：用 BCrypt 对密码编码
 //        String finalSecret = new BCryptPasswordEncoder().encode("123456");
         // password 方案三：支持多种编码，通过密码的前缀区分编码方式
-        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+        // String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
         //配置两个客户端,一个用于password认证一个用于client认证  内存方式
-        clients.inMemory().withClient("client_1")
+       /* clients.inMemory().withClient("client_1")
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token")
                 .scopes("select")
@@ -79,43 +82,35 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
                 .authorities("USER")
-                .secret(finalSecret);
-        //从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表  数据库方式
-        //clients.jdbc(dataSource);
+                .secret(finalSecret);*/
+        //从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表oauth_client_details  数据库方式
+        clients.jdbc(dataSource);// 数据库对应的client_id为client_1，client_secret为test_secret（数据库中显示的是BCrypt加密后的密文）
     }
 
     /**
-     * 管理令牌  比如token保存等
+     * 管理令牌、授权码等等的配置（最重要的配置）  比如token保存等
      * @param endpoints
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        //tokenStore实现的三种保存方式（官网）：InMemoryTokenStore（内存）, JdbcTokenStore（数据库，许默认实现oauth_access_token以及oauth_refresh_token表结构）, JwtTokenStore（jwt的方式，既不保存到内存也不保存到数据库，而是将相关信息编码到token令牌里面）
-        //源码中则还有另外一个 RedisTokenStore（redis的方式） 可查看TokenStore接口的实现类，其中有两个JwtTokenStore的实现类，这里就归结于一种吧
-        //这里自定义redis的方式，使用jwt生成token，并保存到redis，方便token令牌的主动过期以及管理等
+        // 配置authorizationCode/token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，允许请求方法类型
         endpoints
-                .tokenStore(new RedisTokenStore(redisConnectionFactory))//需要配置redis
+                .userDetailsService(userDetailsService)
+                .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode保存方式
                 .tokenEnhancer(tokenEnhancerChain()) //token增强器，通过自定义token可添加额外的信息  项目用的是JWT
-                .tokenServices(tokenServices())
-                //.authorizationCodeServices(authorizationCodeServices) 授权码模式
-                .authenticationManager(authenticationManager)
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+                .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
+                .authenticationManager(authenticationManager) // 配置身份认证器
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); // 允许请求方法类型
     }
 
     /**
-     * 定义令牌端点上的安全约束
+     * 定义令牌端点上的安全约束  配置访问的一些设置
      * @param security
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        //允许表单认证
-        /*security
-                // .tokenKeyAccess("isAuthenticated()")//开启/oauth/token_key验证端口需要权限访问  默认denyAll()
-                //.tokenKeyAccess("permitAll()")//开启/oauth/token_key验证端口无权限访问  默认denyAll()
-                //.checkTokenAccess("isAuthenticated()")//开启/oauth/check_token验证端口需权限访问  默认denyAll()
-                .allowFormAuthenticationForClients();//允许表单认证*/
         security
-                .tokenKeyAccess("permitAll()")
+                .tokenKeyAccess("permitAll()") //开启/oauth/token_key验证端口无权限访问  默认denyAll()
                 .checkTokenAccess("isAuthenticated()") //isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
@@ -123,28 +118,53 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowFormAuthenticationForClients();
     }
 
+    /**
+     * AuthorizationCodeServices实现的两种保存方式（看AuthorizationCodeServices接口源码，有以下三个实现类）
+     * （1）InMemoryAuthorizationCodeServices 内存的方式（默认配置是这个，可看AuthorizationServerEndpointsConfigurer类的源码）
+     * （2）JdbcAuthorizationCodeServices 数据库的方式，源码实现crud，但必须要实现oauth_code表结构
+     * （3）RandomValueAuthorizationCodeServices 父类，帮我们随机生成一个验证码，上面两者都继承了这个类
+     * 授权码模式持久化授权码code
+     *
+     * @return JdbcAuthorizationCodeServices
+     */
+    @Bean
+    protected AuthorizationCodeServices authorizationCodeServices() {
+        // 授权码存储等处理方式类，使用jdbc，操作oauth_code表
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
 
     /**
-     * 这里tokenStore保存使用的是jwt的方式
-     * @return
+     * tokenStore实现的四种保存方式（看TokenStore接口源码，有以下五个实现类）：
+     * （1）InMemoryTokenStore 内存的方式
+     * （2）JdbcTokenStore 数据库的方式，源码实现crud，但必须要实现oauth_access_token以及oauth_refresh_token表结构
+     * （3）JwtTokenStore  jwt的方式，既不保存到内存也不保存到数据库，而是将相关信息编码到token令牌里面 ； 其中有两个JwtTokenStore的实现类，可以相当于是一种
+     * （4）源码中还有另外一个 RedisTokenStore（redis的方式）  key键源码中设定了，token保存在access键下
+     * （默认不配置的情况下，假如有JwtAccessTokenConverter的JwtTokenStore，则用JwtTokenStore的方式；否则用InMemoryTokenStore内存的方式    详细可看AuthorizationServerEndpointsConfigurer类的源码）
+     *  这里自定义redis的方式，使用jwt生成token，并保存到redis，方便token令牌的主动过期以及管理等  通过tokenServices去整合封装
+     * @return JwtTokenStore
      */
     @Bean
     public TokenStore tokenStore() {
         //基于jwt实现令牌（Access Token）
-        return new JwtTokenStore(accessTokenConverter());
+        //return new JwtTokenStore(accessTokenConverter());
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
+    /**
+     * jwt  token的生成配置
+     * @return jwtAccessTokenConverter
+     */
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         String signingKey = "123456";//使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(signingKey);
-        return converter;
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey(signingKey);
+        return jwtAccessTokenConverter;
     }
 
     /**
      * 通过使用token增强器可往token添加额外的信息 这里往jwt令牌添加自定义的信息
-     * @return
+     * @return tokenEnhancerChain
      */
     @Bean
     public TokenEnhancerChain tokenEnhancerChain() {
@@ -154,8 +174,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 用作crud  用来改变访问 Token 的格式和存储
-     * @return
+     * 用作crud  对访问 Token 的格式和存储作进一步的封装
+     * @return defaultTokenServices
      */
     @Bean
     @Primary

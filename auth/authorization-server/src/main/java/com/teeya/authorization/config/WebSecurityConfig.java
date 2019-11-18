@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 
 /**
@@ -41,11 +42,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以内存密码时需要用以上方式
+     * java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
      * 认证对象管理构造器
      * new BCryptPasswordEncoder().encode("123456")
      * userDetailsService 自定义的用户管理类
-     * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以内存密码时需要用以上方式
-     * java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
      * @return
      */
     @Override
