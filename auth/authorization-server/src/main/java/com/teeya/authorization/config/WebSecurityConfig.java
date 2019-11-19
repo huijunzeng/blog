@@ -1,8 +1,7 @@
 package com.teeya.authorization.config;
 
-import com.teeya.authorization.service.CustomeUserDetailsService;
+import com.teeya.authorization.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 
 /**
  * spring security配置
@@ -26,7 +24,7 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomeUserDetailsService userDetailsService;
+    private MyUserDetailsService myUserDetailsService;
 
     /**
      * 认证对象管理
@@ -42,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * 密码加密工具类 不可逆
      * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以内存密码时需要用以上方式
      * java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
      * @return
@@ -64,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("user_1").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER")
                 .and()
                 .withUser("user_2").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER");*/
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**

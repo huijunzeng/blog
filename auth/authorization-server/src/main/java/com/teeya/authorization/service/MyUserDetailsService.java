@@ -25,7 +25,7 @@ import java.util.Set;
  */
 
 @Component
-public class CustomeUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     /**
      * 查出UserDetails并比较

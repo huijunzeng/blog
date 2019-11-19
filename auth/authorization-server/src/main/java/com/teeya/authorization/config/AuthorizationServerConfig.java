@@ -1,8 +1,7 @@
 package com.teeya.authorization.config;
 
-import com.teeya.authorization.service.CustomeUserDetailsService;
+import com.teeya.authorization.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -10,7 +9,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -22,7 +20,6 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
@@ -40,8 +37,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     DataSource dataSource;
     // 自定义的用户管理类
+    /*@Autowired
+    private UserDetailsService userDetailsService;*/
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService myUserDetailsService;
     //Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
     AuthenticationManager authenticationManager;
@@ -95,7 +94,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         // 配置authorizationCode/token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，允许请求方法类型
         endpoints
-                .userDetailsService(userDetailsService)
+                .userDetailsService(myUserDetailsService)
                 .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode保存方式
                 .tokenEnhancer(tokenEnhancerChain()) //token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
@@ -181,9 +180,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        //defaultTokenServices.setAccessTokenValiditySeconds(); refresh_token 的有效时长 (秒), 默认 30 天
-        //defaultTokenServices.setRefreshTokenValiditySeconds(); access_token 的有效时长 (秒), 默认 12 小时
-        //defaultTokenServices.setSupportRefreshToken(); refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
+        //defaultTokenServices.setSupportRefreshToken(true); // 是否支持refreshToken
+        //defaultTokenServices.setSupportRefreshToken(false); // refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
+        //defaultTokenServices.setAccessTokenValiditySeconds(); // refresh_token 的有效时长 (秒), 默认 30 天
+        //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());//token增强器  可往token添加额外的信息
         defaultTokenServices.setTokenStore(tokenStore());//token存储方式
         return defaultTokenServices;
