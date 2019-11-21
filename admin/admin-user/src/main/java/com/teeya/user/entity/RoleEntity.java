@@ -8,36 +8,30 @@ import lombok.Data;
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-@Table(name = "user")
+@Table(name = "role")
 @Data
-public class UserEntity implements Serializable {
+public class RoleEntity implements Serializable {
     /**
-     * 用户id
+     * 角色id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
-     * 用户名
+     * 角色编码
      */
-    @Column(name = "user_name")
-    private String userName;
+    private String code;
 
     /**
-     * 密码密文
+     * 角色名称
      */
-    private String password;
+    private String name;
 
     /**
-     * 邮箱
+     * 描述
      */
-    private String email;
-
-    /**
-     * 手机号码
-     */
-    private String phone;
+    private String description;
 
     /**
      * 创建时间
@@ -62,16 +56,6 @@ public class UserEntity implements Serializable {
      */
     @Column(name = "updated_by")
     private String updatedBy;
-
-    /**
-     * 是否已删除 1已删除 0未删除
-     */
-    private Integer deleted;
-
-    /**
-     * 备注
-     */
-    private String remark;
 
     private static final long serialVersionUID = 1L;
 }

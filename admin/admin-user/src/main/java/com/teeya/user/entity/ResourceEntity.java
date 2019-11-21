@@ -8,36 +8,30 @@ import lombok.Data;
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-@Table(name = "user")
+@Table(name = "resource")
 @Data
-public class UserEntity implements Serializable {
+public class ResourceEntity implements Serializable {
     /**
-     * 用户id
+     * 资源id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
-     * 用户名
+     * 资源名称
      */
-    @Column(name = "user_name")
-    private String userName;
+    private String name;
 
     /**
-     * 密码密文
+     * 资源类型
      */
-    private String password;
+    private String type;
 
     /**
-     * 邮箱
+     * 资源url
      */
-    private String email;
-
-    /**
-     * 手机号码
-     */
-    private String phone;
+    private String url;
 
     /**
      * 创建时间

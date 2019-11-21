@@ -33,6 +33,10 @@
     </javaClientGenerator>
 
     <table tableName="user" domainObjectName="UserEntity"><generatedKey column="id" sqlStatement="MySQL" identity="true" /></table>
+    <table tableName="role" domainObjectName="RoleEntity"><generatedKey column="id" sqlStatement="MySQL" identity="true" /></table>
+    <table tableName="resource" domainObjectName="ResourceEntity"><generatedKey column="id" sqlStatement="MySQL" identity="true" /></table>
+    <table tableName="user_role_relation" domainObjectName="UserRoleRelationEntity"><generatedKey column="id" sqlStatement="MySQL" identity="true" /></table>
+    <table tableName="role_resource_relation" domainObjectName="RoleResourceRelationEntity"><generatedKey column="id" sqlStatement="MySQL" identity="true" /></table>
   </context>
 </generatorConfiguration>
 
