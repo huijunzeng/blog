@@ -22,6 +22,7 @@ spring:
         # 数据源hikari连接池配置
         type: com.zaxxer.hikari.HikariDataSource
         hikari:
+
             read-only: false # 从池中获取的连接是否默认处于只读模式
             minimum-idle: 5 # 池中维护的最小空闲连接数
             idle-timeout: 3000 # 连接允许在池中闲置的最长时间
@@ -37,5 +38,13 @@ spring:
         host: 129.211.34.120
         port: 6379
         password:
-
+# mybatis配置
+mybatis:
+    # mapper层xml文件路径映射
+    mapper-locations: classpath:mapper/*.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    type-aliases-package: com.teeya.user.entity
+    configuration:
+        # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
+        map-underscore-to-camel-case: true
 name: nacosConfig  # 测试用

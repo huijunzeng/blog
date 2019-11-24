@@ -17,4 +17,8 @@
     <result column="deleted" jdbcType="INTEGER" property="deleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+
+    <select id="selectByUserName" resultType="com.teeya.user.entity.UserEntity">
+      SELECT * FROM user WHERE user_name = #{userName, jdbcType=VARCHAR}
+    </select>
 </mapper>
