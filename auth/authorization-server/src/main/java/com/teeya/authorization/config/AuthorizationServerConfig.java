@@ -9,6 +9,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -36,12 +37,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     DataSource dataSource;
-    // 自定义的用户管理类
-    /*@Autowired
-    private UserDetailsService userDetailsService;*/
+    // 自定义的用户管理类 用于从数据库中查找用户数据
     @Autowired
     private MyUserDetailsService myUserDetailsService;
-    //Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
+    @Autowired
+    public PasswordEncoder passwordEncoder;
+    // Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
     AuthenticationManager authenticationManager;
     /*@Autowired
@@ -58,17 +59,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        //  授权码模式：http://localhost:9777/oauth/authorize?client_id=client_1&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
+        // 授权码模式：http://localhost:9777/oauth/authorize?client_id=client_1&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
 
         // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=client_1&client_secret=123456&redirect_uri=http://www.baidu.com
 
-//        password 方案一：明文存储，用于测试，不能用于生产
-//        String finalSecret = "123456";
-//        password 方案二：用 BCrypt 对密码编码
-//        String finalSecret = new BCryptPasswordEncoder().encode("123456");
+        // password 方案一：明文存储，用于测试，不能用于生产
+        // String finalSecret = "123456";
+        // password 方案二：用 BCrypt 对密码编码
+        // String finalSecret = new BCryptPasswordEncoder().encode("123456");
         // password 方案三：支持多种编码，通过密码的前缀区分编码方式
         // String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-        //配置两个客户端,一个用于password认证一个用于client认证  内存方式
+        // 配置两个客户端,一个用于password认证一个用于client认证  内存方式
        /* clients.inMemory().withClient("client_1")
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token")
@@ -82,8 +83,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("select")
                 .authorities("USER")
                 .secret(finalSecret);*/
-        //从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表oauth_client_details  数据库方式
-        clients.jdbc(dataSource);// 数据库对应的client_id为client_1，client_secret为test_secret（数据库中显示的是BCrypt加密后的密文）
+        // 从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表oauth_client_details  数据库方式
+        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);// 数据库对应的client_id为client_1，client_secret为test_secret（数据库中显示的是BCrypt加密后的密文）
     }
 
     /**
@@ -96,9 +97,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints
                 .userDetailsService(myUserDetailsService)
                 .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode保存方式
-                .tokenEnhancer(tokenEnhancerChain()) //token增强器，通过自定义token可添加额外的信息  项目用的是JWT
+                .tokenEnhancer(tokenEnhancerChain()) // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
-                .authenticationManager(authenticationManager) // 配置身份认证器
+                .authenticationManager(authenticationManager) // 配置身份认证器  调用此方法才能支持password模式？？
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); // 允许请求方法类型
     }
 
@@ -109,8 +110,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                .tokenKeyAccess("permitAll()") //开启/oauth/token_key验证端口无权限访问  默认denyAll()
-                .checkTokenAccess("isAuthenticated()") //isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
+                .tokenKeyAccess("permitAll()") // 开启/oauth/token_key验证端口无权限访问  默认denyAll()
+                .checkTokenAccess("isAuthenticated()") // isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
                 // 开启后，则可以在路径后直接拼接client_id和client_secret参数就能请求到token，当然上面的请求格式也一样支持，相对来说上面的那一种会安全点，所以我们大多取默认就行
@@ -144,8 +145,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public TokenStore tokenStore() {
-        //基于jwt实现令牌（Access Token）
-        //return new JwtTokenStore(accessTokenConverter());
+        // 基于jwt实现令牌（Access Token）
+        // return new JwtTokenStore(accessTokenConverter());
         return new RedisTokenStore(redisConnectionFactory);
     }
 
@@ -155,7 +156,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        String signingKey = "123456";//使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
+        String signingKey = "123456";// 使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(signingKey);
         return jwtAccessTokenConverter;
@@ -184,8 +185,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //defaultTokenServices.setSupportRefreshToken(false); // refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
         //defaultTokenServices.setAccessTokenValiditySeconds(); // refresh_token 的有效时长 (秒), 默认 30 天
         //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());//token增强器  可往token添加额外的信息
-        defaultTokenServices.setTokenStore(tokenStore());//token存储方式
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());// token增强器  可往token添加额外的信息
+        defaultTokenServices.setTokenStore(tokenStore());// token存储方式
         return defaultTokenServices;
     }
 
