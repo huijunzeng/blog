@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 
@@ -34,9 +35,15 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * 查出UserDetails并比较
+     * 根据提供的密码加密器passwordEncoder（默认是）去比较当前请求的密码与数据库查出来的密码比较，不匹配则报错：
+     * {
+     *     "error": "invalid_grant",
+     *     "error_description": "Bad credentials"
+     * }
      * 可通过在这根据用户名从数据库查找该用户名数据
      * @param userName
      * @return
@@ -44,19 +51,19 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-
+        // 内存的方式
         /*InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
-*/
+        return (UserDetails) manager;
+        */
         //查询账号是否存在，是就返回一个UserDetails的对象，若不存在就抛出异常！
        /* Set<GrantedAuthority> authoritiesSet = new HashSet<GrantedAuthority>();
         authoritiesSet.add(new SimpleGrantedAuthority("USER"));// 授权权限
-        return new User("user_1",new BCryptPasswordEncoder().encode("123456"), true, true, true, true,authoritiesSet);*/
-        //return (UserDetails) manager;
-// 从数据库验证用户密码 查询用户权限
-        //  rabc
-        System.out.println(userName);
+        return new User(userName,new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
+        // 数据库的方式
+        // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
         UserEntity userEntity = userService.selectByUserName(userName);
+        System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
         /*if (userEntity != null) {
@@ -69,8 +76,10 @@ public class MyUserDetailsService implements UserDetailsService {
                 }
             });
         }*/
-
-        return new User(userEntity.getUserName(), new BCryptPasswordEncoder().encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
+        // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
+        // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
+        //return new User(userEntity.getUserName(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
+        return new User(userEntity.getUserName(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
 
     }
 

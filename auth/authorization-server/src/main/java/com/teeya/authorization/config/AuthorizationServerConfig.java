@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -41,10 +40,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private MyUserDetailsService myUserDetailsService;
     @Autowired
-    public PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     // Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     /*@Autowired
     AuthorizationCodeServices authorizationCodeServices;*/
     @Autowired
@@ -66,25 +65,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // password 方案一：明文存储，用于测试，不能用于生产
         // String finalSecret = "123456";
         // password 方案二：用 BCrypt 对密码编码
-        // String finalSecret = new BCryptPasswordEncoder().encode("123456");
+        // String finalSecret = new BCryptPasswordEncoder().encode("test_secret");
         // password 方案三：支持多种编码，通过密码的前缀区分编码方式
-        // String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+        // String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("test_secret");
         // 配置两个客户端,一个用于password认证一个用于client认证  内存方式
-       /* clients.inMemory().withClient("client_1")
+       /* clients.inMemory().withClient("test_client")
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token")
                 .scopes("select")
                 .authorities("USER")
                 .secret(finalSecret)
                 .redirectUris("http://www.baidu.com")
-                .and().withClient("client_2")
+                .and().withClient("test_client")
                 .resourceIds(DEMO_RESOURCE_ID)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("select")
                 .authorities("USER")
                 .secret(finalSecret);*/
         // 从数据库查客户端clientId等信息  只需要配置数据源以及建立对应的表oauth_client_details  数据库方式
-        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);// 数据库对应的client_id为client_1，client_secret为test_secret（数据库中显示的是BCrypt加密后的密文）
+        // 测试数据，数据库对应的client_id为test_client，client_secret为test_secret（数据库中显示的是BCrypt加密后的密文）
+        // spring security5.0推荐使用BCrypt加密规则，不配置默认也是采用这个（也可通过这设置其他的加密规则）
+        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
     }
 
     /**
@@ -99,7 +100,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode保存方式
                 .tokenEnhancer(tokenEnhancerChain()) // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
-                .authenticationManager(authenticationManager) // 配置身份认证器  调用此方法才能支持password模式？？
+                .authenticationManager(authenticationManager) // 配置身份认证器
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); // 允许请求方法类型
     }
 

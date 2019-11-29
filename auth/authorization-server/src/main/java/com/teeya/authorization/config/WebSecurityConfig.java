@@ -40,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 密码加密工具类 不可逆
-     * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以内存密码时需要用以上方式
+     * 密码加密规则 不可逆  默认是用BCrypt加密方式
+     * Spring security 5.0中新增了多种加密方式，也改变了密码的格式，所以存密码时需要用以上方式
      * java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
      * @return
      */
@@ -60,10 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         /*auth.inMemoryAuthentication()
                 .passwordEncoder(new BCryptPasswordEncoder())
-                .withUser("user_1").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER")
+                .withUser("user_1").password("123456").authorities("USER")
                 .and()
                 .withUser("user_2").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER");*/
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        // spring security5.0推荐使用BCrypt加密规则，不配置默认也是采用这个（也可通过这设置其他的加密规则）
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     /**
