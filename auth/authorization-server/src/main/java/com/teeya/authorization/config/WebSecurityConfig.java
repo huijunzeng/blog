@@ -52,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 认证对象管理构造器
-     * new BCryptPasswordEncoder().encode("123456")
      * userDetailsService 自定义的用户管理类
      * @return
      */
