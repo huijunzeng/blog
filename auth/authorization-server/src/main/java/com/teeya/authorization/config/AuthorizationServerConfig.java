@@ -1,5 +1,6 @@
 package com.teeya.authorization.config;
 
+import com.teeya.authorization.config.jwt.CustomJwtToken;
 import com.teeya.authorization.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -58,9 +59,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        // 授权码模式：http://localhost:9777/oauth/authorize?client_id=client_1&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
+        // 授权码模式：http://localhost:9777/oauth/authorize?client_id=test_client&response_type=code&redirect_uri=http://www.baidu.com  浏览器输入然后输入CustomeUserDetailsService类中写死的user以及password
 
-        // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=client_1&client_secret=123456&redirect_uri=http://www.baidu.com
+        // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=test_client&client_secret=test_secret&redirect_uri=http://www.baidu.com
 
         // password 方案一：明文存储，用于测试，不能用于生产
         // String finalSecret = "123456";
