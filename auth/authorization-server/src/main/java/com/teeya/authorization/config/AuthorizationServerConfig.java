@@ -98,7 +98,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 配置authorizationCode/token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，允许请求方法类型
         endpoints
                 .userDetailsService(myUserDetailsService)
-                .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode保存方式
+                .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode授权码的保存方式
                 .tokenEnhancer(tokenEnhancerChain()) // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
                 .authenticationManager(authenticationManager) // 配置身份认证器
@@ -106,14 +106,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 定义令牌端点上的安全约束  配置访问的一些设置
+     * 定义令牌端点上的安全约束  配置访问的一些权限设置
      * @param security
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
                 .tokenKeyAccess("permitAll()") // 开启/oauth/token_key验证端口无权限访问  默认denyAll()
-                .checkTokenAccess("isAuthenticated()") // isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
+                .checkTokenAccess("isAuthenticated()") // isAuthenticated():排除anonymous，允许已授权的用户访问   isFullyAuthenticated():排除anonymous以及remember-me
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
                 // 开启后，则可以在路径后直接拼接client_id和client_secret参数就能请求到token，当然上面的请求格式也一样支持，相对来说上面的那一种会安全点，所以我们大多取默认就行

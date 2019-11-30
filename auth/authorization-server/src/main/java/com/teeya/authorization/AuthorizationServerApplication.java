@@ -20,19 +20,19 @@ public class AuthorizationServerApplication {
     }
 
 
-@RestController
-public class AccountController {
+    @RestController
+    public class AccountController {
 
-    @GetMapping("/principal")
-    @PreAuthorize("hasAnyAuthority('USER')")
-    public Principal user(Principal principal) {
-        return principal;
-    }
+        @GetMapping("/principal")
+        //@PreAuthorize("hasAnyAuthority('USER')")
+        public Principal user(Principal principal) {
+            return principal;
+        }
 
-    @GetMapping("/query")
-    @PreAuthorize("hasAnyAuthority('all')")
-    public String all () {
-        return "具有 all 权限";
+        @GetMapping("/query")
+        @PreAuthorize("hasAnyAuthority('all')")
+        public String all () {
+            return "具有 all 权限";
+        }
     }
-}
 }
