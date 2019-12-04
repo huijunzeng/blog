@@ -47,4 +47,4 @@ mybatis:
     configuration:
         # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
         map-underscore-to-camel-case: true
-name: nacosConfig  # 测试用
+name: admin-user  # 测试用

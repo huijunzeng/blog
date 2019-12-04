@@ -12,12 +12,37 @@ spring:
                 #group: blog # 配置管理Group
             config: #nacos配置中心地址配置
                 server-addr: 129.211.34.120:8848
-    #profiles:
-    #    active: dev # 根据不同环境切换配置环境
-
+        # 数据源mysql配置
+        datasource:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://129.211.34.120:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+            username: root
+            password: zeng@19940125...
+            # 数据源hikari连接池配置
+            type: com.zaxxer.hikari.HikariDataSource
+            hikari:
+                read-only: false # 从池中获取的连接是否默认处于只读模式
+                minimum-idle: 5 # 池中维护的最小空闲连接数
+                idle-timeout: 600000 # 连接允许在池中闲置的最长时间
+                maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                auto-commit: true # 自动提交从池中返回的连接
+                pool-name: HikariCP # 连接池的用户定义名称
+                max-lifetime: 1200000 # 池中连接最长生命周期
+                connection-timeout: 60000 # 等待来自池的连接的最大毫秒数
+                connection-test-query: SELECT 'x' FROM DUAL # 指定校验连接合法性执行的sql语句
+                validation-timeout: 3000 # 连接将被测试活动的最大时间量
+        # redis配置
+        redis:
+            host: 129.211.34.120
+            port: 6379
+            password:
+        #profiles:
+        #    active: dev # 根据不同环境切换配置环境
 zuul:
+    sensitive-headers: Cookie,Set-Cookie
     routes:
         authorization-server: #自定义名称
+            sensitive-headers: Cookie,Set-Cookie
             service-id: authorization-server #服务的spring.application.name(所以前面说了个属性很重要，要注意) ant风格路径表达式，只能匹配一个层级
             path: /authorization-server/**
             #stripPrefix: true #如果stripPrefix=false，则去掉/ribbon，转发的请求是/**；如果为true，转发的请求是/ribbon/**
@@ -47,5 +72,26 @@ hystrix:
                     enabled: true
                 isolation:
                     thread:
-                        timeoutInMilliseconds: 60000
+                        timeoutInMilliseconds: 240000
+#认证服务器地址
+#oauth-server: http://localhost:9779/authentication-server
+#security:
+#    oauth2:
+#        #   和认证服务器中的client设置对应
+#        client:
+#        client-id: zuul
+#            client-secret: secret
+#            #	   获取令牌地址
+#            access-token-uri: ${oauth-server}/oauth/token
+#            #      认证地址
+#            user-authorization-uri: ${oauth-server}/oauth/authorize
+#            resource:
+#                #      进行令牌校验
+#                #      一、访问controller获取Principal
+#                #      user-info-uri: ${oauth-server}/oauth2_token/current
+#                #      prefer-token-info: false
+#                #      二、访问授权服务器获取公钥 解析令牌
+#                jwt:
+#                    key-uri: ${oauth-server}/oauth/token_key
+
 name: zuul  #测试用

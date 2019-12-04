@@ -92,11 +92,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().permitAll(); //新增login form支持用户登录及授权*/
         http
                 .authorizeRequests()
+                //设置忽略规则
+                .antMatchers("/oauth/check_token", "/oauth/token_key", "/oauth/confirm_access", "/oauth2_token/**").permitAll()
+                //设置拦截规则
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().and()
                 .csrf().disable()
                 .httpBasic();
+        /*http
+//                antMatcher表示只能处理/oauth2_token的请求
+                .antMatcher("/oauth2_token/**")
+                .authorizeRequests()
+                .anyRequest().authenticated()
+        ;*/
     }
 
     @Override

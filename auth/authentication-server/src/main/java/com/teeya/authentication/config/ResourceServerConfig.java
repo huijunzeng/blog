@@ -23,7 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
     /**
-     *  与http安全配置相关
+     *  与http安全配置相关 可配置拦截什么URL、设置什么权限等安全控制
      *  优先级的问题  WebSecurityConfigurerAdapter的configure优于这个
      * @param http
      * @throws Exception
@@ -54,7 +54,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .httpBasic();*/
         // // 对 api/order 请求进行拦截   验证accessToken  与controller 的要有关系
-               http.authorizeRequests().antMatchers("/test/**").authenticated();
+               http.authorizeRequests().antMatchers("/test/**", "/oauth2_token/**").authenticated();
     }
 
     /**

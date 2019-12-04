@@ -107,13 +107,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 定义令牌端点上的安全约束  配置访问的一些权限设置
+     * /oauth/authorize：授权端点。(授权码模式)
+     * /oauth/token：令牌端点。（密码模式）
+     * /oauth/confirm_access：用户确认授权提交端点。
+     * /oauth/error：授权服务错误信息端点。
+     * /oauth/check_token：用于资源服务访问的令牌解析端点。(检验token，发送token参数)
+     * /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
      * @param security
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                .tokenKeyAccess("permitAll()") // 开启/oauth/token_key验证端口无权限访问  默认denyAll()
-                .checkTokenAccess("isAuthenticated()") // isAuthenticated():排除anonymous，允许已授权的用户访问   isFullyAuthenticated():排除anonymous以及remember-me
+                .tokenKeyAccess("permitAll()") // 开启/oauth/token_key验证端口无权限访问  默认denyAll()拒绝访问   permitAll()允许访问  isAuthenticated()认证访问
+                .checkTokenAccess("permitAll()")
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
                 // 开启后，则可以在路径后直接拼接client_id和client_secret参数就能请求到token，当然上面的请求格式也一样支持，相对来说上面的那一种会安全点，所以我们大多取默认就行
