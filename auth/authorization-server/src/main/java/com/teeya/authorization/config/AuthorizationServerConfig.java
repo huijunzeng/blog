@@ -52,6 +52,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     /**
+     * OAuth 2.0定义了五种授权方式：
+     *
+     * 授权码模式（authorization code）（假设  微信第三方登录， 同意授权登录时会发送请求获取服务提供商（相当于微信）的code，然后携带code拿到token，然后就可以访问资源了）
+     * 简化模式（implicit）
+     * 密码模式（resource owner password credentials）
+     * 客户端模式（client credentials）
+     * 扩展模式（Extension）
+     * ————————————————
+     *
      * 配置客户端信息  clientId scope redirect_uri等  假如从数据库中读取，相对应的表为oauth_client_details
      * @param clients
      * @throws Exception
