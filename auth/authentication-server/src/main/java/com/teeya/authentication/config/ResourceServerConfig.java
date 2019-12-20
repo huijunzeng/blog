@@ -25,6 +25,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     /**
      *  与http安全配置相关 可配置拦截什么URL、设置什么权限等安全控制
      *  优先级的问题  WebSecurityConfigurerAdapter的configure优于这个
+     *  这里配置了拦截规则，可以省掉像authorization-server服务需要写WebSecurityConfig类去配置
      * @param http
      * @throws Exception
      */
@@ -54,7 +55,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .httpBasic();*/
         // // 对 api/order 请求进行拦截   验证accessToken  与controller 的要有关系
-               http.authorizeRequests().antMatchers("/test/**", "/oauth2_token/**").authenticated();
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/test/**", "/oauth2_token/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     /**
@@ -64,7 +68,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenStore(tokenStore());// 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
+        resources
+                .resourceId("blog")// 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
+                .tokenStore(tokenStore());// 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
     }
 
     /**

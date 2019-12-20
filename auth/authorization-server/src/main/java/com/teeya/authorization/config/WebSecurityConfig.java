@@ -73,14 +73,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-       /* http
-                .requestMatchers().anyRequest()
+        /*http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .authorizeRequests()//authorizeRequests() 定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/oauth/authorize").authenticated()
-                .antMatchers("/oauth/*").authenticated();*/
-        // @formatter:on
+                .formLogin().permitAll();*/
 
        /* http.csrf().disable();
         http
@@ -100,12 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().and()
                 .csrf().disable()
                 .httpBasic();
-        /*http
-//                antMatcher表示只能处理/oauth2_token的请求
-                .antMatcher("/oauth2_token/**")
-                .authorizeRequests()
-                .anyRequest().authenticated()
-        ;*/
     }
 
     @Override
