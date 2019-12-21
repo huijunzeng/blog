@@ -50,7 +50,6 @@ public class AccessFilter extends ZuulFilter {
      * 返回一个boolean类型来判断该过滤器是否要执行，所以通过此函数可实现过滤器的开关。在这里，我们直接返回true，所以该过滤器总是生效
      * @return
      */
-    @Override
     public boolean shouldFilter() {
         return true;
     }
@@ -59,7 +58,6 @@ public class AccessFilter extends ZuulFilter {
      * 过滤器的具体逻辑。需要注意，这里我们通过ctx.setSendZuulResponse(false)令zuul过滤该请求，不对其进行路由，然后通过ctx.setResponseStatusCode(401)设置了其返回的错误码，当然我们也可以进一步优化我们的返回，比如，通过ctx.setResponseBody(body)对返回body内容进行编辑等。
      * @return
      */
-    @Override
     public Object run() throws ZuulException {
         // 引用的是zuul包下的RequestContext
         RequestContext ctx = RequestContext.getCurrentContext();

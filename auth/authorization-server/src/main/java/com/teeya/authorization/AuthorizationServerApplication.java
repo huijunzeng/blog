@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
+/**
+ * 认证服务端
+ */
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients
@@ -20,21 +23,4 @@ public class AuthorizationServerApplication {
         SpringApplication.run(AuthorizationServerApplication.class, args);
     }
 
-
-    @RestController
-    @RequestMapping("/oauth2_token")
-    public class UserController {
-
-        @GetMapping("/principal")
-        //@PreAuthorize("hasAnyAuthority('all')")
-        public Principal user(Principal principal) {
-            return principal;
-        }
-
-        @GetMapping("/query")
-        @PreAuthorize("hasAnyAuthority('all')")
-        public String all () {
-            return "具有 all 权限";
-        }
-    }
 }

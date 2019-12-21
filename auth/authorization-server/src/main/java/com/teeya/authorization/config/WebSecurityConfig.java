@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //设置忽略规则
-                .antMatchers("/oauth/check_token", "/oauth/token_key", "/oauth/confirm_access", "/oauth2_token/**").permitAll()
+                .antMatchers("/oauth/**", "/actuator/**").permitAll()
                 //设置拦截规则
                 .anyRequest().authenticated()
                 .and()
