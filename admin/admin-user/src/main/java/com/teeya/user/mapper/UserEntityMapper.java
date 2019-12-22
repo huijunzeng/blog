@@ -9,5 +9,5 @@ import tk.mybatis.mapper.common.BaseMapper;
 */
 public interface UserEntityMapper extends BaseMapper<UserEntity> {
 
-    UserEntity selectByUserName(@Param("userName") String userName);
+    UserEntity selectByUsername(@Param("username") String username);
 }

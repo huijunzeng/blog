@@ -1,6 +1,6 @@
 package com.teeya.authorization.config;
 
-import com.teeya.authorization.service.MyUserDetailsService;
+import com.teeya.authorization.oauth2.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -101,7 +101,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         /*super.configure(web);*/
         web.ignoring().antMatchers("/favor.ioc");
     }

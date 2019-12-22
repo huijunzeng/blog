@@ -21,8 +21,7 @@ public class UserEntity implements Serializable {
     /**
      * 用户名
      */
-    @Column(name = "user_name")
-    private String userName;
+    private String username;
 
     /**
      * 密码密文

@@ -22,9 +22,9 @@ public class UserController {
 
     @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户ID", required = true, dataType = "string")
-    @GetMapping("/selectByUserName")
-    public UserEntity selectByUserName(@RequestParam(value = "userName") String userName) {
-        return userService.selectByUserName(userName);
+    @GetMapping("/selectByUsername")
+    public UserEntity selectByUsername(@RequestParam(value = "username") String username) {
+        return userService.selectByUsername(username);
     }
 
 

@@ -1,8 +1,8 @@
-package com.teeya.authorization.service;
+package com.teeya.authorization.oauth2;
 
 
-import com.google.common.collect.Lists;
-import com.teeya.authorization.feign.UserService;
+import com.teeya.authorization.feign.UserProvider;
+import com.teeya.authorization.service.UserService;
 import com.teeya.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,13 +11,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,12 +42,12 @@ public class MyUserDetailsService implements UserDetailsService {
      *     "error_description": "Bad credentials"
      * }
      * 可通过在这根据用户名从数据库查找该用户名数据
-     * @param userName
+     * @param username
      * @return
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 内存的方式
         /*InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
@@ -59,10 +56,10 @@ public class MyUserDetailsService implements UserDetailsService {
         //查询账号是否存在，是就返回一个UserDetails的对象，若不存在就抛出异常！
        /* Set<GrantedAuthority> authoritiesSet = new HashSet<GrantedAuthority>();
         authoritiesSet.add(new SimpleGrantedAuthority("USER"));// 授权权限
-        return new User(userName,new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
+        return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = userService.selectByUserName(userName);
+        UserEntity userEntity = userService.selectByUsername(username);
         System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
@@ -78,8 +75,8 @@ public class MyUserDetailsService implements UserDetailsService {
         }*/
         // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
         // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
-        //return new User(userEntity.getUserName(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
-        return new User(userEntity.getUserName(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
+        //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
 
     }
 

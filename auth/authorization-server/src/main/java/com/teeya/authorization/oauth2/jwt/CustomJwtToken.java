@@ -1,4 +1,4 @@
-package com.teeya.authorization.config.jwt;
+package com.teeya.authorization.oauth2.jwt;
 
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

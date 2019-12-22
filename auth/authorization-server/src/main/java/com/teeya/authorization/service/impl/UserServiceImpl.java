@@ -1,8 +1,8 @@
-package com.teeya.user.service.impl;
+package com.teeya.authorization.service.impl;
 
+import com.teeya.authorization.feign.UserProvider;
+import com.teeya.authorization.service.UserService;
 import com.teeya.user.entity.UserEntity;
-import com.teeya.user.mapper.UserEntityMapper;
-import com.teeya.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserEntityMapper userEntityMapper;
+    private UserProvider userProvider;
 
+    @Override
     public UserEntity selectByUsername(String username) {
-        return userEntityMapper.selectByUsername(username);
+        return userProvider.selectByUsername(username);
     }
 }
