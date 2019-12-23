@@ -1,5 +1,8 @@
 package com.teeya.authorization.config;
 
+import com.google.common.collect.Lists;
+import com.teeya.authorization.oauth2.SmsCodeUserDetailsService;
+import com.teeya.authorization.oauth2.granter.PhoneCustomTokenGranter;
 import com.teeya.authorization.oauth2.jwt.CustomJwtToken;
 import com.teeya.authorization.oauth2.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -24,7 +32,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * AuthorizationServerConfig配置主要是覆写如下的三个方法，分别针对clients、endpoints、security配置。
@@ -40,6 +50,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     // 自定义的用户管理类 用于从数据库中查找用户数据
     @Autowired
     private MyUserDetailsService myUserDetailsService;
+    @Autowired
+    private SmsCodeUserDetailsService smsCodeUserDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     // Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
@@ -105,12 +117,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         // 配置authorizationCode/token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，允许请求方法类型
+        List<TokenGranter> tokenGranters = getTokenGranters(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory());
+        tokenGranters.add(endpoints.getTokenGranter());
         endpoints
                 .userDetailsService(myUserDetailsService)
                 .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode授权码的保存方式
                 .tokenEnhancer(tokenEnhancerChain()) // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
                 .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
                 .authenticationManager(authenticationManager) // 配置身份认证器
+                //.tokenGranter(this.tokenGranters(endpoints)) // 配置自定义扩展模式
+                .tokenGranter(new CompositeTokenGranter(tokenGranters)) // 配置自定义扩展模式
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); // 允许请求方法类型
     }
 
@@ -206,6 +222,38 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         defaultTokenServices.setTokenStore(tokenStore());// token存储方式
         return defaultTokenServices;
     }
+
+    /**
+     * 超类接口TokenGranter拥有的抽象类AbstractTokenGranter默认有五种令牌授予者，分别对应着四种官方定义的授权模式以及刷新token：
+     *  （1）AuthorizationCodeTokenGranter  ----- 授权码模式
+     *  （2）ClientCredentialsTokenGranter  ----- 客户端模式
+     *  （3）ResourceOwnerPasswordTokenGranter  ----- 密码模式
+     *  （4）ImplicitTokenGranter  ----- 简化模式
+     *  （5）RefreshTokenGranter  ----- 刷新token
+     *
+     *  超类接口还提供一种特殊的令牌授予者CompositeTokenGranter用于支持自定义的扩展模式
+     *
+     * 所以假如需要加入自定义的扩展模式，需要继承AbstractTokenGranter抽象类以及重写抽象类中用于保存用户认证信息的getOAuth2Authentication方法
+     *
+     * 配置自定义的granter,手机号验证码登陆
+     * @param endpoints
+     * @return
+     */
+    /*public TokenGranter tokenGranters(final AuthorizationServerEndpointsConfigurer endpoints) {
+        List<TokenGranter> granters = Lists.newArrayList(endpoints.getTokenGranter());
+        granters.add(new PhoneCustomTokenGranter(
+                endpoints.getTokenServices(),
+                endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory()));
+        return new CompositeTokenGranter(granters);// // 配置自定义扩展模式
+    }*/
+
+    private List<TokenGranter> getTokenGranters(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
+        return new ArrayList<>(Arrays.asList(
+                new PhoneCustomTokenGranter(tokenServices, clientDetailsService, requestFactory, smsCodeUserDetailsService)
+        ));
+    }
+
 
 }
 

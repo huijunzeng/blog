@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity selectByUsername(String username) {
         return userProvider.selectByUsername(username);
     }
+
+    @Override
+    public UserEntity loadUserByPhone(String phone) {
+        return userProvider.loadUserByPhone(phone);
+    }
 }

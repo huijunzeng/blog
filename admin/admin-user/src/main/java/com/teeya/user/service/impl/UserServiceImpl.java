@@ -15,4 +15,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity selectByUsername(String username) {
         return userEntityMapper.selectByUsername(username);
     }
+
+    @Override
+    public UserEntity selectByPhone(String phone) {
+        return userEntityMapper.selectByPhone(phone);
+    }
 }

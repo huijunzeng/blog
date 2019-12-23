@@ -15,6 +15,12 @@ import java.util.Map;
  */
 public class CustomJwtToken implements TokenEnhancer {
 
+    /**
+     *
+     * @param oAuth2AccessToken  存放用户的token信息
+     * @param oAuth2Authentication  存放用户的认证信息
+     * @return
+     */
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
 

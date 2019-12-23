@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +22,13 @@ import java.util.Set;
  * Authentication => 认证对象，认证开始时创建，认证成功后存储于SecurityContext上下文
  * principal => 用户信息对象，是一个Object，通常可转为UserDetails
  *
- * 继承UserDetailsService，实现返回一个用户信息的UserDetails对象  SpringSecurity框架
+ * 自定义用户细节实现类
  * @Author: ZJH
  * @Date: 2019/6/27 13:17
  */
 
 @Component
-public class MyUserDetailsService implements UserDetailsService {
+public class SmsCodeUserDetailsService {
 
     @Autowired
     private UserService userService;
@@ -40,29 +41,28 @@ public class MyUserDetailsService implements UserDetailsService {
      *     "error": "invalid_grant",
      *     "error_description": "Bad credentials"
      * }
-     * 可通过在这根据用户名从数据库查找该用户名数据
-     * @param username
+     * 自定义用户细节实现类 根据手机号查询用户
+     * @param phone
+     * @param smsCode
      * @return
-     * @throws UsernameNotFoundException
      */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByPhone(String phone, String smsCode) {
         // 内存的方式
         /*InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
         return (UserDetails) manager;
         */
         //查询账号是否存在，是就返回一个UserDetails的对象，若不存在就抛出异常！
-       /* Set<GrantedAuthority> authoritiesSet = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authoritiesSet = new HashSet<GrantedAuthority>();
         authoritiesSet.add(new SimpleGrantedAuthority("USER"));// 授权权限
-        return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
+        return new User("admin", new BCryptPasswordEncoder().encode("password"), true, true, true, true,authoritiesSet);
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = userService.selectByUsername(username);
+       /* UserEntity userEntity = userService.loadUserByPhone(phone);
         System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
-        /*if (userEntity != null) {
+        *//*if (userEntity != null) {
             List<TbPermission> tbPermissions = tbPermissionMapper.selectByUserId(tbUser.getId());
 
             tbPermissions.stream().forEach(tbPermission -> {
@@ -71,11 +71,11 @@ public class MyUserDetailsService implements UserDetailsService {
                     grantedAuthorities.add(grantedAuthority);
                 }
             });
-        }*/
+        }*//*
         // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
         // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
         //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
-        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);*/
 
     }
 

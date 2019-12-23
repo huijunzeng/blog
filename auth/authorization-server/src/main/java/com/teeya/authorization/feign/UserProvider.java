@@ -15,4 +15,7 @@ public interface UserProvider {
      */
     @GetMapping("/user/selectByUsername")
     UserEntity selectByUsername(@RequestParam(value = "username") String username);
+
+    @GetMapping("/user/loadUserByPhone")
+    UserEntity loadUserByPhone(@RequestParam(value = "phone") String phone);
 }

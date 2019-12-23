@@ -27,5 +27,12 @@ public class UserController {
         return userService.selectByUsername(username);
     }
 
+    @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户手机号码", required = true, dataType = "string")
+    @GetMapping("/selectByPhone")
+    public UserEntity selectByPhone(@RequestParam(value = "phone") String phone) {
+        return userService.selectByPhone(phone);
+    }
+
 
 }

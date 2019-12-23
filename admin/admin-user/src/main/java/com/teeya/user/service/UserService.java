@@ -5,4 +5,6 @@ import com.teeya.user.entity.UserEntity;
 public interface UserService {
 
     UserEntity selectByUsername(String username);
+
+    UserEntity selectByPhone(String phone);
 }

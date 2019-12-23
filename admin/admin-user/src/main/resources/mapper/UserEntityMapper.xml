@@ -18,7 +18,11 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
 
-    <select id="selectByUsername" resultType="com.teeya.user.entity.UserEntity">
+    <select id="selectByUsername" resultMap="BaseResultMap">
       SELECT * FROM user WHERE username = #{username, jdbcType=VARCHAR}
     </select>
+
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    SELECT * FROM user WHERE phone = #{phone, jdbcType=VARCHAR}
+  </select>
 </mapper>
