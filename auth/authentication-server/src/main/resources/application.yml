@@ -38,3 +38,6 @@ spring:
         port: 6379
         password:
 name: authentication-server  # 测试用
+logging:
+    config: classpath:logback-logstash.xml
+
