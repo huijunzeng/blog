@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="1 seconds">
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
-    <contextName>logback</contextName>
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+   <!-- <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <contextName>logback</contextName>-->
 
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>129.211.34.120:5044</destination>
+    <!-- 定义参数 -->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" />
+    <!-- 控制台打印设置 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--<destination>129.211.34.120:5044</destination>-->
+        <!-- logstash服务器ip -->
+        <remoteHost>129.211.34.120</remoteHost>
+        <!-- logstash tcp 端口-->
+        <port>5044</port>
         <!-- encoder必须配置,有多种可选 -->
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"ceshi"}</customFields> // 索引名
+        </encoder>
     </appender>
 
     <root level="info">
-        <appender-ref ref="stash" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="logstash"/>
     </root>
 </configuration>
