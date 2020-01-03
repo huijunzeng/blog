@@ -7,11 +7,11 @@ spring:
     cloud:
         nacos:
             discovery: #nacos注册中心地址配置
-                server-addr: 129.211.34.120:8848
+                server-addr: localhost:8848
                 namespace: a4d0cf40-1125-4263-81e5-3f628bc90302 # 命名空间ID
                 #group: blog # 配置管理Group
             config: #nacos配置中心地址配置
-                server-addr: 129.211.34.120:8848
+                server-addr: localhost:8848
         #网关配置
         gateway:
             #默认的全局过滤器
@@ -42,7 +42,7 @@ spring:
     # 数据源mysql配置
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://129.211.34.120:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
         username: root
         password: 123456
         # 数据源hikari连接池配置
@@ -60,7 +60,7 @@ spring:
             validation-timeout: 3000 # 连接将被测试活动的最大时间量
     # redis配置
     redis:
-        host: 129.211.34.120
+        host: localhost
         port: 6379
         password:
     #profiles:
@@ -122,3 +122,16 @@ hystrix:
 #                    key-uri: ${oauth-server}/oauth/token_key
 
 name: gateway-web  #测试用
+
+
+############  skywalking 探针  在VM Options添加以下参数 -javaagent：agent的jar包所在路径  Dskywalking.agent.service_name：自定义的service的name -Dskywalking.collector.backend_service：aop的地址 ###########
+
+#-javaagent:D:/skywalking-agent/skywalking-agent.jar
+#-Dskywalking.agent.service_name=test
+#-Dskywalking.collector.backend_service=localhost:11800
+####################################################
+
+
+############  sentinel引入 ###########
+#下载并启动sentinel-dashboard.jar  （暂时没有官方镜像）
+####################################################

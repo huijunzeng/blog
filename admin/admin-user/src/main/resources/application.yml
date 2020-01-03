@@ -7,15 +7,15 @@ spring:
     cloud:
         nacos:
             discovery: # nacos注册中心地址配置
-                server-addr: 129.211.34.120:8848
+                server-addr: localhost:8848
             config: # nacos配置中心地址配置
-                server-addr: 129.211.34.120:8848
+                server-addr: localhost:8848
     profiles:
         active: dev # 根据不同环境切换配置环境
         # 数据源mysql配置
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://129.211.34.120:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
         username: root
         password: 123456
 
@@ -35,7 +35,7 @@ spring:
             validation-timeout: 3000 # 连接将被测试活动的最大时间量
     # redis配置
     redis:
-        host: 129.211.34.120
+        host: localhost
         port: 6379
         password:
 # mybatis配置
