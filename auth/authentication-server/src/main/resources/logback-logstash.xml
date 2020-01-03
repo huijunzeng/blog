@@ -13,11 +13,11 @@
     </appender>
 
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <!--<destination>129.211.34.120:5044</destination>-->
+        <destination>129.211.34.120:5044</destination>
         <!-- logstash服务器ip -->
-        <remoteHost>129.211.34.120</remoteHost>
+        <!--<remoteHost>129.211.34.120</remoteHost>-->
         <!-- logstash tcp 端口-->
-        <port>5044</port>
+        <!--<port>5044</port>-->
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"appname":"ceshi"}</customFields> // 索引名
