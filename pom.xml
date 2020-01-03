@@ -12,6 +12,7 @@
         <module>auth</module>
         <module>gateway</module>
         <module>admin</module>
+        <module>common</module>
     </modules>
 
     <properties>

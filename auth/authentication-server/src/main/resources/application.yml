@@ -10,6 +10,11 @@ spring:
                 server-addr: localhost:8848
             config: # nacos配置中心地址配置
                 server-addr: localhost:8848
+        #sentinel配置
+        sentinel:
+            transport:
+                port: 8719 #指定客户端监控 API 的端口  默认，可不设置
+                dashboard: localhost:8080 #控制台的地址
     profiles:
         active: dev # 根据不同环境切换配置环境
         # 数据源mysql配置
