@@ -1,6 +1,6 @@
 package com.teeya.user.mapper;
 
-import com.teeya.user.entity.UserEntity;
+import com.teeya.user.entity.pojo.UserEntity;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;
 
@@ -9,7 +9,7 @@ import tk.mybatis.mapper.common.BaseMapper;
  */
 public interface UserEntityMapper extends BaseMapper<UserEntity> {
 
-    UserEntity selectByUsername(@Param("username") String username);
+    UserEntity queryByUsername(@Param("username") String username);
 
     UserEntity selectByPhone(@Param("phone") String phone);
 }

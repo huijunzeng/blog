@@ -2,7 +2,8 @@ package com.teeya.authorization.oauth2;
 
 
 import com.teeya.authorization.service.UserService;
-import com.teeya.user.entity.UserEntity;
+import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.user.entity.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,8 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * UserDetails => Spring Security基础接口，包含某个用户的账号，密码，权限，状态（是否锁定）等信息。只有getter方法。
@@ -58,10 +61,11 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = userService.selectByUsername(username);
-        System.out.println(userEntity.toString());
+        UserVo userVo = userService.queryByUsername(username);
+        System.out.println(userVo.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
+        grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());
+        //grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
         /*if (userEntity != null) {
             List<TbPermission> tbPermissions = tbPermissionMapper.selectByUserId(tbUser.getId());
 
@@ -75,7 +79,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
         // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
         //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
-        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
+        return new User(userVo.getUsername(), userVo.getPassword(), true, true, true, true, grantedAuthorities);
 
     }
 

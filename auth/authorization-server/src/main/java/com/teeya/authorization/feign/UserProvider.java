@@ -1,6 +1,7 @@
 package com.teeya.authorization.feign;
 
-import com.teeya.user.entity.UserEntity;
+import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.user.entity.vo.UserVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,8 +14,8 @@ public interface UserProvider {
      * @param username
      * @return
      */
-    @GetMapping("/user/selectByUsername")
-    UserEntity selectByUsername(@RequestParam(value = "username") String username);
+    @GetMapping("/user/queryByUsername")
+    UserVo queryByUsername(@RequestParam(value = "username") String username);
 
     @GetMapping("/user/loadUserByPhone")
     UserEntity loadUserByPhone(@RequestParam(value = "phone") String phone);

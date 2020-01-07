@@ -1,6 +1,7 @@
 package com.teeya.user.controller;
 
-import com.teeya.user.entity.UserEntity;
+import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.user.entity.vo.UserVo;
 import com.teeya.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,9 +23,9 @@ public class UserController {
 
     @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户ID", required = true, dataType = "string")
-    @GetMapping("/selectByUsername")
-    public UserEntity selectByUsername(@RequestParam(value = "username") String username) {
-        return userService.selectByUsername(username);
+    @GetMapping("/queryByUsername")
+    public UserVo queryByUsername(@RequestParam(value = "username") String username) {
+        return userService.queryByUsername(username);
     }
 
     @ApiOperation(value = "获取用户", notes = "获取指定用户信息")

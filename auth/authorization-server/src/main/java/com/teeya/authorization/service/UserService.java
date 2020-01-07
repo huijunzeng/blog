@@ -1,6 +1,7 @@
 package com.teeya.authorization.service;
 
-import com.teeya.user.entity.UserEntity;
+import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.user.entity.vo.UserVo;
 
 public interface UserService {
 
@@ -9,7 +10,7 @@ public interface UserService {
      * @param username
      * @return
      */
-    UserEntity selectByUsername(String username);
+    UserVo queryByUsername(String username);
 
     /**
      * 根据phone查找用户信息

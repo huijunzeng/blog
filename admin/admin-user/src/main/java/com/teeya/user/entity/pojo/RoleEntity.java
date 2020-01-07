@@ -1,4 +1,4 @@
-package com.teeya.user.entity;
+package com.teeya.user.entity.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,30 +8,30 @@ import lombok.Data;
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-@Table(name = "resource")
+@Table(name = "role")
 @Data
-public class ResourceEntity implements Serializable {
+public class RoleEntity implements Serializable {
     /**
-     * 资源id
+     * 角色id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
-     * 资源名称
+     * 角色编码
+     */
+    private String code;
+
+    /**
+     * 角色名称
      */
     private String name;
 
     /**
-     * 资源类型
+     * 描述
      */
-    private String type;
-
-    /**
-     * 资源url
-     */
-    private String url;
+    private String description;
 
     /**
      * 创建时间
@@ -56,16 +56,6 @@ public class ResourceEntity implements Serializable {
      */
     @Column(name = "updated_by")
     private String updatedBy;
-
-    /**
-     * 是否已删除 1已删除 0未删除
-     */
-    private Integer deleted;
-
-    /**
-     * 备注
-     */
-    private String remark;
 
     private static final long serialVersionUID = 1L;
 }

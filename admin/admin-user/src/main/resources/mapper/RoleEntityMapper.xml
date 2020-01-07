@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.teeya.user.mapper.RoleEntityMapper">
-  <resultMap id="BaseResultMap" type="com.teeya.user.entity.RoleEntity">
+  <resultMap id="BaseResultMap" type="com.teeya.user.entity.pojo.RoleEntity">
     <!--
       WARNING - @mbg.generated
     -->

@@ -41,3 +41,8 @@ spring:
         password:
 
 name: authorization-server  #测试用
+
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true

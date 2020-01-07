@@ -1,6 +1,6 @@
 package com.teeya.user.mapper;
 
-import com.teeya.user.entity.ResourceEntity;
+import com.teeya.user.entity.pojo.ResourceEntity;
 import tk.mybatis.mapper.common.BaseMapper;
 
 /**
