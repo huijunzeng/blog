@@ -10,7 +10,7 @@ public interface UserService {
      * @param username
      * @return
      */
-    UserVo queryByUsername(String username);
+    UserEntity queryByUsername(String username);
 
     /**
      * 根据phone查找用户信息

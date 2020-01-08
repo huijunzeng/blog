@@ -16,4 +16,10 @@
     <result column="deleted" jdbcType="INTEGER" property="deleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+    <select id="queryListByResourceIds" resultMap="BaseResultMap">
+      SELECT * FROM resource WHERE id IN
+      <foreach collection="resourceIds" index="index" item="resourceId" open="(" separator="," close=")">
+        #{resourceId}
+      </foreach>
+    </select>
 </mapper>

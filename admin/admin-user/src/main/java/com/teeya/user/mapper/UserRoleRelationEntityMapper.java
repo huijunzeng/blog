@@ -4,6 +4,7 @@ import com.teeya.user.entity.pojo.UserRoleRelationEntity;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,5 +12,5 @@ import java.util.Set;
  */
 public interface UserRoleRelationEntityMapper extends BaseMapper<UserRoleRelationEntity> {
 
-    Set<UserRoleRelationEntity> queryListByUserId(@Param("userId") String userId);
+    List<UserRoleRelationEntity> queryListByUserId(@Param("userId") String userId);
 }

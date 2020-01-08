@@ -1,7 +1,7 @@
-package com.teeya.user.controller;
+package com.teeya.authentication.controller;
 
+import com.teeya.authentication.service.ResourceService;
 import com.teeya.user.entity.pojo.UserEntity;
-import com.teeya.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -12,29 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @Author: ZJH
+ * @Date: 2020/1/8 17:39
+ */
 
 @RestController
-@RequestMapping("/user")
-@Api(value = "user", tags = {"用户操作接口"})
+@RequestMapping("/auth")
+@Api(value = "auth", tags = {"鉴权接口"})
 @Slf4j
-public class UserController {
+public class AuthenticationController {
 
     @Autowired
-    private UserService userService;
+    private ResourceService resourceService;
 
-    @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
+    @ApiOperation(value = "鉴权，判断用户是否有权限", notes = "获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping("/queryByUsername")
     public UserEntity queryByUsername(@RequestParam(value = "username") String username) {
-        return userService.queryByUsername(username);
+        return null;
+        //return userService.queryByUsername(username);
     }
-
-    @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
-    @ApiImplicitParam(paramType = "query", name = "phone", value = "用户手机号码", required = true, dataType = "string")
-    @GetMapping("/selectByPhone")
-    public UserEntity selectByPhone(@RequestParam(value = "phone") String phone) {
-        return userService.selectByPhone(phone);
-    }
-
-
 }

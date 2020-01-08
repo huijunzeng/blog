@@ -54,7 +54,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private SmsCodeUserDetailsService smsCodeUserDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    // Authentication 管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
+    // 在登录过程中，Spring Security创建Authentication对象并帮我们放到了SecurityContextHolder上下文中
+    // Authentication管理者, 起到填充完整 Authentication的作用  从spring security中的WebSecurityConfigurerAdapter类注入
     @Autowired
     private AuthenticationManager authenticationManager;
     /*@Autowired

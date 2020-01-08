@@ -43,7 +43,7 @@ public class MyUserDetailsService implements UserDetailsService {
      *     "error": "invalid_grant",
      *     "error_description": "Bad credentials"
      * }
-     * 可通过在这根据用户名从数据库查找该用户名数据
+     * 可通过在这根据用户名从数据库查找该用户名数据，并且封装该用户的角色
      * @param username
      * @return
      * @throws UsernameNotFoundException
@@ -61,10 +61,10 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserVo userVo = userService.queryByUsername(username);
-        System.out.println(userVo.toString());
+        UserEntity userEntity = userService.queryByUsername(username);
+        System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
-        grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());
+        /*grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());*/
         //grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
         /*if (userEntity != null) {
             List<TbPermission> tbPermissions = tbPermissionMapper.selectByUserId(tbUser.getId());
@@ -79,7 +79,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
         // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
         //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
-        return new User(userVo.getUsername(), userVo.getPassword(), true, true, true, true, grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
 
     }
 
