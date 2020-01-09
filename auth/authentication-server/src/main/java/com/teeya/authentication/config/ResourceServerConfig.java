@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
-@EnableResourceServer
+@EnableResourceServer // 启用SpringSecurity过滤器，过滤器通过传入的OAuth2令牌token对请求进行身份验证
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String DEMO_RESOURCE_ID = "order";

@@ -33,4 +33,10 @@ public interface ResourceService {
      * @return
      */
     List<ResourceEntity> queryListByUsername(String username);
+
+    /**
+     * 获取所有资源集合
+     * @return
+     */
+    List<ResourceEntity> queryAll();
 }

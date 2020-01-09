@@ -4,11 +4,20 @@ import com.teeya.user.entity.form.RoleForm;
 import com.teeya.user.entity.pojo.RoleEntity;
 
 import java.util.List;
-import java.util.Set;
 
 public interface RoleService {
 
-    List<RoleEntity> queryListByUserId(String userId);
-
+    /**
+     * 新增角色
+     * @param roleForm
+     * @throws Exception
+     */
     void insert(RoleForm roleForm) throws Exception;
+
+    /**
+     * 根据用户id获取相应的角色集合
+     * @param userId
+     * @return
+     */
+    List<RoleEntity> queryListByUserId(String userId);
 }

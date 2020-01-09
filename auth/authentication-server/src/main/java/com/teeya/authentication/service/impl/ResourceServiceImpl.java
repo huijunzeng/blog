@@ -22,7 +22,7 @@ public class ResourceServiceImpl implements ResourceService {
     private UserProvider userProvider;
 
     @Override
-    public List<ResourceEntity> queryResourceListByUsername(String username) {
-        return userProvider.queryResourceListByUsername(username);
+    public List<ResourceEntity> queryListByUsername(String username) {
+        return userProvider.queryListByUsername(username);
     }
 }

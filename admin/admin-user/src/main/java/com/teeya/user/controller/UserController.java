@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -22,19 +19,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
+    @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
-    @GetMapping("/queryByUsername")
+    @GetMapping
     public UserEntity queryByUsername(@RequestParam(value = "username") String username) {
         return userService.queryByUsername(username);
     }
 
-    @ApiOperation(value = "获取用户", notes = "获取指定用户信息")
+    @ApiOperation(value = "获取用户", notes = "根据用户手机号码获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "phone", value = "用户手机号码", required = true, dataType = "string")
     @GetMapping("/selectByPhone")
     public UserEntity selectByPhone(@RequestParam(value = "phone") String phone) {
         return userService.selectByPhone(phone);
     }
 
+    @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(value = "id") String id) {
+        userService.delete(id);
+    }
 
 }

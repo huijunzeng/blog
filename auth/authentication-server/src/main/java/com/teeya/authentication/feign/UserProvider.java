@@ -22,5 +22,5 @@ public interface UserProvider {
      * @return
      */
     @GetMapping("/resource/user/{username}")
-    List<ResourceEntity> queryResourceListByUsername(@PathVariable("username") String username);
+    List<ResourceEntity> queryListByUsername(@PathVariable("username") String username);
 }

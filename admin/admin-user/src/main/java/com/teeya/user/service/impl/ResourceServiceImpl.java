@@ -72,4 +72,9 @@ public class ResourceServiceImpl implements ResourceService {
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return this.queryListByResourceIds(resourceIds);
     }
+
+    @Override
+    public List<ResourceEntity> queryAll() {
+        return resourceEntityMapper.selectAll();
+    }
 }

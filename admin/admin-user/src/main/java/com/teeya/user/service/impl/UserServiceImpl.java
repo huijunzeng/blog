@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity selectByPhone(String phone) {
         return userEntityMapper.selectByPhone(phone);
     }
+
+    @Override
+    public void delete(String id) {
+        //userEntityMapper.deleteByPrimaryKey(id);
+    }
 }

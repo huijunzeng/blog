@@ -1,8 +1,6 @@
 package com.teeya.authentication.feign;
 
 import com.teeya.user.entity.pojo.ResourceEntity;
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
 public class UserProviderFallback implements UserProvider {
 
     @Override
-    public List<ResourceEntity> queryResourceListByUsername(String username) {
+    public List<ResourceEntity> queryListByUsername(String username) {
         System.out.println("=================触发降级");
         return null;
     }

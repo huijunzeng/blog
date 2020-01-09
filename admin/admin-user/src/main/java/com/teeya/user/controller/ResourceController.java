@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/resource")
-@Api(value = "resource", tags = {"资源操作接口"})
+@Api(value = "resource", tags = {"资源操作restful接口"})
 @Slf4j
 public class ResourceController {
 
@@ -24,8 +24,8 @@ public class ResourceController {
 
     @ApiOperation(value = "新增资源", notes = "新增资源")
     @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源表单", required = true, dataType = "resourceForm")
-    @PostMapping("/insert")
-    public void insert(@ModelAttribute ResourceForm resourceForm) throws Exception {
+    @PostMapping
+    public void insert(@RequestBody ResourceForm resourceForm) throws Exception {
         resourceService.insert(resourceForm);
     }
 
@@ -34,6 +34,12 @@ public class ResourceController {
     @GetMapping("/user/{userId}")
     public List<ResourceEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
         return resourceService.queryListByUserId(userId);
+    }
+
+    @ApiOperation(value = "获取所有资源集合", notes = "获取所有资源集合")
+    @GetMapping("/all")
+    public List<ResourceEntity> queryAll() {
+        return resourceService.queryAll();
     }
 
 }

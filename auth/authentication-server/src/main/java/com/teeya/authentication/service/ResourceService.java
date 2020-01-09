@@ -11,5 +11,5 @@ public interface ResourceService {
      * @param username
      * @return
      */
-    List<ResourceEntity> queryResourceListByUsername(String username);
+    List<ResourceEntity> queryListByUsername(String username);
 }

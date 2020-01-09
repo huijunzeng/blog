@@ -24,8 +24,8 @@ public class RoleController {
 
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @ApiImplicitParam(paramType = "form", name = "roleForm", value = "用户角色表单", required = true, dataType = "roleForm")
-    @PostMapping("/insert")
-    public void insert(@ModelAttribute RoleForm roleForm) throws Exception {
+    @PostMapping
+    public void insert(@RequestBody RoleForm roleForm) throws Exception {
         roleService.insert(roleForm);
     }
 

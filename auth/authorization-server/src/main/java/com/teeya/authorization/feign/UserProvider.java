@@ -21,7 +21,7 @@ public interface UserProvider {
      * @param username
      * @return
      */
-    @GetMapping("/user/queryByUsername")
+    @GetMapping("/user")
     UserEntity queryByUsername(@RequestParam(value = "username") String username);
 
     @GetMapping("/user/loadUserByPhone")
