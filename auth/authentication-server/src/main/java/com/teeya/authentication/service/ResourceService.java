@@ -12,4 +12,12 @@ public interface ResourceService {
      * @return
      */
     List<ResourceEntity> queryListByUsername(String username);
+
+    /**
+     * 判断是由拥有访问权限
+     * @param url
+     * @param method
+     * @return
+     */
+    boolean hasPermission(String url, String method);
 }

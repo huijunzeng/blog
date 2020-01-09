@@ -30,8 +30,8 @@ public class AuthenticationController {
 
     @ApiOperation(value = "鉴权，判断用户是否有权限", notes = "获取指定用户的权限")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
-    @GetMapping
-    public List<ResourceEntity> queryListByUsername(@RequestParam(value = "username") String username) {
-        return resourceService.queryListByUsername(username);
+    @GetMapping("/permission")
+    public boolean hasPermission(@RequestParam String url, @RequestParam String method) {
+        return resourceService.hasPermission(url, method);
     }
 }
