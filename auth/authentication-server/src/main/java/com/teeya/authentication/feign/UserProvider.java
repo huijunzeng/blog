@@ -12,15 +12,18 @@ import java.util.List;
 
 /**
  * 调取user用户服务，在认证的时候校验用户访问资源的合法性
+ *  fallback类型时 对应回调应该是实现BizOrderAccpetAPI接口 ，重写方法
+ *  fallbackFactory类型时 对应回调应该是实现FallbackFactory<UserProvider>接口,重写方法
  */
-@FeignClient(name = "admin-user", fallbackFactory = UserProviderFallback.class)
+@FeignClient(name = "admin-user", fallback = UserProviderFallback.class)
 public interface UserProvider {
 
     /**
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
-     * @param username
-     * @return
      */
+    @GetMapping("/resource/all")
+    List<ResourceEntity> queryAll();
+
     @GetMapping("/resource/user/{username}")
     List<ResourceEntity> queryListByUsername(@PathVariable("username") String username);
 }

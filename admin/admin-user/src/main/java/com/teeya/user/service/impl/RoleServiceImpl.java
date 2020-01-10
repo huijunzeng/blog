@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -34,10 +34,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleEntity> queryListByUserId(String userId) {
         List<UserRoleRelationEntity> roleRelationEntities = userRoleRelationEntityMapper.queryListByUserId(userId);
-        List<RoleEntity> roleEntities = null;
+        List<RoleEntity> roleEntities = Collections.emptyList();
         for (UserRoleRelationEntity userRoleRelationEntity : roleRelationEntities
              ) {
             RoleEntity roleEntity = roleEntityMapper.selectByPrimaryKey(userRoleRelationEntity.getRoleId());
+            System.out.println("roleEntity: " + roleEntity.toString());
             if (null != roleEntity) {
                 roleEntities.add(roleEntity);
             }

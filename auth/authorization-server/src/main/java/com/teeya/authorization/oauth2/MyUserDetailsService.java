@@ -1,9 +1,12 @@
 package com.teeya.authorization.oauth2;
 
 
+import com.teeya.authorization.service.RoleService;
 import com.teeya.authorization.service.UserService;
+import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.entity.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,10 +34,13 @@ import java.util.stream.Collectors;
  */
 
 @Component
+@Slf4j
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     /**
@@ -79,8 +86,20 @@ public class MyUserDetailsService implements UserDetailsService {
         // （1）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码不是明文的而是已经用相同的passwordEncoder加密后的密文，那么封装查询出来的用户User的密码时就不需要再用passwordEncoder加密
         // （2）假如WebSecurityConfig中的AuthenticationManagerBuilder配置了passwordEncoder，但在数据库中保存的密码是明文，那么封装查询出来的用户User的密码时就需要再用相同的passwordEncoder加密
         //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), true, true, true, true, grantedAuthorities);
-        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, this.obtainGrantedAuthorities(userEntity));
 
+    }
+
+    /**
+     * 获得所有角色的权限集合.
+     *
+     * @param userEntity
+     * @return
+     */
+    protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
+        List<RoleEntity> roles = roleService.queryListByUserId(userEntity.getId());
+        log.info("user:{},roles:{}", userEntity.getUsername(), roles);
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }
 
 }

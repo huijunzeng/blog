@@ -14,6 +14,11 @@ import java.util.List;
 public class UserProviderFallback implements UserProvider {
 
     @Override
+    public List<ResourceEntity> queryAll() {
+        return null;
+    }
+
+    @Override
     public List<ResourceEntity> queryListByUsername(String username) {
         System.out.println("=================触发降级");
         return null;

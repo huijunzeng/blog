@@ -44,3 +44,7 @@ name: authentication-server  # 测试用
 logging:
     config: classpath:logback-logstash.xml
 
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true
