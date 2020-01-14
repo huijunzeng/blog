@@ -2,21 +2,17 @@ package com.teeya.user.entity.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.teeya.common.entity.BaseEntity;
 import lombok.Data;
 
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-@Table(name = "role")
+@TableName(value = "role")
 @Data
-public class RoleEntity implements Serializable {
-    /**
-     * 角色id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+public class RoleEntity extends BaseEntity {
 
     /**
      * 角色编码
@@ -33,29 +29,4 @@ public class RoleEntity implements Serializable {
      */
     private String description;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "created_time")
-    private Date createdTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "updated_time")
-    private Date updatedTime;
-
-    /**
-     * 创建人
-     */
-    @Column(name = "created_by")
-    private String createdBy;
-
-    /**
-     * 更新人
-     */
-    @Column(name = "updated_by")
-    private String updatedBy;
-
-    private static final long serialVersionUID = 1L;
 }

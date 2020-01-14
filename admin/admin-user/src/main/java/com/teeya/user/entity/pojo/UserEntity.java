@@ -1,22 +1,15 @@
 package com.teeya.user.entity.pojo;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.teeya.common.entity.BaseEntity;
 import lombok.Data;
 
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-@Table(name = "user")
+@TableName(value = "user")
 @Data
-public class UserEntity implements Serializable {
-    /**
-     * 用户id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+public class UserEntity extends BaseEntity {
 
     /**
      * 用户名
@@ -38,39 +31,4 @@ public class UserEntity implements Serializable {
      */
     private String phone;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "created_time")
-    private Date createdTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "updated_time")
-    private Date updatedTime;
-
-    /**
-     * 创建人
-     */
-    @Column(name = "created_by")
-    private String createdBy;
-
-    /**
-     * 更新人
-     */
-    @Column(name = "updated_by")
-    private String updatedBy;
-
-    /**
-     * 是否已删除 1已删除 0未删除
-     */
-    private Integer deleted;
-
-    /**
-     * 备注
-     */
-    private String remark;
-
-    private static final long serialVersionUID = 1L;
 }

@@ -75,6 +75,6 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<ResourceEntity> queryAll() {
-        return resourceEntityMapper.selectAll();
+        return resourceEntityMapper.selectList(null);
     }
 }

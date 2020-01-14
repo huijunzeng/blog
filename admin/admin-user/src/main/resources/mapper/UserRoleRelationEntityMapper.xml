@@ -12,6 +12,9 @@
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
     <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="BIGINT" property="version" />
   </resultMap>
 
     <select id="queryListByUserId" resultMap="BaseResultMap">

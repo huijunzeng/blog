@@ -15,6 +15,7 @@
     <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
     <result column="deleted" jdbcType="INTEGER" property="deleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="BIGINT" property="version" />
   </resultMap>
     <select id="queryListByResourceIds" resultMap="BaseResultMap">
       SELECT * FROM resource WHERE id IN
