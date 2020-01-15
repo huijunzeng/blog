@@ -20,7 +20,7 @@
         <port>5044</port>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"ceshi"}</customFields> // 索引名
+            <customFields>{"appname":"ceshi"}</customFields>
         </encoder>
     </appender>
 

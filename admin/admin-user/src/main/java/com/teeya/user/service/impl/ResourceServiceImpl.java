@@ -1,5 +1,6 @@
 package com.teeya.user.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.common.util.BeanConverter;
 import com.teeya.common.util.IdGenerate;
 import com.teeya.user.entity.form.ResourceForm;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class ResourceServiceImpl implements ResourceService {
+public class ResourceServiceImpl extends ServiceImpl<ResourceEntityMapper, ResourceEntity> implements ResourceService {
 
     @Autowired
     private ResourceEntityMapper resourceEntityMapper;
@@ -51,14 +52,15 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<ResourceEntity> queryListByResourceIds(Set<String> resourceIds) {
-        return resourceEntityMapper.queryListByResourceIds(resourceIds);
+        return resourceEntityMapper.selectBatchIds(resourceIds);
     }
 
     @Override
     public List<ResourceEntity> queryListByUserId(String userId) {
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userId);
-        Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
-        List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
+        List<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toList());
+        List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationEntityMapper.selectBatchIds(roleIds);
+        //List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return this.queryListByResourceIds(resourceIds);
     }
@@ -67,7 +69,7 @@ public class ResourceServiceImpl implements ResourceService {
     public List<ResourceEntity> queryListByUsername(String username) {
         UserEntity userEntity = userService.queryByUsername(username);
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userEntity.getId());
-        Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
+        List<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toList());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return this.queryListByResourceIds(resourceIds);

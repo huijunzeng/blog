@@ -17,7 +17,7 @@ public class RoleResourceRelationServiceImpl implements RoleResourceRelationServ
     private RoleResourceRelationEntityMapper roleResourceRelationEntityMapper;
 
     @Override
-    public List<RoleResourceRelationEntity> queryListByRoleIds(Set<String> roleIds) {
+    public List<RoleResourceRelationEntity> queryListByRoleIds(List<String> roleIds) {
         return roleResourceRelationEntityMapper.queryListByRoleIds(roleIds);
     }
 }
