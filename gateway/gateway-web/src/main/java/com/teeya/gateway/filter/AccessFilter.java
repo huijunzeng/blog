@@ -1,7 +1,9 @@
 package com.teeya.gateway.filter;
 
+import com.teeya.client.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Configuration;
@@ -22,25 +24,42 @@ import reactor.core.publisher.Mono;
 public class AccessFilter implements GlobalFilter {
 
     /**
-     * 1.网关检验token是否有效以及合法
-     * 2.有效合法则
+     * 鉴权客户端服务
+     */
+    @Autowired
+    private AuthService authService;
+
+    /**
+     * 获取请求头token，检验token是否有效以及合法
+     * 有效合法则调取authentication-client鉴权客户端判断用户是否拥有该权限
      * @param exchange
      * @param chain
      * @return
      */
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        // 获取请求头Authorization的内容
+        String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        // 获取请求方法
         String method = request.getMethodValue();
+        // 获取请求url
         String url = request.getPath().value();
-        System.out.println(url);
-        System.out.println(authentication);
         log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
-        //不需要网关签权的url
-        if (url.contains("/oauth/token")) {
+
+        // 忽视签权的url（如用户登录操作）
+        if (authService.isIgnoreAuthenticationUrl(url)) {
             return chain.filter(exchange);
         }
-        if (StringUtils.isBlank(authentication)) {
+
+        // token不能为空
+        if (StringUtils.isBlank(token)) {
+            log.error("user token is null");
+            System.out.println("user token is null");
+            return unauthorized(exchange);
+        }
+
+        // 需要签权的url，判断用户是否有该资源的权限
+        if (StringUtils.isBlank(token)) {
             log.error("user token is null");
             System.out.println("user token is null");
             return unauthorized(exchange);
@@ -50,8 +69,7 @@ public class AccessFilter implements GlobalFilter {
 
     /**
      * 网关拒绝，返回401
-     *
-     * @param
+     * @param serverWebExchange
      */
     private Mono<Void> unauthorized(ServerWebExchange serverWebExchange) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);

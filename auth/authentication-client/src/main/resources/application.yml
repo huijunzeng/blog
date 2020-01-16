@@ -1,0 +1,9 @@
+## 用本地配置
+## 忽视鉴权的url
+gateway:
+    ignore:
+        authentication:
+            url:
+                - /oauth/token
+jwt:
+    key: 123546

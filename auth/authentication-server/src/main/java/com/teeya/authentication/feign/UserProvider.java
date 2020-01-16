@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * 调取user用户服务，在认证的时候校验用户访问资源的合法性
+ *  调取user用户服务，在认证的时候校验用户访问资源的合法性
  *  fallback类型时 对应回调应该是实现BizOrderAccpetAPI接口 ，重写方法
  *  fallbackFactory类型时 对应回调应该是实现FallbackFactory<UserProvider>接口,重写方法
  */
