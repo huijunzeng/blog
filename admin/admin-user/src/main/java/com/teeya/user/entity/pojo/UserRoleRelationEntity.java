@@ -1,9 +1,7 @@
 package com.teeya.user.entity.pojo;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.teeya.common.entity.BaseEntity;
+import com.teeya.common.entity.pojo.BaseEntity;
 import lombok.Data;
 
 /**

@@ -1,4 +1,4 @@
-package com.teeya.common.entity;
+package com.teeya.common.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
