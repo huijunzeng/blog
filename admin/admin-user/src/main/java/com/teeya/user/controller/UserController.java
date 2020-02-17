@@ -1,5 +1,6 @@
 package com.teeya.user.controller;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -23,23 +24,23 @@ public class UserController {
     @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping
-    public UserEntity queryByUsername(@RequestParam(value = "username") String username) {
+    public Result queryByUsername(@RequestParam(value = "username") String username) {
         System.out.println("username: " + username);
-        return userService.queryByUsername(username);
+        return Result.success(userService.queryByUsername(username));
     }
 
     @ApiOperation(value = "获取用户", notes = "根据用户手机号码获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "phone", value = "用户手机号码", required = true, dataType = "string")
     @GetMapping("/selectByPhone")
-    public UserEntity selectByPhone(@RequestParam(value = "phone") String phone) {
-        return userService.selectByPhone(phone);
+    public Result selectByPhone(@RequestParam(value = "phone") String phone) {
+        return Result.success(userService.selectByPhone(phone));
     }
 
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") String id) {
-        userService.delete(id);
+    public Result delete(@PathVariable(value = "id") String id) {
+        return Result.success(userService.delete(id));
     }
 
 }

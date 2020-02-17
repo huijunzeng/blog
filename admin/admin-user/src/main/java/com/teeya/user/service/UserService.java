@@ -22,5 +22,5 @@ public interface UserService {
      * 根据用户id删除用户
      * @param id
      */
-    void delete(String id);
+    int delete(String id);
 }

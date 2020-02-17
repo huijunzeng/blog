@@ -1,5 +1,6 @@
 package com.teeya.authorization.feign;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 import feign.hystrix.FallbackFactory;
@@ -19,18 +20,18 @@ public class AuthorizationProviderFallback implements FallbackFactory<Authorizat
     public AuthorizationProvider create(Throwable throwable) {
         return new AuthorizationProvider() {
             @Override
-            public UserEntity queryByUsername(String username) {
+            public Result<UserEntity> queryByUsername(String username) {
                 System.out.println("===============降级");
                 return null;
             }
 
             @Override
-            public UserEntity loadUserByPhone(String phone) {
+            public Result<UserEntity> loadUserByPhone(String phone) {
                 return null;
             }
 
             @Override
-            public List<RoleEntity> queryListByUserId(String userId) {
+            public Result<UserEntity> queryListByUserId(String userId) {
                 return null;
             }
         };

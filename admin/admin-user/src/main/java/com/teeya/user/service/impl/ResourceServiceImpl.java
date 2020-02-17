@@ -44,10 +44,10 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceEntityMapper, Resou
     private RoleResourceRelationService roleResourceRelationService;
 
     @Override
-    public void insert(ResourceForm resourceForm) throws Exception {
+    public int insert(ResourceForm resourceForm) {
         ResourceEntity resourceEntity = BeanConverter.copy(resourceForm, ResourceEntity.class);
-        resourceEntity.setId(String.valueOf(IdGenerate.getInstance().nextId()));
-        resourceEntityMapper.insert(resourceEntity);
+        //resourceEntity.setId(String.valueOf(IdGenerate.getInstance().nextId()));
+        return resourceEntityMapper.insert(resourceEntity);
     }
 
     @Override

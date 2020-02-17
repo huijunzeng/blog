@@ -47,7 +47,7 @@ public class BaseEntity implements Serializable {
 
     /**
      * 是否已删除 1已删除 0未删除
-     * 逻辑删除，调用delete方法实际执行update
+     * @TableLogic 逻辑删除，调用delete方法实际执行update
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @TableLogic

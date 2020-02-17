@@ -1,6 +1,6 @@
 package com.teeya.gateway.filter;
 
-import com.teeya.client.service.AuthService;
+//import com.teeya.client.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class AccessFilter implements GlobalFilter {
     /**
      * 鉴权客户端服务
      */
-    @Autowired
-    private AuthService authService;
+    //@Autowired
+    //private AuthService authService;
 
     /**
      * 获取请求头token，检验token是否有效以及合法
@@ -47,9 +47,9 @@ public class AccessFilter implements GlobalFilter {
         log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 
         // 忽视签权的url（如用户登录操作）
-        if (authService.isIgnoreAuthenticationUrl(url)) {
+        /*if (authService.isIgnoreAuthenticationUrl(url)) {
             return chain.filter(exchange);
-        }
+        }*/
 
         // token不能为空
         if (StringUtils.isBlank(token)) {
@@ -64,6 +64,16 @@ public class AccessFilter implements GlobalFilter {
             System.out.println("user token is null");
             return unauthorized(exchange);
         }
+
+        /*if (authService.hasPermission(url)) {
+            ServerHttpRequest.Builder builder = request.mutate();
+            //TODO 转发的请求都加上服务间认证token
+            //builder.header(X_CLIENT_TOKEN, "TODO zhoutaoo添加服务间简单认证");
+            //将jwt token中的用户信息传给服务
+            //builder.header(X_CLIENT_TOKEN_USER, getUserToken(authentication));
+            return chain.filter(exchange.mutate().request(builder.build()).build());
+        }*/
+
         return chain.filter(exchange);
     }
 

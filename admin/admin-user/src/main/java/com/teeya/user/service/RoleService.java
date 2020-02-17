@@ -12,7 +12,7 @@ public interface RoleService {
      * @param roleForm
      * @throws Exception
      */
-    void insert(RoleForm roleForm) throws Exception;
+    int insert(RoleForm roleForm);
 
     /**
      * 根据用户id获取相应的角色集合

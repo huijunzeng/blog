@@ -12,4 +12,11 @@ public interface AuthService {
      * @return
      */
     boolean isIgnoreAuthenticationUrl(String url);
+
+    /**
+     * 判断是否为不需鉴权的url  是则返回true
+     * @param url
+     * @return
+     */
+    boolean hasPermission(String url);
 }

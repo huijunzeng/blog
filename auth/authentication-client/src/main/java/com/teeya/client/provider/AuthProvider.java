@@ -1,5 +1,6 @@
 package com.teeya.client.provider;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.ResourceEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,6 @@ public interface AuthProvider {
      * 必须匹配authentication-server服务的完整/user/selectByUsername路径
      */
     @GetMapping("/resource/all")
-    List<ResourceEntity> queryAll();
+    Result queryAll();
 
 }

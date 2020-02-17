@@ -12,7 +12,7 @@ public interface ResourceService {
      * 新增资源
      * @param resourceForm
      */
-    void insert(ResourceForm resourceForm) throws Exception;
+    int insert(ResourceForm resourceForm);
 
     /**
      * 根据资源id集合获取相应的资源集合

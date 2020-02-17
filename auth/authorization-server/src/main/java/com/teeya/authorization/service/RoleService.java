@@ -1,5 +1,6 @@
 package com.teeya.authorization.service;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.RoleEntity;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface RoleService {
      * @param userId
      * @return
      */
-    List<RoleEntity> queryListByUserId(String userId);
+    Result queryListByUserId(String userId);
 }

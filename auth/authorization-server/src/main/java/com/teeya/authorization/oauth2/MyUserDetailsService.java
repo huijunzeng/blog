@@ -68,7 +68,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = userService.queryByUsername(username);
+        UserEntity userEntity = (UserEntity) userService.queryByUsername(username).getData();
         System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         /*grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());*/
@@ -97,7 +97,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
-        List<RoleEntity> roles = roleService.queryListByUserId(userEntity.getId());
+        List<RoleEntity> roles = (List<RoleEntity>) roleService.queryListByUserId(userEntity.getId()).getData();
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }

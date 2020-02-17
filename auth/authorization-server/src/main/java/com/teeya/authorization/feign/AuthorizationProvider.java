@@ -1,5 +1,6 @@
 package com.teeya.authorization.feign;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -25,11 +26,11 @@ public interface AuthorizationProvider {
      * @return
      */
     @GetMapping("/user")
-    UserEntity queryByUsername(@RequestParam(value = "username") String username);
+    Result queryByUsername(@RequestParam(value = "username") String username);
 
     @GetMapping("/user/selectByPhone")
-    UserEntity loadUserByPhone(@RequestParam(value = "phone") String phone);
+    Result loadUserByPhone(@RequestParam(value = "phone") String phone);
 
     @GetMapping("/role/user/{userId}")
-    List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId);
+    Result queryListByUserId(@PathVariable(value = "userId") String userId);
 }

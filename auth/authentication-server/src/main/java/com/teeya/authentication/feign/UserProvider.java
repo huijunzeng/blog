@@ -1,5 +1,6 @@
 package com.teeya.authentication.feign;
 
+import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.ResourceEntity;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
@@ -22,8 +23,8 @@ public interface UserProvider {
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
      */
     @GetMapping("/resource/all")
-    List<ResourceEntity> queryAll();
+    Result queryAll();
 
     @GetMapping("/resource/user/{username}")
-    List<ResourceEntity> queryListByUsername(@PathVariable("username") String username);
+    Result queryListByUsername(@PathVariable("username") String username);
 }

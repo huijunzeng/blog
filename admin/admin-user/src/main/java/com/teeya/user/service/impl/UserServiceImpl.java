@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String id) {
-        //userEntityMapper.deleteByPrimaryKey(id);
+    public int delete(String id) {
+        return userEntityMapper.deleteById(id);
     }
 }

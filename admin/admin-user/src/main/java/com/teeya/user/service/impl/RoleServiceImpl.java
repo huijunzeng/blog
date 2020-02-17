@@ -26,10 +26,10 @@ public class RoleServiceImpl implements RoleService {
     private UserRoleRelationEntityMapper userRoleRelationEntityMapper;
 
     @Override
-    public void insert(RoleForm roleForm) throws Exception {
+    public int insert(RoleForm roleForm) {
         RoleEntity roleEntity = BeanConverter.copy(roleForm, RoleEntity.class);
-        roleEntity.setId(String.valueOf(IdGenerate.getInstance().nextId()));
-        roleEntityMapper.insert(roleEntity);
+        //roleEntity.setId(String.valueOf(IdGenerate.getInstance().nextId()));
+        return roleEntityMapper.insert(roleEntity);
     }
 
     @Override

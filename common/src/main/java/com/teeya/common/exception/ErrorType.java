@@ -9,9 +9,9 @@ public interface ErrorType {
     String getCode();
 
     /**
-     * 返回mesg
+     * 返回msg
      *
      * @return
      */
-    String getMesg();
+    String getMsg();
 }
