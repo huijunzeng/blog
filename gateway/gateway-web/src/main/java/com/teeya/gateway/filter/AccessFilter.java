@@ -1,6 +1,7 @@
 package com.teeya.gateway.filter;
 
 //import com.teeya.client.service.AuthService;
+import com.teeya.client.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ public class AccessFilter implements GlobalFilter {
     /**
      * 鉴权客户端服务
      */
-    //@Autowired
-    //private AuthService authService;
-
+    @Autowired
+    private AuthService authService;
+    /*@Autowired
+    private UserProvider userProvider;*/
     /**
      * 获取请求头token，检验token是否有效以及合法
      * 有效合法则调取authentication-client鉴权客户端判断用户是否拥有该权限

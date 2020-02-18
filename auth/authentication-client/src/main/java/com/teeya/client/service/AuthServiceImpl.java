@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(String url) {
-        List<ResourceEntity> resourceEntities = (List<ResourceEntity>) authProvider.queryAll().getData();
+        List<ResourceEntity> resourceEntities = authProvider.queryAll();
         log.info("resourceEntities:{}", resourceEntities);
         return true;
     }

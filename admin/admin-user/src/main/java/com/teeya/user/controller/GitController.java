@@ -5,7 +5,7 @@ import com.teeya.user.utils.HttpClientUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -21,7 +21,7 @@ public class GitController {
     private static String GITHUB_CLIENT_SECRET = "4b2e1335aabb1023ea0a5b43345fcaa592260e67";
     private static String GITHUB_REDIRECT_URL = "https://www.baidu.com";
 
-    @RequestMapping("/githubLogin")
+    /*@RequestMapping("/githubLogin")
     public void githubLogin(HttpServletResponse response) throws Exception {
         // Github认证服务器地址
         String url = "https://github.com/login/oauth/authorize";
@@ -39,9 +39,9 @@ public class GitController {
     @RequestMapping("/githubCallback")
     public void githubCallback(String code, String state, HttpServletResponse response) throws Exception {
         // 验证state，如果不一致，可能被CSRF攻击
-        /*if(!oauthService.checkState(state)) {
+        *//*if(!oauthService.checkState(state)) {
             throw new Exception("State验证失败");
-        }*/
+        }*//*
 
         // 2、向GitHub认证服务器申请令牌
         String url = "https://github.com/login/oauth/access_token";
@@ -52,12 +52,12 @@ public class GitController {
         // 申请令牌，注意此处为post请求
         String result = HttpClientUtils.sengRequest(url, param, "POST");
 
-        /*
+        *//*
          * result示例：
          * 失败：error=incorrect_client_credentials&error_description=The+client_id+and%2For+client_secret+passed+are+incorrect.&
          * error_uri=https%3A%2F%2Fdeveloper.github.com%2Fapps%2Fmanaging-oauth-apps%2Ftroubleshooting-oauth-app-access-token-request-errors%2F%23incorrect-client-credentials
          * 成功：access_token=7c76186067e20d6309654c2bcc1545e41bac9c61&scope=&token_type=bearer
-         */
+         *//*
         Map<String, String> resultMap = (Map<String, String>) JSONObject.parseArray(result, Map.class);
         // 如果返回的map中包含error，表示失败，错误原因存储在error_description
         if(resultMap.containsKey("error")) {
@@ -83,5 +83,5 @@ public class GitController {
         // 4、输出用户信息
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(userResult);
-    }
+    }*/
 }

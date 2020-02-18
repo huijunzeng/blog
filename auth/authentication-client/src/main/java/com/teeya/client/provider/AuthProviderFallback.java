@@ -1,6 +1,5 @@
 package com.teeya.client.provider;
 
-import com.teeya.common.entity.vo.Result;
 import com.teeya.user.entity.pojo.ResourceEntity;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class AuthProviderFallback implements AuthProvider {
     @Override
-    public Result queryAll() {
+    public List<ResourceEntity> queryAll() {
         return null;
     }
 }

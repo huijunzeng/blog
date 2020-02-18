@@ -23,6 +23,6 @@ public interface AuthProvider {
      * 必须匹配authentication-server服务的完整/user/selectByUsername路径
      */
     @GetMapping("/resource/all")
-    Result queryAll();
+    List<ResourceEntity> queryAll();
 
 }
