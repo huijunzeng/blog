@@ -14,6 +14,13 @@
     <artifactId>common</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <!-- 由于用到1.8语法的lambda表达式，所以需要设置编译时的jdk版本，否则回报错：-source 1.5 中不支持 lambda 表达式-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>

@@ -12,5 +12,5 @@ public interface RoleService {
      * @param userId
      * @return
      */
-    Result queryListByUserId(String userId);
+    List<RoleEntity> queryListByUserId(String userId);
 }

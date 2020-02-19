@@ -1,7 +1,6 @@
 package com.teeya.client.service;
 
-import com.teeya.client.provider.AuthProvider;
-import com.teeya.user.entity.pojo.ResourceEntity;
+import com.teeya.client.feign.AuthProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean hasPermission(String url) {
-        List<ResourceEntity> resourceEntities = authProvider.queryAll();
-        log.info("resourceEntities:{}", resourceEntities);
-        return true;
+    public boolean hasPermission(String url, String method) {
+        return authProvider.hasPermission(url, method);
     }
 }

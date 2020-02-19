@@ -18,7 +18,7 @@ public class RoleServiceImpl implements RoleService {
     private AuthorizationProvider authorizationProvider;
 
     @Override
-    public Result queryListByUserId(String userId) {
+    public List<RoleEntity> queryListByUserId(String userId) {
         return authorizationProvider.queryListByUserId(userId);
     }
 }

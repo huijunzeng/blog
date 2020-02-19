@@ -1,8 +1,11 @@
 package com.teeya.authorization.service;
 
+import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 
-public interface UserService {
+import java.util.List;
+
+public interface AuthorizationService {
 
     /**
      * 根据username查找用户信息
@@ -17,4 +20,11 @@ public interface UserService {
      * @return
      */
     UserEntity loadUserByPhone(String phone);
+
+    /**
+     * 根据用户id获取相应的角色集合
+     * @param userId
+     * @return
+     */
+    List<RoleEntity> queryListByUserId(String userId);
 }

@@ -12,8 +12,8 @@ import java.util.List;
  *  fallback类型时 对应回调应该是实现BizOrderAccpetAPI接口 ，重写方法
  *  fallbackFactory类型时 对应回调应该是实现FallbackFactory<UserProvider>接口,重写方法
  */
-@FeignClient(name = "admin-user", fallback = UserProviderFallback.class)
-public interface UserProvider {
+@FeignClient(name = "admin-user", fallback = AuthenticationProviderFallback.class)
+public interface AuthenticationProvider {
 
     /**
      * 必须匹配admin-user服务的完整/user/selectByUsername路径

@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Component
-public class UserProviderFallback implements UserProvider {
+public class AuthenticationProviderFallback implements AuthenticationProvider {
 
     @Override
     public List<ResourceEntity> queryAll() {

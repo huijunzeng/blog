@@ -4,7 +4,7 @@ import com.teeya.user.entity.pojo.ResourceEntity;
 
 import java.util.List;
 
-public interface ResourceService {
+public interface AuthenticationService {
 
     /**
      * 根据用户名获取相应的角色集合
