@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
  */
 
 @Configuration
+//@ComponentScan(basePackages = "com.teeya.client.service")
 @Slf4j
 public class AccessFilter implements GlobalFilter {
 

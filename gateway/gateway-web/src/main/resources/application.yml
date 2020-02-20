@@ -133,3 +133,11 @@ name: gateway-web  #测试用
 ############  sentinel引入 ###########
 #下载并启动sentinel-dashboard.jar  （暂时没有官方镜像）
 ####################################################
+
+
+## 忽视鉴权的url
+gateway:
+    ignore:
+        authentication:
+            url:
+                - /oauth/token

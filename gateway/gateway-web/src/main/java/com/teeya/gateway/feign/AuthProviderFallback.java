@@ -1,4 +1,4 @@
-package com.teeya.client.feign;
+package com.teeya.gateway.feign;
 
 
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2020/1/16 14:27
  */
 
-@Component
+//@Component
 public class AuthProviderFallback implements AuthProvider {
 
     @Override
