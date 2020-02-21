@@ -25,8 +25,8 @@ public class AuthServiceImpl implements AuthService {
      * 不需要网关签权的url配置(/oauth,/open)
      * 默认/oauth开头是不需要的
      */
-    @Value("${gateway.ignore.authentication.url}")
-    private List<String> ignoreUrls;
+    //@Value("${gateway.ignore.authentication.url}")
+    private List<String> ignoreUrls = null;
 
     @Override
     public boolean isIgnoreAuthenticationUrl(String url) {
@@ -36,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(String url, String method) {
+        System.out.println("进入鉴权判断22222");
         return authProvider.hasPermission(url, method);
     }
 }

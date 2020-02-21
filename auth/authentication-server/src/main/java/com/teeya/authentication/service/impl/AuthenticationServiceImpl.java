@@ -32,7 +32,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public boolean hasPermission(String url, String method) {
         // 在登录成功后，Spring Security创建Authentication对象并帮我们放到了SecurityContextHolder上下文中
         // 通过Authentication对象可以获取到用户信息
+        System.out.println("url以及method: " + url + "===============" + method);
+        log.info("url以及method: " + url + "===============" + method);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("authentication信息: " + authentication.toString());
         log.info("authentication信息: " + authentication.toString());
         List<ResourceEntity> resourceEntities = this.queryListByUsername(authentication.getName());
         //return this.isMatch(url, resourceEntities);

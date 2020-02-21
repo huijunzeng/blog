@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.teeya.client")
-@ComponentScan(basePackages = "com.teeya.client")// 扫描引入的authentication-client的jar包下的bean  扫描路径需要与application启动类的上一级路径保持一致  比如模块A的application启动类的上一级路径为com.xx,模块B的路径也需要为com.xx才能被扫描到,
+@EnableFeignClients
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @RestController
 public class GatewayApplication {

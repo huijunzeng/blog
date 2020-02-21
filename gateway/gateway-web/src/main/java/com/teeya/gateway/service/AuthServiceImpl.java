@@ -14,7 +14,7 @@ import java.util.List;
  * @Date: 2020/1/16 14:35
  */
 
-//@Service
+@Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
      * 默认/oauth开头是不需要的
      */
     //@Value("${gateway.ignore.authentication.url}")
-    private List<String> ignoreUrls;
+    private List<String> ignoreUrls = null;
 
     @Override
     public boolean isIgnoreAuthenticationUrl(String url) {

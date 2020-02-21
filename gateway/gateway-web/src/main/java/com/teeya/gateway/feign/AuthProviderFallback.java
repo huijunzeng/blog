@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2020/1/16 14:27
  */
 
-//@Component
+@Component
 public class AuthProviderFallback implements AuthProvider {
 
     @Override
