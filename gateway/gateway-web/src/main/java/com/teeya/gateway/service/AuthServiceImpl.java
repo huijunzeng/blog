@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean hasPermission(String url, String method) {
-        return authProvider.hasPermission(url, method);
+    public boolean hasPermission(String token, String url, String method) {
+        return authProvider.hasPermission(token, url, method);
     }
 }

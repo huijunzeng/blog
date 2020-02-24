@@ -63,8 +63,8 @@ public class AccessFilter implements GlobalFilter {
             return unauthorized(exchange);
         }
 
-        // 需要签权的url，判断用户是否有该资源的权限
-        if (authService.hasPermission(url, method)) {
+        // 需要签权的url，判断用户是否有该资源的权限  服务调用需要携带上token，要做特殊处理
+        if (authService.hasPermission(token, url, method)) {
             System.out.println("进入鉴权判断");
             ServerHttpRequest.Builder builder = request.mutate();
             //TODO 转发的请求都加上服务间认证token

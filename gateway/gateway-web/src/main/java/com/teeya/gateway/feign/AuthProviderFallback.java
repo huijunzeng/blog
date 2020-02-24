@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AuthProviderFallback implements AuthProvider {
 
     @Override
-    public boolean hasPermission(/*String authentication, */String url, String method) {
+    public boolean hasPermission(String token, String url, String method) {
         return false;
     }
 }
