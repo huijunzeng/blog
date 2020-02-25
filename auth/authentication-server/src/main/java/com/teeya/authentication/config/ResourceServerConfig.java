@@ -34,7 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         // // 对 api/order 请求进行拦截   验证accessToken  与controller 的要有关系
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/test/**", "/oauth2_token/**").permitAll()
+                .antMatchers("/test/**", "/oauth2_token/**","/auth/hello").permitAll()
                 .anyRequest().authenticated();
     }
 

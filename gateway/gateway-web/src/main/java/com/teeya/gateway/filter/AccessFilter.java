@@ -44,6 +44,7 @@ public class AccessFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         // 获取请求头Authorization的内容
         String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        System.out.println("token ：" + token);
         // 获取请求方法
         String method = request.getMethodValue();
         // 获取请求url
@@ -63,6 +64,7 @@ public class AccessFilter implements GlobalFilter {
             return unauthorized(exchange);
         }
 
+        //todo 不能调取资源服务的接口
         // 需要签权的url，判断用户是否有该资源的权限  服务调用需要携带上token，要做特殊处理
         if (authService.hasPermission(token, url, method)) {
             System.out.println("进入鉴权判断");

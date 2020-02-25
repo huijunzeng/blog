@@ -41,4 +41,8 @@ public class UserController {
         return userService.delete(id);
     }
 
+    @GetMapping("/hello")
+    public String test(){
+        return "hello oauth";
+    }
 }

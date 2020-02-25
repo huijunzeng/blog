@@ -19,4 +19,6 @@ public interface AuthService {
      * @return
      */
     boolean hasPermission(String token, String url, String method);
+
+    String hello();
 }

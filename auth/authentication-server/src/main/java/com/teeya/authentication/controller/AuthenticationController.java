@@ -32,4 +32,9 @@ public class AuthenticationController {
         System.out.println("进入authentication-server鉴权判断");
         return authenticationService.hasPermission(url, method);
     }
+
+    @GetMapping("/hello")
+    public String test(){
+        return "hello oauth";
+    }
 }

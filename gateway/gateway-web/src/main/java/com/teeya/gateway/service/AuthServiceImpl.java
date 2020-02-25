@@ -36,6 +36,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(String token, String url, String method) {
+        System.out.println("进入鉴权判断222");
         return authProvider.hasPermission(token, url, method);
+    }
+
+    @Override
+    public String hello() {
+        return authProvider.test();
     }
 }
