@@ -30,7 +30,11 @@ public class GatewayApplication {
         //return "success";
     }
     @GetMapping("/test2")
-    public String test2() {
-        return "success";
+    public boolean test2() {
+        System.out.println(111);
+        System.out.println(111222);
+        boolean b = authService.hasPermission("a", "a", "a");
+        System.out.println("====================" + b);
+        return b;
     }
 }

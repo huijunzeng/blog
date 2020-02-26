@@ -29,8 +29,12 @@ public class AuthenticationController {
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @PostMapping("/permission")
     public boolean hasPermission(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("进入authentication-server鉴权判断: " + token);
         System.out.println("进入authentication-server鉴权判断");
-        return authenticationService.hasPermission(url, method);
+        boolean b = authenticationService.hasPermission(url, method);
+        System.out.println("sss: " + b);
+        return b;
     }
 
     @GetMapping("/hello")

@@ -21,7 +21,7 @@ public interface AuthProvider {
     @PostMapping(value = "/auth/permission")
     boolean hasPermission(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestParam("url") String url, @RequestParam("method") String method);
 
-    @GetMapping(value = "//test/hello")
+    @GetMapping(value = "/test/hello")
     String test();
 
 }
