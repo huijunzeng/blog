@@ -2,6 +2,7 @@ package com.teeya.authentication.feign;
 
 import com.teeya.user.entity.pojo.ResourceEntity;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -12,6 +13,8 @@ import java.util.List;
  *  fallback类型时 对应回调应该是实现BizOrderAccpetAPI接口 ，重写方法
  *  fallbackFactory类型时 对应回调应该是实现FallbackFactory<UserProvider>接口,重写方法
  */
+
+@Component
 @FeignClient(name = "admin-user", fallback = AuthenticationProviderFallback.class)
 public interface AuthenticationProvider {
 

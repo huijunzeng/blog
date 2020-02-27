@@ -1,5 +1,7 @@
 package com.teeya.gateway.service;
 
+import java.util.Map;
+
 /**
  * @Author: ZJH
  * @Date: 2020/1/16 14:34
@@ -19,6 +21,13 @@ public interface AuthService {
      * @return
      */
     boolean hasPermission(String token, String url, String method);
+
+    /**
+     * 验证token并返回payload等相关内容
+     * @param token
+     * @return
+     */
+    Map<String, ?> checkToken(String token);
 
     String hello();
 }

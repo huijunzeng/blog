@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +24,7 @@ public class UserController {
     @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping
-    public UserEntity queryByUsername(@RequestParam(value = "username") String username) {
+    public UserEntity queryByUsername(HttpServletRequest request,  @RequestParam(value = "username") String username) {
         System.out.println("username: " + username);
         return userService.queryByUsername(username);
     }

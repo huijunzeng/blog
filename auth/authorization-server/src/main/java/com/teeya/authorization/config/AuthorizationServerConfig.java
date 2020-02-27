@@ -135,10 +135,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * 定义令牌端点上的安全约束  配置访问的一些权限设置
      * /oauth/authorize：授权端点。(授权码模式)
      * /oauth/token：令牌端点。（密码模式）
-     * /oauth/confirm_access：用户确认授权提交端点。
-     * /oauth/error：授权服务错误信息端点。
+     * /oauth/confirm_access：用户确认授权提交端点（用户发送确认授权到这里，可自定义用户界面）。
+     * /oauth/error：授权服务错误信息端点（用户呈现授权服务器授权出错的请求，可自定义用户界面）。
      * /oauth/check_token：用于资源服务访问的令牌解析端点。(检验token，get请求发送token参数)
-     * /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
+     * /oauth/token_key：提供查询公有密匙（即自定义的秘钥signingKey）的端点(JWT特有，需要basic认证保护，即需要在Authorization选择Basic Auth，填上对应的client_id以及client_secret，get请求)。
      * @param security
      */
     @Override

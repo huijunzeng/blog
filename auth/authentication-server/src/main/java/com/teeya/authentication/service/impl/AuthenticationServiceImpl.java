@@ -37,7 +37,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authentication信息: " + authentication.toString());
         log.info("authentication信息: " + authentication.toString());
-        List<ResourceEntity> resourceEntities = this.queryListByUsername(authentication.getName());
+        // todo
+        //List<ResourceEntity> resourceEntities = this.queryListByUsername(authentication.getName());
         //return this.isMatch(url, resourceEntities);
         return true;
     }

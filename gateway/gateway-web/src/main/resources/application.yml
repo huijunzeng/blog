@@ -1,3 +1,7 @@
+######################
+# ${server.port:8080}表示需要从全局的配置内容中读取server.port的配置信息，如果没有找到则使用冒号（:） 后的内容
+######################
+
 ## 用本地配置
 server:
     port: 8081 # 启动端口
@@ -139,5 +143,4 @@ name: gateway-web  #测试用
 gateway:
     ignore:
         authentication:
-            url:
-                - /oauth/token
+            url: /oauth/

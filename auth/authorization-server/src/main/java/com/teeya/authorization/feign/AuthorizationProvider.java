@@ -3,6 +3,7 @@ package com.teeya.authorization.feign;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import java.util.List;
  * fallbackFactory类型时 对应回调应该是实现FallbackFactory<AuthorizationProvider>接口,重写方法
  */
 
+@Component
 @FeignClient(name = "admin-user", fallbackFactory = AuthorizationProviderFallback.class)
 public interface AuthorizationProvider {
 
