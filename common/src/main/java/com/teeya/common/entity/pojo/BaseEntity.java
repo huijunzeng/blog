@@ -1,6 +1,7 @@
 package com.teeya.common.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Date;
  */
 
 @Data
+@ApiModel(value = "实体类基础类")
 public class BaseEntity implements Serializable {
 
     /**

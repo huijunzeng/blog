@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @Component
-@FeignClient(name = "authentication-server", fallback = AuthenticationProviderFallback.class)
+@FeignClient(name = "authentication-server"/*, fallback = AuthenticationProviderFallback.class*/)
 public interface AuthenticationProvider {
 
     @PostMapping(value = "/auth/permission")

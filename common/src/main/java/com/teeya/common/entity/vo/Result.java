@@ -16,11 +16,11 @@ import java.time.ZonedDateTime;
 @Getter
 public class Result<T> {
 
-    public static final String SUCCESSFUL_CODE = "200";
+    public static final Integer SUCCESSFUL_CODE = 200;
     public static final String SUCCESSFUL_MESG = "处理成功";
 
     @ApiModelProperty(value = "处理结果code", required = true)
-    private String code;
+    private Integer code;
     @ApiModelProperty(value = "处理结果描述信息")
     private String msg;
     @ApiModelProperty(value = "请求结果生成时间戳")
@@ -58,7 +58,7 @@ public class Result<T> {
      * @param msg
      * @param data
      */
-    private Result(String code, String msg, T data) {
+    private Result(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -72,7 +72,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result success(Object data) {
-        return new Result<>(SUCCESSFUL_CODE, SUCCESSFUL_MESG, data);
+        return new Result(SUCCESSFUL_CODE, SUCCESSFUL_MESG, data);
     }
 
     /**
