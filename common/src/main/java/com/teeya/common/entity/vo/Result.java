@@ -99,9 +99,9 @@ public class Result<T> {
      * @param baseException
      * @return Result
      */
-    public static Result fail(BaseException baseException) {
+    /*public static Result fail(BaseException baseException) {
         return fail(baseException, null);
-    }
+    }*/
 
     /**
      * 系统异常类并返回结果数据
@@ -109,9 +109,9 @@ public class Result<T> {
      * @param data
      * @return Result
      */
-    public static Result fail(BaseException baseException, Object data) {
+    /*public static Result fail(BaseException baseException, Object data) {
         return new Result<>(baseException.getErrorType(), data);
-    }
+    }*/
 
     /**
      * 系统异常类并返回结果数据

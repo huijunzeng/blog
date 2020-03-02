@@ -1,4 +1,4 @@
-package com.teeya.gateway.config;
+package com.teeya.gateway.exception;
 
 /*import com.springboot.cloud.common.core.entity.vo.Result;
 import com.springboot.cloud.common.core.exception.SystemErrorType;
@@ -6,16 +6,22 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.netty.channel.ConnectTimeoutException;*/
+import com.teeya.common.exception.BaseException;
+import io.netty.channel.ConnectTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
-@Component
+@RestControllerAdvice
 public class GateWayExceptionHandlerAdvice {
 
     /*@ExceptionHandler(value = {ResponseStatusException.class})
@@ -65,12 +71,7 @@ public class GateWayExceptionHandlerAdvice {
         return Result.fail();
     }
 
-    @ExceptionHandler(value = {Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handle(Exception ex) {
-        log.error("exception:{}", ex.getMessage());
-        return Result.fail();
-    }
+
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -89,4 +90,35 @@ public class GateWayExceptionHandlerAdvice {
         }
         return result;
     }*/
+
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> handle(Exception ex) {
+        log.error("exception:{}", ex.toString());
+        Map<String, Object> map = new HashMap<>();
+        BaseException ex1 = (BaseException) ex;
+        //map.put("msg", ex1.getMsg());
+        map.put("code", ex1.getCode());
+        map.put("msg", ex1.getMsg());
+        return map;
+    }
+
+    @ExceptionHandler(value = {Throwable.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> handle(Throwable throwable) {
+        Map<String, Object> map = new HashMap<>();
+        /*if (throwable instanceof ResponseStatusException) {
+            result = handle((ResponseStatusException) throwable);
+        } else if (throwable instanceof ConnectTimeoutException) {
+            result = handle((ConnectTimeoutException) throwable);
+        } else if (throwable instanceof NotFoundException) {
+            result = handle((NotFoundException) throwable);
+        } else if (throwable instanceof RuntimeException) {
+            result = handle((RuntimeException) throwable);
+        } else*/
+        if (throwable instanceof Exception) {
+            map = handle((Exception) throwable);
+        }
+        return map;
+    }
 }

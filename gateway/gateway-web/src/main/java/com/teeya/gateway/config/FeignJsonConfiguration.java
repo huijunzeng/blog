@@ -1,12 +1,7 @@
 package com.teeya.gateway.config;
 
-import ch.qos.logback.classic.pattern.MessageConverter;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import feign.RequestInterceptor;
-import feign.RequestTemplate;
 import feign.codec.Decoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -16,15 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
- * feign调取服务时，携带上token
+ * feign调取服务时返回json格式内容
  * @Author: ZJH
  * @Date: 2020/2/24 13:29
  */
@@ -43,7 +34,8 @@ import java.util.List;
  */
 // feign调取接口时报以上的错误   配置这个时起作用，可以解决  todo
 @Configuration
-public class FeignConfig /*implements RequestInterceptor*/ {
+@Slf4j
+public class FeignJsonConfiguration {
 
     @Bean
     public Decoder feignDecoder() {
@@ -55,7 +47,7 @@ public class FeignConfig /*implements RequestInterceptor*/ {
         MediaType[] mediaTypes = new MediaType[]{
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_OCTET_STREAM,
-                MediaType.APPLICATION_JSON_UTF8,
+                MediaType.APPLICATION_JSON,
                 MediaType.TEXT_HTML,
                 MediaType.TEXT_PLAIN,
                 MediaType.TEXT_XML,
