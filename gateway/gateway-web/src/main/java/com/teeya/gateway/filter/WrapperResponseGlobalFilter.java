@@ -22,9 +22,8 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 统一响应结果格式处理
+ * 统一响应结果格式处理  修改返回Body
  *
- * todo1、修改请求body的问题，2、修改返回Body的问题，3、返回数据过长被截断问题 4、动态路由问题
  * @Author: ZJH
  * @Date: 2020/3/2 17:03
  */
@@ -41,32 +40,6 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpResponse response = exchange.getResponse();
         DataBufferFactory bufferFactory = response.bufferFactory();
-        /*ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
-            @Override
-            public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-                if (body instanceof Flux) {
-                    Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
-                    return super.writeWith(fluxBody.map(dataBuffer -> {
-                        // probably should reuse buffers
-                        byte[] content = new byte[dataBuffer.readableByteCount()];
-                        dataBuffer.read(content);
-                        //释放掉内存
-                        DataBufferUtils.release(dataBuffer);
-                        String s = new String(content, Charset.forName("UTF-8"));
-                        System.out.println("response: " +s);
-                        //TODO，s就是response的值，想修改、查看就随意而为了
-                        byte[] uppedContent = new String(content, Charset.forName("UTF-8")).getBytes();
-                        return bufferFactory.wrap(uppedContent);
-                    }));
-                }
-                // if body is not a flux. never got there.
-                return super.writeWith(body);
-            }
-        };
-        // replace response with decorator
-        return chain.filter(exchange.mutate().response(decoratedResponse).build());*/
-
-
         HttpStatus statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.OK) {
             ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
@@ -74,29 +47,14 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                 public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                     Flux<? extends DataBuffer> fluxBody = Flux.from(body);
                     return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
-                        //最重要的是这里，网上有很多对gateway响应进行修改的
-                        //但是我这里会进行截断（并不是每次都截）
-                        //刚开始也是按照buffer一个一个读，
-                        // 然后看了下api 发现可以获取出所有流的集合
-                        // 然后又继续查api 发现  DataBufferFactory 可以进行合并多个流的集合
-                        //然后就把这个问题解决了。
+                        // DataBufferFactory 可以进行合并多个流的集合
+                        // 返回数据过长被截断问题
                         DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
                         DataBuffer join = dataBufferFactory.join(dataBuffers);
                         byte[] content = new byte[join.readableByteCount()];
                         join.read(content);
                         //释放掉内存
                         DataBufferUtils.release(join);
-
-                                   /*之前是这么写的但是效率偏低，因为会copy几次
-                                  List<byte[]> list = new ArrayList();
-                               dataBuffers.forEach(dataBuffer -> {
-                                    byte[] content = new byte[dataBuffer.readableByteCount()];
-                                    dataBuffer.read(content);
-                                    DataBufferUtils.release(dataBuffer);
-                                    list.add(content);
-                                });
-                            byte[] bytes = byteMergerAll(list);*/
-
                         String responseData = new String(content, StandardCharsets.UTF_8);
 
                         //responseData就是下游系统返回的内容,可以查看修改  todo

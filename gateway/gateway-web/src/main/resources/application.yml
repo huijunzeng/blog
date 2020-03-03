@@ -22,8 +22,8 @@ spring:
             default-filters:
             discovery:
                 locator:
-                    enabled: true #注册中心生效，可以根据注册中心的服务名进行路由转发
-            routes:
+                    enabled: true #注册中心生效，可以自动根据注册中心的服务名进行路由转发
+            routes: #路由配置，实际生产环境需要做到动态路由配置
                 ##authorization-server调用  两种方式（实际中以第二种方式配置并持久化数据库）： 服务url的方式：http://localhost:9777/   或者注册服务serviceId的方式： lb://ribbon-consumer
                 -   id: authorization-server #路由的唯一id
                     uri: lb://authorization-server
