@@ -13,6 +13,7 @@
         <module>gateway</module>
         <module>admin</module>
         <module>common</module>
+        <module>weblog</module>
     </modules>
 
     <properties>
