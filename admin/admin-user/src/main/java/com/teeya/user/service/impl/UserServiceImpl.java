@@ -1,21 +1,44 @@
 package com.teeya.user.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.teeya.user.entity.form.UserForm;
 import com.teeya.user.entity.pojo.UserEntity;
-import com.teeya.user.mapper.UserEntityMapper;
-import com.teeya.user.mapper.UserRoleRelationEntityMapper;
+import com.teeya.user.mapper.UserMapper;
+import com.teeya.user.mapper.UserRoleRelationMapper;
 import com.teeya.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
     @Autowired
-    private UserEntityMapper userEntityMapper;
+    private UserMapper userMapper;
     @Autowired
-    private UserRoleRelationEntityMapper userRoleRelationEntityMapper;
+    private UserRoleRelationMapper userRoleRelationyMapper;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+    @Override
+    public int insert(UserForm userForm) {
+        UserEntity userEntity = new UserEntity();
+        System.out.println("11=======: " + userEntity.toString());
+        BeanUtils.copyProperties(userForm, userEntity);
+        if (StringUtils.isNotBlank(userEntity.getPassword()))
+            userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
+        System.out.println("22=======: " + userEntity.toString());
+        return userMapper.insert(userEntity);
+    }
 
     public UserEntity queryByUsername(String username) {
         /*UserEntity userEntity = userEntityMapper.queryByUsername(username);
@@ -26,16 +49,16 @@ public class UserServiceImpl implements UserService {
         }
         UserVo userVo = BeanConverter.copy(userEntity, UserVo.class);
         userVo.setRoleIds(roleIds);*/
-        return userEntityMapper.queryByUsername(username);
+        return userMapper.queryByUsername(username);
     }
 
     @Override
     public UserEntity selectByPhone(String phone) {
-        return userEntityMapper.selectByPhone(phone);
+        return userMapper.selectByPhone(phone);
     }
 
     @Override
     public int delete(String id) {
-        return userEntityMapper.deleteById(id);
+        return userMapper.deleteById(id);
     }
 }

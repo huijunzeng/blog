@@ -1,7 +1,8 @@
 package com.teeya.user.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.user.entity.pojo.RoleResourceRelationEntity;
-import com.teeya.user.mapper.RoleResourceRelationEntityMapper;
+import com.teeya.user.mapper.RoleResourceRelationMapper;
 import com.teeya.user.service.RoleResourceRelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,12 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class RoleResourceRelationServiceImpl implements RoleResourceRelationService {
+public class RoleResourceRelationServiceImpl extends ServiceImpl<RoleResourceRelationMapper, RoleResourceRelationEntity> implements RoleResourceRelationService {
 
-    private RoleResourceRelationEntityMapper roleResourceRelationEntityMapper;
+    private RoleResourceRelationMapper roleResourceRelationMapper;
 
     @Override
     public List<RoleResourceRelationEntity> queryListByRoleIds(Set<String> roleIds) {
-        return roleResourceRelationEntityMapper.queryListByRoleIds(roleIds);
+        return roleResourceRelationMapper.queryListByRoleIds(roleIds);
     }
 }

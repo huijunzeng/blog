@@ -6,5 +6,5 @@ import com.teeya.user.entity.pojo.RoleEntity;
 /**
 * Created by Mybatis Generator 2019/11/21
 */
-public interface RoleEntityMapper extends BaseMapper<RoleEntity> {
+public interface RoleMapper extends BaseMapper<RoleEntity> {
 }

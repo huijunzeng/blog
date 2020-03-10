@@ -1,8 +1,16 @@
 package com.teeya.user.service;
 
+import com.teeya.user.entity.form.UserForm;
 import com.teeya.user.entity.pojo.UserEntity;
 
 public interface UserService {
+
+    /**
+     * 新增用户信息
+     * @param userForm
+     * @return
+     */
+    int insert(UserForm userForm);
 
     /**
      * 根据用户名获取指定用户信息

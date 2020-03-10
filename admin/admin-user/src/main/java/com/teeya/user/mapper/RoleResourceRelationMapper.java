@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Mybatis Generator 2019/11/21
  */
-public interface RoleResourceRelationEntityMapper extends BaseMapper<RoleResourceRelationEntity> {
+public interface RoleResourceRelationMapper extends BaseMapper<RoleResourceRelationEntity> {
 
     List<RoleResourceRelationEntity> queryListByRoleIds(@Param("roleIds") Set<String> roleIds);
 }

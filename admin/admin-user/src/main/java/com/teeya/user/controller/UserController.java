@@ -1,5 +1,6 @@
 package com.teeya.user.controller;
 
+import com.teeya.user.entity.form.UserForm;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
@@ -20,6 +22,14 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @ApiOperation(value = "新增用户", notes = "新增一个用户")
+    @ApiImplicitParam(name = "userForm", value = "新增用户form表单", required = true, dataType = "UserForm")
+    @PostMapping
+    public void insert(@Valid @RequestBody UserForm userForm) {
+        userService.insert(userForm);
+    }
+
 
     @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")

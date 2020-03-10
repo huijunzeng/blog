@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Mybatis Generator 2019/11/21
  */
-public interface ResourceEntityMapper extends BaseMapper<ResourceEntity> {
+public interface ResourceMapper extends BaseMapper<ResourceEntity> {
 
     List<ResourceEntity> queryListByResourceIds(@Param("resourceIds") Set<String> resourceIds);
 }

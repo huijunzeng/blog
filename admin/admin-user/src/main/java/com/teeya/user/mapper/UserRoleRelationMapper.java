@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Mybatis Generator 2019/11/21
  */
-public interface UserRoleRelationEntityMapper extends BaseMapper<UserRoleRelationEntity> {
+public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelationEntity> {
 
     List<UserRoleRelationEntity> queryListByUserId(@Param("userId") String userId);
 }

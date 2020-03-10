@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * Created by Mybatis Generator 2019/11/21
  */
-public interface UserEntityMapper extends BaseMapper<UserEntity> {
+public interface UserMapper extends BaseMapper<UserEntity> {
 
     UserEntity queryByUsername(@Param("username") String username);
 
