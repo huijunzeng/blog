@@ -30,7 +30,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public int insert(UserForm userForm) {
-        UserEntity userEntity = new UserEntity();
+        UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
         System.out.println("11=======: " + userEntity.toString());
         BeanUtils.copyProperties(userForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword()))

@@ -56,6 +56,7 @@ public class GlobalExceptionHandler {
     public Map<String, Object> handle(Exception ex) {
         log.error("exception:{}", ex.toString());
         Map<String, Object> map = new HashMap<>();
+        // todo  转换可能失败
         BaseException ex1 = (BaseException) ex;
         //map.put("msg", ex1.getMsg());
         map.put("code", 404);

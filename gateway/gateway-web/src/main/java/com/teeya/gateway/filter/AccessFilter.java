@@ -34,6 +34,11 @@ public class AccessFilter implements GlobalFilter {
     private static final String BEARER = "Bearer ";
 
     /**
+     * 请求头变量key
+     */
+    private static final String AUTHORIZATION = "authorization";
+
+    /**
      * 鉴权客户端服务
      */
     @Autowired
@@ -86,6 +91,8 @@ public class AccessFilter implements GlobalFilter {
             String authorities = stringMap.get("authorities").toString();
             System.out.println("authorities========: " + authorities);
             builder.header("aaa", authService.checkToken(StringUtils.substring(token, BEARER.length())).get("authorities").toString());
+            // 请求头添加用户名
+            builder.header(AUTHORIZATION, authService.checkToken(StringUtils.substring(token, BEARER.length())).get("organization").toString());
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         System.out.println("没有授权");
