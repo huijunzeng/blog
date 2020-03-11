@@ -28,7 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return new BCryptPasswordEncoder();
     }
 
-
     @Override
     public int insert(UserForm userForm) {
         UserEntity userEntity = new UserEntity();
@@ -40,6 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return userMapper.insert(userEntity);
     }
 
+    @Override
     public UserEntity queryByUsername(String username) {
         /*UserEntity userEntity = userEntityMapper.queryByUsername(username);
         Set<String> roleIds = null;
