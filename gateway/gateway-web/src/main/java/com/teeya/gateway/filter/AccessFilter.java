@@ -1,6 +1,9 @@
 package com.teeya.gateway.filter;
 
 //import com.teeya.client.service.AuthService;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teeya.gateway.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -78,25 +81,51 @@ public class AccessFilter implements GlobalFilter {
         // todo 怎么做到在每个服务调用之间传递token
         // 需要签权的url，判断用户是否有该资源的权限  服务调用需要携带上token，要做特殊处理
         if (authService.hasPermission(token, url, method)) {
-            System.out.println("进入鉴权判断");
+            log.info("进入鉴权判断");
             ServerHttpRequest.Builder builder = request.mutate();
-            //TODO 可以根据个人需要在转发的请求头加上token的信息
-            //builder.header(X_CLIENT_TOKEN, "TODO zhoutaoo添加服务间简单认证");
             //将jwt token中的用户信息传给服务
             //builder.header(X_CLIENT_TOKEN_USER, getUserToken(authentication));
-            String substring = StringUtils.substring(token, BEARER.length());
-            System.out.println("substring========: " + substring);
-            Map<String, ?> stringMap = authService.checkToken(substring);
-            System.out.println("stringMap========: " + stringMap.toString());
+            String substringToken = StringUtils.substring(token, BEARER.length());
+            log.info("substring========: " + substringToken);
+            Map<String, ?> stringMap = authService.checkToken(substringToken);
             String authorities = stringMap.get("authorities").toString();
-            System.out.println("authorities========: " + authorities);
-            builder.header("aaa", authService.checkToken(StringUtils.substring(token, BEARER.length())).get("authorities").toString());
+            builder.header("aaa", this.checkTokenAndParseAsJson(substringToken));
             // 请求头添加用户名
+            // 可以根据个人需要在转发的请求头加上token的信息
             builder.header(AUTHORIZATION, authService.checkToken(StringUtils.substring(token, BEARER.length())).get("organization").toString());
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         System.out.println("没有授权");
         return unauthorized(exchange);
+    }
+
+
+    /**
+     * 将checkToken端点返回的token信息转为json，然后保存到请求头
+     * {
+     * 	"aud": ["blog"],
+     * 	"user_name": "admin",
+     * 	"scope": ["read"],
+     * 	"organization": "admin",
+     * 	"exp": 1584021426,
+     * 	"authorities": ["R001"],
+     * 	"jti": "db6861b9-a5e5-45d6-ac9c-59663e5b5e7d",
+     * 	"client_id": "test_client"
+     * }
+     *
+     * @param substringToken
+     * @return
+     */
+    private String checkTokenAndParseAsJson(String substringToken) {
+        String tokenBodyInfo = "{}";
+        try {
+            tokenBodyInfo = new ObjectMapper().writeValueAsString(authService.checkToken(substringToken));
+            log.info("checkTokenAndParseAsJson========: " + tokenBodyInfo);
+            return tokenBodyInfo;
+        } catch (JsonProcessingException e) {
+            log.error("token json error:{}", e.getMessage());
+        }
+        return tokenBodyInfo;
     }
 
     /**
