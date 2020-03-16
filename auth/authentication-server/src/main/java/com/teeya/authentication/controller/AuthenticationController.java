@@ -3,6 +3,7 @@ package com.teeya.authentication.controller;
 import com.teeya.authentication.service.AuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,13 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @ApiOperation(value = "鉴权，判断用户是否有权限", notes = "获取指定用户的权限")
-    @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
+    @ApiImplicitParams ({
+        @ApiImplicitParam(paramType = "query", name = "request", value = "request请求体", required = true, dataType = "HttpServletRequest"),
+        @ApiImplicitParam(paramType = "query", name = "url", value = "url", required = true, dataType = "string"),
+        @ApiImplicitParam(paramType = "query", name = "method", value = "method方法名", required = true, dataType = "string")
+    })
     @PostMapping("/permission")
-    public boolean hasPermission(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
+    public boolean hasPermission(HttpServletRequest request, @RequestParam("url") String url, @RequestParam("method") String method) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         System.out.println("进入authentication-server鉴权判断: " + token);
         System.out.println("进入authentication-server鉴权判断");

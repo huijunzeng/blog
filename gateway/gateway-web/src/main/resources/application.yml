@@ -124,7 +124,8 @@ hystrix:
 #                    key-uri: ${oauth-server}/oauth/token_key
 
 name: gateway-web  #测试用
-
+logging: #日志配置文件引入
+    config: classpath:logback-logstash.xml
 
 ############  skywalking 探针  在VM Options添加以下参数 -javaagent：agent的jar包所在路径  Dskywalking.agent.service_name：自定义的service的name -Dskywalking.collector.backend_service：aop的地址 ###########
 

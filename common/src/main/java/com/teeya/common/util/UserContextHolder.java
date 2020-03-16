@@ -1,5 +1,8 @@
 package com.teeya.common.util;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -7,7 +10,7 @@ import java.util.Optional;
  */
 public class UserContextHolder {
 
-    private ThreadLocal<String> threadLocal;
+    private ThreadLocal<Map<String, String>> threadLocal;
 
     private UserContextHolder() {
         this.threadLocal = new ThreadLocal<>();
@@ -35,7 +38,7 @@ public class UserContextHolder {
      *
      * @param map
      */
-    public void setContext(String map) {
+    public void setContext(Map<String, String> map) {
         threadLocal.set(map);
     }
 
@@ -44,7 +47,7 @@ public class UserContextHolder {
      *
      * @return
      */
-    public String getContext() {
+    public Map<String, String> getContext() {
         return threadLocal.get();
     }
 
@@ -54,7 +57,8 @@ public class UserContextHolder {
      * @return
      */
     public String getUsername() {
-        return Optional.ofNullable(threadLocal.get()).orElse(null);
+        // user_name是jwt解析出来必有的key
+        return Optional.ofNullable(threadLocal.get()).orElse(Maps.newHashMap()).get("user_name");
     }
 
     /**

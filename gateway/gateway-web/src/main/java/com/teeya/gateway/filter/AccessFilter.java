@@ -64,17 +64,15 @@ public class AccessFilter implements GlobalFilter {
         // 获取请求url
         String url = request.getPath().value();
         log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
-        System.out.println("url:,method:,headers:" +  url + "====" + method + "=====" + request.getHeaders());
         // 忽视签权的url（如用户登录操作）
         if (authService.isIgnoreAuthenticationUrl(url)) {
-        //if (false) {
+            log.info("忽视鉴权的url: " + url);
             return chain.filter(exchange);
         }
 
         // token不能为空
         if (StringUtils.isBlank(token)) {
             log.error("user token is null");
-            System.out.println("user token is null");
             return unauthorized(exchange);
         }
 
@@ -88,14 +86,11 @@ public class AccessFilter implements GlobalFilter {
             String substringToken = StringUtils.substring(token, BEARER.length());
             log.info("substring========: " + substringToken);
             Map<String, ?> stringMap = authService.checkToken(substringToken);
-            String authorities = stringMap.get("authorities").toString();
-            builder.header("aaa", this.checkTokenAndParseAsJson(substringToken));
-            // 请求头添加用户名
-            // 可以根据个人需要在转发的请求头加上token的信息
-            builder.header(AUTHORIZATION, authService.checkToken(StringUtils.substring(token, BEARER.length())).get("organization").toString());
+            // 信息安全  做加密  todo
+            // 可以根据个人需要在转发的请求头加上token解析后的body的信息
+            builder.header(AUTHORIZATION, this.checkTokenAndParseAsJson(substringToken));
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
-        System.out.println("没有授权");
         return unauthorized(exchange);
     }
 

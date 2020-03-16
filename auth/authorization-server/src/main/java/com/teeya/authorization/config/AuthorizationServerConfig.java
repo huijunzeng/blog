@@ -85,6 +85,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=test_client&client_secret=test_secret&redirect_uri=http://www.baidu.com
 
+        // 密码模式 http://localhost:8443/authorization-server/oauth/token?scope=read&grant_type=password  然后Authorization选择Basic Auth，Username添加数据库表oauth_client_details的client_id以及Password填写client_secret，Body选择x-www-form-urlencoded类型输入username以及password值
+
+        // 密码模式 http://localhost:9777/oauth/token?scope=read&grant_type=phone_sms_code 类似如上
+
+        // 验证token http://localhost:8443/authorization-server/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiYmxvZyJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiXSwib3JnYW5pemF0aW9uIjoiYWRtaW4iLCJleHAiOjE1ODMxNjE1MDEsImF1dGhvcml0aWVzIjpbIlIwMDEiXSwianRpIjoiYjdjZWYyZGItMTVhMi00ZTRhLTg3ZDAtNmM4ZmI0ODQwNjI2IiwiY2xpZW50X2lkIjoidGVzdF9jbGllbnQifQ.3vHcVc_otDupief5K8ftCihpiEJDQw-jIpzU2uiieXw
+
+        // 查询签名key http://localhost:8443/authorization-server/oauth/token_key 然后Authorization选择Basic Auth，Username添加数据库表oauth_client_details的client_id以及Password填写client_secret
+
         // password 方案一：明文存储，用于测试，不能用于生产
         // String finalSecret = "123456";
         // password 方案二：用 BCrypt 对密码编码
