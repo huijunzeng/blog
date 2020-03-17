@@ -3,6 +3,7 @@ package com.teeya.authorization.feign;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 
 @Component
+@Slf4j
 public class AuthorizationProviderFallback implements FallbackFactory<AuthorizationProvider> {
 
     @Override
@@ -20,7 +22,7 @@ public class AuthorizationProviderFallback implements FallbackFactory<Authorizat
         return new AuthorizationProvider() {
             @Override
             public UserEntity queryByUsername(String username) {
-                System.out.println("===============降级");
+                log.info("===============降级");
                 return null;
             }
 

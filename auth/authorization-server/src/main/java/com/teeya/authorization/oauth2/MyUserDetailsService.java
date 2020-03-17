@@ -69,7 +69,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
         UserEntity userEntity = userService.queryByUsername(username);
-        System.out.println(userEntity.toString());
+        log.info(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         /*grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());*/
         //grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限

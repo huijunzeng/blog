@@ -1,6 +1,7 @@
 package com.teeya.gateway.feign;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -11,11 +12,12 @@ import java.util.Map;
  */
 
 @Component
+@Slf4j
 public class AuthorizationProviderFallback implements AuthorizationProvider {
 
     @Override
     public Map<String, ?> checkToken(String value) {
-        System.out.println("checkToken降级====");
+        log.info("checkToken降级====");
         return null;
     }
 }

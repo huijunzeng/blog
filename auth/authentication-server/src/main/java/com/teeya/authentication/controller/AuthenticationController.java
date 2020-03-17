@@ -35,10 +35,8 @@ public class AuthenticationController {
     @PostMapping("/permission")
     public boolean hasPermission(HttpServletRequest request, @RequestParam("url") String url, @RequestParam("method") String method) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        System.out.println("进入authentication-server鉴权判断: " + token);
-        System.out.println("进入authentication-server鉴权判断");
+        log.info("进入authentication-server鉴权判断: " + token);
         boolean b = authenticationService.hasPermission(url, method);
-        System.out.println("sss: " + b);
         return b;
     }
 

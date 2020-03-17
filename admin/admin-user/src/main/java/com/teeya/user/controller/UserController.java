@@ -35,7 +35,7 @@ public class UserController {
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping
     public UserEntity queryByUsername(HttpServletRequest request,  @RequestParam(value = "username") String username) {
-        System.out.println("username: " + username);
+        log.info("username: " + username);
         return userService.queryByUsername(username);
     }
 

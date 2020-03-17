@@ -28,8 +28,8 @@ public class FeignErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         try {
             //String message = Util.toString(response.body().asReader());
-            System.out.println("methodKey: " + methodKey);
-            System.out.println("response status: " + response.status());
+            log.info("methodKey: " + methodKey);
+            log.info("response status: " + response.status());
             return new BaseException(response.status(), methodKey);
         } catch (Exception ignored) {
 

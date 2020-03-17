@@ -58,8 +58,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         String responseData = new String(content, StandardCharsets.UTF_8);
 
                         //responseData就是下游系统返回的内容,可以查看修改  todo
-                        log.info("响应内容:{}", responseData);
-                        System.out.println("responseData: " + responseData);
+                        log.info("响应内容responseData:{}", responseData);
                         // todo
                         ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", responseData);
                         //byte[] uppedContent = new String(responseData.getBytes(), StandardCharsets.UTF_8).getBytes();

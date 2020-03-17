@@ -58,7 +58,7 @@ public class AccessFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         // 获取请求头Authorization的内容
         String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        System.out.println("token ：" + token);
+        log.info("token ：" + token);
         // 获取请求方法
         String method = request.getMethodValue();
         // 获取请求url
