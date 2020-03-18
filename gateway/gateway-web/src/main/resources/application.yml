@@ -124,7 +124,11 @@ hystrix:
 #                    key-uri: ${oauth-server}/oauth/token_key
 
 name: gateway-web  #测试用
-logging: #日志配置文件引入
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true
+logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
     config: classpath:logback-logstash.xml
 
 ############  skywalking 探针  在VM Options添加以下参数 -javaagent：agent的jar包所在路径  Dskywalking.agent.service_name：自定义的service的name -Dskywalking.collector.backend_service：aop的地址 ###########

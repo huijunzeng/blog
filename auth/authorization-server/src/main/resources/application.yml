@@ -41,8 +41,9 @@ spring:
         password:
 
 name: authorization-server  #测试用
-
 ##使用sentinel配置
 feign:
     sentinel:
         enabled: true
+logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
+    config: classpath:logback-logstash.xml

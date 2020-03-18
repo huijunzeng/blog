@@ -50,3 +50,12 @@ mybatis:
         # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
         map-underscore-to-camel-case: true
 name: article-admin  # 测试用
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true
+##logger_name:o.s.c.b.c.PropertySourceBootstrapConfiguration - [TID: N/A] - message:Error opening logging config file classpath:logback-logstash.xml
+ #java.lang.IllegalStateException: Logback configuration error detected:
+ #ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name
+logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件，假如本地不配置这个，会出现上面的报错信息
+    config: classpath:logback-logstash.xml
