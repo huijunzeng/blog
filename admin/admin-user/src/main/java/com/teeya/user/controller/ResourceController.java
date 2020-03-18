@@ -25,7 +25,7 @@ public class ResourceController {
     @ApiOperation(value = "新增资源", notes = "新增资源")
     @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源表单", required = true, dataType = "resourceForm")
     @PostMapping
-    public int insert(@RequestBody ResourceForm resourceForm) throws Exception {
+    public int insert(@RequestBody ResourceForm resourceForm) {
         return resourceService.insert(resourceForm);
     }
 

@@ -1,11 +1,20 @@
 package com.teeya.article.controller;
 
 
+import com.teeya.article.entity.vo.ArticleForm;
+import com.teeya.article.service.ArticleService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -21,5 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ArticleController {
 
+    @Autowired
+    private ArticleService articleService;
+
+    @ApiOperation(value = "新增文章", notes = "新增一篇文章")
+    @ApiImplicitParam(name = "articleForm", value = "新增文章form表单", required = true, dataType = "ArticleForm")
+    @PostMapping
+    public void insert(@Valid @RequestBody ArticleForm articleForm) {
+        articleService.insert(articleForm);
+    }
 }
 

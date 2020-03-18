@@ -1,11 +1,12 @@
 package com.teeya.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.RoleForm;
 import com.teeya.user.entity.pojo.RoleEntity;
 
 import java.util.List;
 
-public interface RoleService {
+public interface RoleService extends IService<RoleEntity> {
 
     /**
      * 新增角色

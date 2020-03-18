@@ -1,9 +1,10 @@
 package com.teeya.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.UserForm;
 import com.teeya.user.entity.pojo.UserEntity;
 
-public interface UserService {
+public interface UserService extends IService<UserEntity> {
 
     /**
      * 新增用户信息

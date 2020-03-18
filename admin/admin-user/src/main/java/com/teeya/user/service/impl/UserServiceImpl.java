@@ -34,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         BeanUtils.copyProperties(userForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword()))
             userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
-        log.info("22=======: " + userEntity.toString());
+        log.info("insert_userEntity=======: " + userEntity.toString());
         return userMapper.insert(userEntity);
     }
 

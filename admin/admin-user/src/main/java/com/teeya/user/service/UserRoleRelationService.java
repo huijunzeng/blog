@@ -1,6 +1,9 @@
 package com.teeya.user.service;
 
 
-public interface UserRoleRelationService {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.teeya.user.entity.pojo.UserRoleRelationEntity;
+
+public interface UserRoleRelationService extends IService<UserRoleRelationEntity> {
 
 }

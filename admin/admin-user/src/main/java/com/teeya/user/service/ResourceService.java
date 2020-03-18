@@ -1,12 +1,13 @@
 package com.teeya.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.ResourceForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
 
 import java.util.List;
 import java.util.Set;
 
-public interface ResourceService {
+public interface ResourceService extends IService<ResourceEntity> {
 
     /**
      * 新增资源

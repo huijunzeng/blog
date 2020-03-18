@@ -2,6 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.teeya.article.entity.vo.ArticleForm;
 
 /**
  * <p>
@@ -13,4 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleService extends IService<ArticleEntity> {
 
+    /**
+     * 新增文章
+     * @param articleForm
+     */
+    void insert(ArticleForm articleForm);
 }

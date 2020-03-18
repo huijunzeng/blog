@@ -2,6 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.ClassificationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.teeya.article.entity.vo.ClassificationForm;
 
 /**
  * <p>
@@ -13,4 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ClassificationService extends IService<ClassificationEntity> {
 
+    /**
+     * 新增文章分类
+     * @param classificationForm
+     * @return
+     */
+    int insert(ClassificationForm classificationForm);
 }

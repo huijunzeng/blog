@@ -1,6 +1,7 @@
 package com.teeya.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.teeya.common.exception.BaseException;
 import com.teeya.common.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -53,16 +54,16 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         DataBuffer join = dataBufferFactory.join(dataBuffers);
                         byte[] content = new byte[join.readableByteCount()];
                         join.read(content);
-                        //释放掉内存
+                        // 释放掉内存
                         DataBufferUtils.release(join);
                         String responseData = new String(content, StandardCharsets.UTF_8);
 
-                        //responseData就是下游系统返回的内容,可以查看修改  todo
+                        // responseData就是下游系统返回的内容,可以查看修改  todo
                         log.info("响应内容responseData:{}", responseData);
                         // todo
                         ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", responseData);
                         //byte[] uppedContent = new String(responseData.getBytes(), StandardCharsets.UTF_8).getBytes();
-                        byte[] uppedContent = new String(JSONObject.toJSONString(responseResult).getBytes(), StandardCharsets.UTF_8).getBytes();
+                        byte[] uppedContent = new String(JSONObject.toJSONString(responseData).getBytes(), StandardCharsets.UTF_8).getBytes();
                         return bufferFactory.wrap(uppedContent);
                     }));
                 }

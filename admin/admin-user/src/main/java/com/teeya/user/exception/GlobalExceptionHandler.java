@@ -56,19 +56,27 @@ public class GlobalExceptionHandler {
     public Map<String, Object> handle(Exception ex) {
         log.error("exception:{}", ex.toString());
         Map<String, Object> map = new HashMap<>();
-        // todo  转换可能失败
-        BaseException ex1 = (BaseException) ex;
-        //map.put("msg", ex1.getMsg());
-        map.put("code", 404);
-        map.put("msg", ex1.getMsg());
+        if (ex instanceof BaseException){
+            BaseException ex1 = (BaseException) ex;
+            //map.put("msg", ex1.getMsg());
+            map.put("code", 404);
+            map.put("msg", ex1.getMsg());
+        } else if (ex instanceof ArithmeticException) {
+            map.put("code", 404);
+            map.put("msg", "算法异常");
+        } else {
+            map.put("code", 500);
+            map.put("msg", "内部错误");
+        }
+        log.error("exception_map:{}", map.toString());
         return map;
     }
-
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(Throwable throwable) {
         Map<String, Object> map = new HashMap<>();
+        log.error("throwable_map:{}", throwable.toString());
         /*if (throwable instanceof ResponseStatusException) {
             result = handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {

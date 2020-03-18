@@ -2,6 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.LabelEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.teeya.article.entity.vo.LabelForm;
 
 /**
  * <p>
@@ -13,4 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface LabelService extends IService<LabelEntity> {
 
+    /**
+     * 新增文章标签
+     * @param labelForm
+     * @return
+     */
+    int insert(LabelForm labelForm);
 }

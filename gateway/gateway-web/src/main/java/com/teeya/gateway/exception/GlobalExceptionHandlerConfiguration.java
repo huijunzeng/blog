@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 全局异常处理  与springboot单体应用通过注解@RestControllerAdvice处理的方式不同
+ * 全局异常处理  因为SpringGateway底层是webflux，与springboot单体应用通过注解@RestControllerAdvice处理的方式不同
  * org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration
  * 通过自定义实现去覆盖上面的类
  * @Author: ZJH

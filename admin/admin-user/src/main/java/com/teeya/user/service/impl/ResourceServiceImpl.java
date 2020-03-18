@@ -1,7 +1,6 @@
 package com.teeya.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.teeya.common.util.BeanConverter;
 import com.teeya.user.entity.form.ResourceForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
 import com.teeya.user.entity.pojo.RoleEntity;
@@ -16,6 +15,7 @@ import com.teeya.user.service.RoleResourceRelationService;
 import com.teeya.user.service.RoleService;
 import com.teeya.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +44,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
 
     @Override
     public int insert(ResourceForm resourceForm) {
-        ResourceEntity resourceEntity = BeanConverter.copy(resourceForm, ResourceEntity.class);
-        //resourceEntity.setId(String.valueOf(IdGenerate.getInstance().nextId()));
+        ResourceEntity resourceEntity = BeanUtils.instantiateClass(ResourceEntity.class);
+        BeanUtils.copyProperties(resourceForm, resourceEntity);
         return resourceMapper.insert(resourceEntity);
     }
 
