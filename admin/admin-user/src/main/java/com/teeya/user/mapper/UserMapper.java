@@ -11,5 +11,5 @@ public interface UserMapper extends BaseMapper<UserEntity> {
 
     UserEntity queryByUsername(@Param("username") String username);
 
-    UserEntity selectByPhone(@Param("phone") String phone);
+    UserEntity queryByPhone(@Param("phone") String phone);
 }

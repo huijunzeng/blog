@@ -25,7 +25,7 @@ public interface UserService extends IService<UserEntity> {
      * @param phone
      * @return
      */
-    UserEntity selectByPhone(String phone);
+    UserEntity queryByPhone(String phone);
 
     /**
      * 根据用户id删除用户

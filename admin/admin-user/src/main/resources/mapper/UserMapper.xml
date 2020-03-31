@@ -23,7 +23,7 @@
       SELECT * FROM user WHERE username = #{username, jdbcType=VARCHAR}
     </select>
 
-  <select id="selectByPhone" resultMap="BaseResultMap">
+  <select id="queryByPhone" resultMap="BaseResultMap">
     SELECT * FROM user WHERE phone = #{phone, jdbcType=VARCHAR}
   </select>
 </mapper>

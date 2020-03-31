@@ -34,16 +34,16 @@ public class UserController {
     @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping
-    public UserEntity queryByUsername(HttpServletRequest request,  @RequestParam(value = "username") String username) {
+    public UserEntity queryByUsername(@RequestParam(value = "username") String username) {
         log.info("username: " + username);
         return userService.queryByUsername(username);
     }
 
     @ApiOperation(value = "获取用户", notes = "根据用户手机号码获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "phone", value = "用户手机号码", required = true, dataType = "string")
-    @GetMapping("/selectByPhone")
-    public UserEntity selectByPhone(@RequestParam(value = "phone") String phone) {
-        return userService.selectByPhone(phone);
+    @GetMapping("/queryByPhone")
+    public UserEntity queryByPhone(@RequestParam(value = "phone") String phone) {
+        return userService.queryByPhone(phone);
     }
 
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")

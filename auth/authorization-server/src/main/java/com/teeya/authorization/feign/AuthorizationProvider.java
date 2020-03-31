@@ -29,7 +29,7 @@ public interface AuthorizationProvider {
     @GetMapping("/user")
     UserEntity queryByUsername(@RequestParam(value = "username") String username);
 
-    @GetMapping("/user/selectByPhone")
+    @GetMapping("/user/queryByPhone")
     UserEntity loadUserByPhone(@RequestParam(value = "phone") String phone);
 
     @GetMapping("/role/user/{userId}")

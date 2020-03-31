@@ -52,8 +52,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity selectByPhone(String phone) {
-        return userMapper.selectByPhone(phone);
+    public UserEntity queryByPhone(String phone) {
+        return userMapper.queryByPhone(phone);
     }
 
     @Override
