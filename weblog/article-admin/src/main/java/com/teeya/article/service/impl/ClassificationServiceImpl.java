@@ -1,7 +1,7 @@
 package com.teeya.article.service.impl;
 
 import com.teeya.article.entity.pojo.ClassificationEntity;
-import com.teeya.article.entity.vo.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationForm;
 import com.teeya.article.mapper.ClassificationMapper;
 import com.teeya.article.service.ClassificationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

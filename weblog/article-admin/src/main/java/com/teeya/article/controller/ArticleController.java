@@ -1,7 +1,7 @@
 package com.teeya.article.controller;
 
 
-import com.teeya.article.entity.vo.ArticleForm;
+import com.teeya.article.entity.form.ArticleForm;
 import com.teeya.article.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

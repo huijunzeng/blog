@@ -1,7 +1,7 @@
 package com.teeya.article.controller;
 
 
-import com.teeya.article.entity.vo.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationForm;
 import com.teeya.article.service.ClassificationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

@@ -1,6 +1,6 @@
 package com.teeya.article.controller;
 
-import com.teeya.article.entity.vo.LabelForm;
+import com.teeya.article.entity.form.LabelForm;
 import com.teeya.article.service.LabelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

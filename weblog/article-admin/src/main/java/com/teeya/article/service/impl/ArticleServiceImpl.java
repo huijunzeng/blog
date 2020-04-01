@@ -1,7 +1,7 @@
 package com.teeya.article.service.impl;
 
 import com.teeya.article.entity.pojo.ArticleEntity;
-import com.teeya.article.entity.vo.ArticleForm;
+import com.teeya.article.entity.form.ArticleForm;
 import com.teeya.article.mapper.ArticleMapper;
 import com.teeya.article.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

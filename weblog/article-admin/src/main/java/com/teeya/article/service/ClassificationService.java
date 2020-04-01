@@ -2,7 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.ClassificationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.vo.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationForm;
 
 /**
  * <p>

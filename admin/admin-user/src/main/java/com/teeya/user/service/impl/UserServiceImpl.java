@@ -2,6 +2,7 @@ package com.teeya.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.mapper.UserMapper;
 import com.teeya.user.mapper.UserRoleRelationMapper;
@@ -36,6 +37,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
         log.info("insert_userEntity=======: " + userEntity.toString());
         return userMapper.insert(userEntity);
+    }
+
+    @Override
+    public void update(String id, UserUpdateForm userUpdateForm) {
+        UserEntity userEntity = userMapper.selectById(id);
+        BeanUtils.copyProperties(userUpdateForm, userEntity);
+        if (StringUtils.isNotBlank(userUpdateForm.getPassword()))
+            userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));
+        userMapper.updateById(userEntity);
+    }
+
+    @Override
+    public UserEntity queryById(String id) {
+        return userMapper.selectById(id);
     }
 
     @Override

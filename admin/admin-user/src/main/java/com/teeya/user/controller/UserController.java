@@ -1,10 +1,12 @@
 package com.teeya.user.controller;
 
 import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,21 @@ public class UserController {
         userService.insert(userForm);
     }
 
+    @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "string"),
+            @ApiImplicitParam(name = "userUpdateForm", value = "用户实体", required = true, dataType = "UserUpdateForm")})
+    @PutMapping(value = "/{id}")
+    public void update(@PathVariable String id, @Valid @RequestBody UserUpdateForm userUpdateForm) {
+        userService.update(id, userUpdateForm);
+    }
+
+    @ApiOperation(value = "获取用户", notes = "根据用户id获取指定用户信息")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
+    @GetMapping
+    public UserEntity queryById(@PathVariable String id) {
+        log.info("userId: " + id);
+        return userService.queryById(id);
+    }
 
     @ApiOperation(value = "获取用户", notes = "根据用户名获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "string")

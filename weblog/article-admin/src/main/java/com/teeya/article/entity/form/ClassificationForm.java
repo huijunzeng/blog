@@ -1,4 +1,4 @@
-package com.teeya.article.entity.vo;
+package com.teeya.article.entity.form;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @Date: 2020/3/18 18:03
  */
 
-@ApiModel(value = "文章分类vo实体类")
+@ApiModel(value = "文章分类form表单")
 @Data
 public class ClassificationForm implements Serializable {
 

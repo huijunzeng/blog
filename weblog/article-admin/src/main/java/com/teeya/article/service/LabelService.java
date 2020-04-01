@@ -2,7 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.LabelEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.vo.LabelForm;
+import com.teeya.article.entity.form.LabelForm;
 
 /**
  * <p>

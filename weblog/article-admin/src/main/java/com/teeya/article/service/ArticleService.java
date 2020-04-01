@@ -2,7 +2,7 @@ package com.teeya.article.service;
 
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.vo.ArticleForm;
+import com.teeya.article.entity.form.ArticleForm;
 
 /**
  * <p>

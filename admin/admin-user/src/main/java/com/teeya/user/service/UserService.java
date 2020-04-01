@@ -2,6 +2,7 @@ package com.teeya.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
 
 public interface UserService extends IService<UserEntity> {
@@ -12,6 +13,20 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     int insert(UserForm userForm);
+
+    /**
+     * 更新指定用户信息
+     * @param id
+     * @param userUpdateForm
+     */
+    void update(String id, UserUpdateForm userUpdateForm);
+
+    /**
+     * 根据用户id获取指定用户信息
+     * @param id
+     * @return
+     */
+    UserEntity queryById(String id);
 
     /**
      * 根据用户名获取指定用户信息
@@ -32,4 +47,5 @@ public interface UserService extends IService<UserEntity> {
      * @param id
      */
     int delete(String id);
+
 }
