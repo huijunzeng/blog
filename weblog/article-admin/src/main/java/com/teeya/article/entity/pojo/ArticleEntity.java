@@ -3,8 +3,7 @@ package com.teeya.article.entity.pojo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.teeya.common.entity.pojo.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -16,8 +15,9 @@ import lombok.experimental.Accessors;
  * @since 2020-03-10
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("article")
 public class ArticleEntity extends BaseEntity {
 

@@ -18,6 +18,10 @@
   </resultMap>
 
     <select id="queryListByUserId" resultMap="BaseResultMap">
-        SELECT * FROM user_role_relation WHERE user_id = #{userId,jdbcType=VARCHAR}
+        SELECT * FROM user_role_relation WHERE user_id = #{userId,jdbcType=VARCHAR} AND deleted = 0 ORDER BY created_time DESC
     </select>
+
+    <update id="deleteByUserId">
+      UPDATE user_role_relation SET deleted = 1 WHERE user_id = #{userId,jdbcType=VARCHAR}
+    </update>
 </mapper>

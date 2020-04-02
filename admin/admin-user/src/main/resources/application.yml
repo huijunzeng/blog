@@ -56,3 +56,7 @@ feign:
         enabled: true
 logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
     config: classpath:logback-logstash.xml
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

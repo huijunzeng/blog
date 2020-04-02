@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(Exception ex) {
-        log.error("exception:{}", ex.toString());
+        log.error("exception:{}", ex);
         Map<String, Object> map = new HashMap<>();
         if (ex instanceof BaseException){
             BaseException ex1 = (BaseException) ex;

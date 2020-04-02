@@ -4,6 +4,7 @@ import com.teeya.common.entity.vo.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author: ZJH
@@ -12,6 +13,7 @@ import lombok.Data;
 
 @ApiModel(value = "用户vo实体类")
 @Data
+@NoArgsConstructor
 public class UserVo extends BaseVo {
 
     @ApiModelProperty("用户名")

@@ -42,7 +42,7 @@ public class UserController {
 
     @ApiOperation(value = "获取用户", notes = "根据用户id获取指定用户信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
-    @GetMapping
+    @GetMapping(value = "/{id}")
     public UserEntity queryById(@PathVariable String id) {
         log.info("userId: " + id);
         return userService.queryById(id);

@@ -59,6 +59,13 @@ feign:
  #ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name
 logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件，假如本地不配置这个，会出现上面的报错信息
     config: classpath:logback-logstash.xml
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl#mybatis-plus配置控制台打印完整带参数SQL语句
+            mybatis-plus:
+                configuration:
+                    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 qiniu:
     accessKey: iNffcCO5SH8qw-GgV9L_QGbTH2_xLgEVdZIsq6nW
     secretKey: NSNHLflVqXkOM86sEvxbTew3LEX2fCUf-ifQU5TI

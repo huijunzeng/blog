@@ -12,5 +12,4 @@ import java.util.Set;
  */
 public interface RoleResourceRelationMapper extends BaseMapper<RoleResourceRelationEntity> {
 
-    List<RoleResourceRelationEntity> queryListByRoleIds(@Param("roleIds") Set<String> roleIds);
 }

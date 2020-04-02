@@ -6,6 +6,7 @@ import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.mapper.UserMapper;
 import com.teeya.user.mapper.UserRoleRelationMapper;
+import com.teeya.user.service.UserRoleRelationService;
 import com.teeya.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -23,7 +24,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UserRoleRelationMapper userRoleRelationyMapper;
+    private UserRoleRelationService userRoleRelationService;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -33,18 +34,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public int insert(UserForm userForm) {
         UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
         BeanUtils.copyProperties(userForm, userEntity);
-        if (StringUtils.isNotBlank(userEntity.getPassword()))
+        if (StringUtils.isNotBlank(userEntity.getPassword())){
             userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
+        }
+        int insert = userMapper.insert(userEntity);
         log.info("insert_userEntity=======: " + userEntity.toString());
-        return userMapper.insert(userEntity);
+        userRoleRelationService.saveBatch(userEntity.getId(), userForm.getRoleIds());
+        return insert;
     }
 
     @Override
     public void update(String id, UserUpdateForm userUpdateForm) {
         UserEntity userEntity = userMapper.selectById(id);
         BeanUtils.copyProperties(userUpdateForm, userEntity);
-        if (StringUtils.isNotBlank(userUpdateForm.getPassword()))
+        if (StringUtils.isNotBlank(userUpdateForm.getPassword())){
             userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));
+        }
+        userRoleRelationService.removeByUserId(id);
         userMapper.updateById(userEntity);
     }
 

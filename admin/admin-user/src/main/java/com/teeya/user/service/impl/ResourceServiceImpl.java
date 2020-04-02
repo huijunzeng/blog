@@ -57,10 +57,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     @Override
     public List<ResourceEntity> queryListByUserId(String userId) {
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userId);
-        List<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toList());
-        List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationMapper.selectBatchIds(roleIds);
-        //List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
+        Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
+        //List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationMapper.selectBatchIds(roleIds);
+        List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
+        System.out.println("==============: " + roleResourceRelationEntities.size());
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
+        System.out.println(555);
         return this.queryListByResourceIds(resourceIds);
     }
 

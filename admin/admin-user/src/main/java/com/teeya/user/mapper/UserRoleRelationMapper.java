@@ -12,4 +12,6 @@ import java.util.List;
 public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelationEntity> {
 
     List<UserRoleRelationEntity> queryListByUserId(@Param("userId") String userId);
+
+    boolean deleteByUserId(@Param("userId") String userId);
 }
