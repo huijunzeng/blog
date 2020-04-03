@@ -9,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -25,7 +23,7 @@ public class RoleResourceRelationServiceImpl extends ServiceImpl<RoleResourceRel
     @Override
     public List<RoleResourceRelationEntity> queryListByRoleIds(Set<String> roleIds) {
         QueryWrapper<RoleResourceRelationEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("role_id", roleIds);
-        return roleResourceRelationMapper.selectList(queryWrapper);
+        queryWrapper.lambda().in(RoleResourceRelationEntity :: getRoleId, roleIds);
+        return super.list(queryWrapper);
     }
 }

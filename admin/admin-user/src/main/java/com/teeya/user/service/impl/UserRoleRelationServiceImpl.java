@@ -30,19 +30,13 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
         }
         this.removeByUserId(userId);
         Set<UserRoleRelationEntity> userRoles = roleIds.stream().map(roleId -> new UserRoleRelationEntity(userId, roleId)).collect(Collectors.toSet());
-        return this.saveBatch(userRoles);
+        return super.saveBatch(userRoles);
     }
 
     @Override
     public boolean removeByUserId(String userId) {
-        /*UpdateWrapper updateWrapper = new UpdateWrapper();
-        updateWrapper.eq("user_id", userId);
-        updateWrapper.eq("deleted", 0);
-        UserRoleRelationEntity userRoleRelationEntity = new UserRoleRelationEntity();
-        userRoleRelationEntity.setDeleted(1);
-        return userRoleRelationMapper.update(userRoleRelationEntity, updateWrapper);*/
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userId).eq(UserRoleRelationEntity::getDeleted, 0);
-        return this.remove(queryWrapper);
+        return super.remove(queryWrapper);
     }
 }

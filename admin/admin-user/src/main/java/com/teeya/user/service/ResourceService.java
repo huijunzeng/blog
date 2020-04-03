@@ -1,7 +1,10 @@
 package com.teeya.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.ResourceForm;
+import com.teeya.user.entity.form.ResourceQueryForm;
+import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
 
 import java.util.List;
@@ -13,7 +16,22 @@ public interface ResourceService extends IService<ResourceEntity> {
      * 新增资源
      * @param resourceForm
      */
-    int insert(ResourceForm resourceForm);
+    boolean insert(ResourceForm resourceForm);
+
+    /**
+     * 修改资源
+     * @param id
+     * @param resourceUpdateForm
+     * @return
+     */
+    boolean update(String id, UserUpdateForm resourceUpdateForm);
+
+    /**
+     * 根据用户id获取相应的资源集合
+     * @param id
+     * @return
+     */
+    ResourceEntity get(String id);
 
     /**
      * 根据资源id集合获取相应的资源集合
@@ -36,8 +54,15 @@ public interface ResourceService extends IService<ResourceEntity> {
     List<ResourceEntity> queryListByUsername(String username);
 
     /**
+     * 根据条件获取资源信息列表
+     * @param resourceQueryForm
+     * @return
+     */
+    IPage queryList(ResourceQueryForm resourceQueryForm);
+
+    /**
      * 获取所有资源集合
      * @return
      */
-    List<ResourceEntity> queryAll();
+    List<ResourceEntity> getAll();
 }

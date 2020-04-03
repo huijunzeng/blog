@@ -1,7 +1,9 @@
 package com.teeya.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
 
@@ -12,40 +14,40 @@ public interface UserService extends IService<UserEntity> {
      * @param userForm
      * @return
      */
-    int insert(UserForm userForm);
+    boolean insert(UserForm userForm);
 
     /**
      * 更新指定用户信息
      * @param id
      * @param userUpdateForm
      */
-    void update(String id, UserUpdateForm userUpdateForm);
+    boolean update(String id, UserUpdateForm userUpdateForm);
 
     /**
      * 根据用户id获取指定用户信息
      * @param id
      * @return
      */
-    UserEntity queryById(String id);
+    UserEntity get(String id);
 
     /**
-     * 根据用户名获取指定用户信息
-     * @param username
+     * 根据用户名/用户手机号码获取指定用户信息
+     * @param uniqueId
      * @return
      */
-    UserEntity queryByUsername(String username);
+    UserEntity getByUniqueId(String uniqueId);
 
     /**
-     * 根据用户手机号码获取指定用户信息
-     * @param phone
+     * 根据条件获取用户信息列表
+     * @param userQueryForm
      * @return
      */
-    UserEntity queryByPhone(String phone);
+    IPage queryList(UserQueryForm userQueryForm);
 
     /**
      * 根据用户id删除用户
      * @param id
      */
-    int delete(String id);
+    boolean delete(String id);
 
 }

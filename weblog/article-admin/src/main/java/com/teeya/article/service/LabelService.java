@@ -1,8 +1,14 @@
 package com.teeya.article.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.teeya.article.entity.form.LabelQueryForm;
+import com.teeya.article.entity.form.LabelUpdateForm;
 import com.teeya.article.entity.pojo.LabelEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.article.entity.form.LabelForm;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -19,5 +25,40 @@ public interface LabelService extends IService<LabelEntity> {
      * @param labelForm
      * @return
      */
-    int insert(LabelForm labelForm);
+    boolean insert(LabelForm labelForm);
+
+    /**
+     * 文章标签修改表单
+     * @param id
+     * @param labelUpdateForm
+     * @return
+     */
+    boolean update(String id, LabelUpdateForm labelUpdateForm);
+
+    /**
+     * 根据文章标签id获取指定文章标签信息
+     * @param id
+     * @return
+     */
+    LabelEntity get(String id);
+
+    /**
+     * 根据文章id获取相应的标签集合
+     * @param articleId
+     * @return
+     */
+    List<LabelEntity> queryListByArticleId(String articleId);
+
+    /**
+     * 根据条件获取文章标签信息列表
+     * @param labelQueryForm
+     * @return
+     */
+    IPage queryList(LabelQueryForm labelQueryForm);
+
+    /**
+     * 获取所有文章标签信息列表
+     * @return
+     */
+    List<LabelEntity> getAll();
 }

@@ -19,11 +19,4 @@
     <result column="version" jdbcType="BIGINT" property="version" />
   </resultMap>
 
-    <select id="queryByUsername" resultMap="BaseResultMap">
-      SELECT * FROM user WHERE username = #{username, jdbcType=VARCHAR}
-    </select>
-
-  <select id="queryByPhone" resultMap="BaseResultMap">
-    SELECT * FROM user WHERE phone = #{phone, jdbcType=VARCHAR}
-  </select>
 </mapper>

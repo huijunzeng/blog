@@ -1,4 +1,4 @@
-package com.teeya.user.config;
+package com.teeya.article.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
-                .apis(RequestHandlerSelectors.basePackage("com.teeya.user.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.teeya.article.controller"))
                 // 指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any())
                 .build();

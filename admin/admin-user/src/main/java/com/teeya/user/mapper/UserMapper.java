@@ -9,7 +9,4 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UserMapper extends BaseMapper<UserEntity> {
 
-    UserEntity queryByUsername(@Param("username") String username);
-
-    UserEntity queryByPhone(@Param("phone") String phone);
 }

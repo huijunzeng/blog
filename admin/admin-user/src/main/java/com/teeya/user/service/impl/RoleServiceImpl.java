@@ -1,13 +1,21 @@
 package com.teeya.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.user.entity.form.RoleForm;
+import com.teeya.user.entity.form.RoleQueryForm;
+import com.teeya.user.entity.form.RoleUpdateForm;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserRoleRelationEntity;
 import com.teeya.user.mapper.RoleMapper;
 import com.teeya.user.mapper.UserRoleRelationMapper;
 import com.teeya.user.service.RoleService;
+import com.teeya.user.service.UserRoleRelationService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,20 +31,54 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
+    private UserRoleRelationService userRoleRelationService;
+    @Autowired
     private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
-    public int insert(RoleForm roleForm) {
+    public boolean insert(RoleForm roleForm) {
         RoleEntity roleEntity = BeanUtils.instantiateClass(RoleEntity.class);
         BeanUtils.copyProperties(roleForm, roleEntity);
-        return roleMapper.insert(roleEntity);
+        return super.save(roleEntity);
+    }
+
+    @Override
+    public boolean update(String id, RoleUpdateForm roleUpdateForm) {
+        RoleEntity roleEntity = super.getById(id);
+        BeanUtils.copyProperties(roleUpdateForm, roleEntity);
+        return super.updateById(roleEntity);
+    }
+
+    @Override
+    public RoleEntity getById(String id) {
+        return super.getById(id);
     }
 
     @Override
     public List<RoleEntity> queryListByUserId(String userId) {
-        List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationMapper.queryListByUserId(userId);
+        QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userId);
+        List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);
         Set<String> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
-        return roleMapper.selectBatchIds(roleIds);
+        return super.listByIds(roleIds);
+    }
+
+    @Override
+    public IPage queryList(RoleQueryForm roleQueryForm) {
+        Page page = roleQueryForm.getPage();
+        LambdaQueryWrapper<RoleEntity> queryWrapper = roleQueryForm.build().lambda();
+        queryWrapper.eq(StringUtils.isNotBlank(roleQueryForm.getCode()), RoleEntity::getCode, roleQueryForm.getCode());
+        queryWrapper.eq(StringUtils.isNotBlank(roleQueryForm.getName()), RoleEntity::getName, roleQueryForm.getName());
+        queryWrapper.orderByDesc(RoleEntity::getUpdatedTime);
+        IPage<RoleEntity> iPageRole = super.page(page, queryWrapper);
+        return iPageRole;
+    }
+
+    @Override
+    public List<RoleEntity> getAll() {
+        QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RoleEntity::getDeleted, 0).orderByDesc(RoleEntity::getUpdatedTime);
+        return super.list(queryWrapper);
     }
 
 }
