@@ -3,6 +3,8 @@ package com.teeya.article.service;
 import com.teeya.article.entity.pojo.ArticleClassificationRelationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Set;
+
 /**
  * <p>
  * 文章和分类关系表 服务类
@@ -13,4 +15,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleClassificationRelationService extends IService<ArticleClassificationRelationEntity> {
 
+    /**
+     * 给文章添加分类
+     * @param articleId
+     * @param classificationIds
+     * @return
+     */
+    boolean saveBatch(String articleId, Set<String> classificationIds);
+
+    /**
+     * 根据文章id删除文章的分类
+     * @param articleId
+     */
+    boolean removeByArticleId(String articleId);
 }

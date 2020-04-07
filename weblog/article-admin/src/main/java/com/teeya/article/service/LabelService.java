@@ -7,7 +7,6 @@ import com.teeya.article.entity.pojo.LabelEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.article.entity.form.LabelForm;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @Author: ZJH
@@ -21,11 +22,11 @@ public class ArticleForm implements Serializable {
     @ApiModelProperty("文章内容")
     private String content;
 
-    @ApiModelProperty("标签id")
-    private String labelId;
+    @ApiModelProperty("标签id集合")
+    private Set<String> labelIds;
 
-    @ApiModelProperty("分类id")
-    private String classificationId;
+    @ApiModelProperty("分类id集合")
+    private Set<String> classificationIds;
 
     @ApiModelProperty("是否私密不可见 0否 1是")
     private String visible;

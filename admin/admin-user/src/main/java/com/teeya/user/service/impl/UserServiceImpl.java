@@ -54,7 +54,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));
         }
         userRoleRelationService.removeByUserId(id);
-        return super.updateById(userEntity);
+        super.updateById(userEntity);
+        return userRoleRelationService.saveBatch(userEntity.getId(), userUpdateForm.getRoleIds());
     }
 
     @Override

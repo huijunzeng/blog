@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @Author: ZJH
@@ -26,4 +27,7 @@ public class UserUpdateForm implements Serializable {
 
     @ApiModelProperty("手机号码")
     private String phone;
+
+    @ApiModelProperty("用户角色id集合")
+    private Set<String> roleIds;
 }

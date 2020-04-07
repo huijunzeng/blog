@@ -6,7 +6,6 @@ import com.teeya.article.entity.form.ArticleUpdateForm;
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.article.entity.form.ArticleForm;
-import com.teeya.article.entity.pojo.LabelEntity;
 
 /**
  * <p>
@@ -22,7 +21,7 @@ public interface ArticleService extends IService<ArticleEntity> {
      * 新增文章
      * @param articleForm
      */
-    void insert(ArticleForm articleForm);
+    boolean insert(ArticleForm articleForm);
 
     /**
      * 修改文章

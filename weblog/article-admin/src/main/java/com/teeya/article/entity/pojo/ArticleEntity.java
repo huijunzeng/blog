@@ -36,18 +36,6 @@ public class ArticleEntity extends BaseEntity {
     private String content;
 
     /**
-     * 标签id
-     */
-    @TableField("label_id")
-    private String labelId;
-
-    /**
-     * 分类id
-     */
-    @TableField("classification_id")
-    private String classificationId;
-
-    /**
      * 是否私密不可见 0否 1是
      */
     @TableField("visible")

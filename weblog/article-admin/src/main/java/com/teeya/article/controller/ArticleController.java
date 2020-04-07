@@ -33,10 +33,10 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
-    @ApiImplicitParam(name = "articleForm", value = "新增文章form表单", required = true, dataType = "ArticleForm")
+    @ApiImplicitParam(name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
-    public void insert(@Valid @RequestBody ArticleForm articleForm) {
-        articleService.insert(articleForm);
+    public boolean insert(@Valid @RequestBody ArticleForm articleForm) {
+        return articleService.insert(articleForm);
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")

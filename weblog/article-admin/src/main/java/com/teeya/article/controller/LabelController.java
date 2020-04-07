@@ -64,7 +64,7 @@ public class LabelController {
     }
     
     @ApiOperation(value = "搜索文章标签", notes = "根据条件获取文章标签信息列表")
-    @ApiImplicitParam(name = "userQueryForm", value = "文章标签查询参数", required = true, dataType = "UserQueryForm")
+    @ApiImplicitParam(name = "labelQueryForm", value = "文章标签查询参数", required = true, dataType = "LabelQueryForm")
     @PostMapping(value = "/list")
     public IPage query(@RequestBody LabelQueryForm labelQueryForm) {
         log.info("labelQueryForm:{}", labelQueryForm);
