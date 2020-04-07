@@ -8,16 +8,14 @@
     <result column="deleted" property="deleted" />
     <result column="remark" property="remark" />
     <result column="version" property="version" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="label_id" property="labelId" />
-        <result column="classification_id" property="classificationId" />
-        <result column="visible" property="visible" />
-        <result column="reading_number" property="readingNumber" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_time" property="updatedTime" />
-        <result column="created_by" property="createdBy" />
-        <result column="updated_by" property="updatedBy" />
+    <result column="title" property="title" />
+    <result column="content" property="content" />
+    <result column="visible" property="visible" />
+    <result column="reading_number" property="readingNumber" />
+    <result column="created_time" property="createdTime" />
+    <result column="updated_time" property="updatedTime" />
+    <result column="created_by" property="createdBy" />
+    <result column="updated_by" property="updatedBy" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,7 +24,7 @@
         deleted,
         remark,
         version,
-        title, content, label_id, classification_id, private, reading_number, created_time, updated_time, created_by, updated_by
+        title, content, private, reading_number, created_time, updated_time, created_by, updated_by
     </sql>
 
 </mapper>
