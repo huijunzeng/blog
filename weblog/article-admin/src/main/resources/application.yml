@@ -59,14 +59,17 @@ feign:
  #ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name
 logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件，假如本地不配置这个，会出现上面的报错信息
     config: classpath:logback-logstash.xml
-#mybatis-plus配置控制台打印完整带参数SQL语句
+# mybatis-plus配置控制台打印完整带参数SQL语句
 mybatis-plus:
     configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl#mybatis-plus配置控制台打印完整带参数SQL语句
-            mybatis-plus:
-                configuration:
-                    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 七牛云配置参数
 qiniu:
     accessKey: iNffcCO5SH8qw-GgV9L_QGbTH2_xLgEVdZIsq6nW
     secretKey: NSNHLflVqXkOM86sEvxbTew3LEX2fCUf-ifQU5TI
     bucket: huijunzeng
+# xxl-job配置参数
+### 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
+xxl.job.admin.addresses: http://127.0.0.1:8080/xxl-job-admin
+### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+xxl.job.executor.appname: article-admin

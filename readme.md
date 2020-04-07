@@ -6,6 +6,7 @@
 访问nacos控制台：http://129.211.34.120:8848/nacos
 访问sentinel控制台：http://129.211.34.120:8088 （需启动jar包）
 访问rabbitmq控制台：http://129.211.34.120:15671
+访问xxl-job控制台：http://129.211.34.120:9090/xxl-job-admin/
 
 日志配置：elk + filebeat  本地启动输出日志到elk，需要下载安装filebeat，然后配置logstash的输出地址（129.211.34.120:5044）以及监听的日志文件路径
 

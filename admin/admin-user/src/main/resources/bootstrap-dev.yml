@@ -6,5 +6,5 @@ spring:
         namespace: a4d0cf40-1125-4263-81e5-3f628bc90302 # 命名空间ID
         group: blog # 配置管理Group
       config:
-        namespace: a4d0cf40-1125-4263-81e5-3f628bc90302 # 命名空间IDv
+        namespace: a4d0cf40-1125-4263-81e5-3f628bc90302 # 命名空间ID
         group: blog # 配置管理Group
