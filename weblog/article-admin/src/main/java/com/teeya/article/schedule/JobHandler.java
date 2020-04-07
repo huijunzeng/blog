@@ -21,7 +21,7 @@ public class JobHandler {
      * 1、简单任务示例（Bean模式）
      */
     @XxlJob("articleJobHandler")
-    public ReturnT<String> demoJobHandler(String param) throws Exception {
+    public ReturnT<String> articleJobHandler(String param) throws Exception {
         XxlJobLogger.log("XXL-JOB, Hello World.");
         log.info("执行调度任务==============");
         System.out.println("8888888888888888888888");
