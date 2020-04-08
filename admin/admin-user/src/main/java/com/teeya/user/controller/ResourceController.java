@@ -29,8 +29,8 @@ public class ResourceController {
     @ApiOperation(value = "新增资源", notes = "新增资源")
     @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源新增表单", required = true, dataType = "resourceForm")
     @PostMapping
-    public boolean insert(@RequestBody ResourceForm resourceForm) {
-        return resourceService.insert(resourceForm);
+    public boolean save(@RequestBody ResourceForm resourceForm) {
+        return resourceService.save(resourceForm);
     }
 
     @ApiOperation(value = "修改资源", notes = "更新资源信息")
@@ -77,4 +77,10 @@ public class ResourceController {
         return resourceService.getAll();
     }
 
+    @ApiOperation(value = "删除资源", notes = "根据id删除资源")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return resourceService.remove(id);
+    }
 }

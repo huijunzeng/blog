@@ -50,7 +50,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     private RoleResourceRelationService roleResourceRelationService;
 
     @Override
-    public boolean insert(ResourceForm resourceForm) {
+    public boolean save(ResourceForm resourceForm) {
         ResourceEntity resourceEntity = BeanUtils.instantiateClass(ResourceEntity.class);
         BeanUtils.copyProperties(resourceForm, resourceEntity);
         return super.save(resourceEntity);
@@ -109,5 +109,10 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
         QueryWrapper<ResourceEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ResourceEntity::getDeleted, 0).orderByDesc(ResourceEntity::getUpdatedTime);
         return super.list(queryWrapper);
+    }
+
+    @Override
+    public boolean remove(String id) {
+        return super.removeById(id);
     }
 }

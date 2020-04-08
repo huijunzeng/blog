@@ -16,7 +16,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param roleForm
      * @throws Exception
      */
-    boolean insert(RoleForm roleForm);
+    boolean save(RoleForm roleForm);
 
     /**
      * 更新指定角色信息
@@ -51,4 +51,10 @@ public interface RoleService extends IService<RoleEntity> {
      * @return
      */
     List<RoleEntity> getAll();
+
+    /**
+     * 根据id删除角色
+     * @return
+     */
+    boolean remove(String id);
 }

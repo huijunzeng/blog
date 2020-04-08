@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean insert(UserForm userForm) {
+    public boolean save(UserForm userForm) {
         UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
         BeanUtils.copyProperties(userForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword())){
@@ -82,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean remove(String id) {
         super.removeById(id);
         return userRoleRelationService.removeByUserId(id);
     }

@@ -36,7 +36,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
-    public boolean insert(RoleForm roleForm) {
+    public boolean save(RoleForm roleForm) {
         RoleEntity roleEntity = BeanUtils.instantiateClass(RoleEntity.class);
         BeanUtils.copyProperties(roleForm, roleEntity);
         return super.save(roleEntity);
@@ -79,6 +79,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(RoleEntity::getDeleted, 0).orderByDesc(RoleEntity::getUpdatedTime);
         return super.list(queryWrapper);
+    }
+
+    @Override
+    public boolean remove(String id) {
+        return super.removeById(id);
     }
 
 }

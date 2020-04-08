@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("/user")
@@ -26,8 +24,8 @@ public class UserController {
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
     @ApiImplicitParam(name = "userForm", value = "用户新增表单", required = true, dataType = "UserForm")
     @PostMapping
-    public boolean insert(@Valid @RequestBody UserForm userForm) {
-        return userService.insert(userForm);
+    public boolean save(@RequestBody UserForm userForm) {
+        return userService.save(userForm);
     }
 
     @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
@@ -65,8 +63,8 @@ public class UserController {
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable(value = "id") String id) {
-        return userService.delete(id);
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return userService.remove(id);
     }
 
     @GetMapping("/hello")

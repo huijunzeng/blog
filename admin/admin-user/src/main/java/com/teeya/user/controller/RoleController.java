@@ -28,8 +28,8 @@ public class RoleController {
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @ApiImplicitParam(paramType = "form", name = "roleForm", value = "角色新增表单", required = true, dataType = "roleForm")
     @PostMapping
-    public boolean insert(@RequestBody RoleForm roleForm) {
-        return roleService.insert(roleForm);
+    public boolean save(@RequestBody RoleForm roleForm) {
+        return roleService.save(roleForm);
     }
 
 
@@ -69,4 +69,12 @@ public class RoleController {
     public List<RoleEntity> get() {
         return roleService.getAll();
     }
+
+    @ApiOperation(value = "删除角色", notes = "根据id删除角色")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return roleService.remove(id);
+    }
+
 }

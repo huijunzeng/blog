@@ -14,7 +14,7 @@ public interface UserService extends IService<UserEntity> {
      * @param userForm
      * @return
      */
-    boolean insert(UserForm userForm);
+    boolean save(UserForm userForm);
 
     /**
      * 更新指定用户信息
@@ -48,6 +48,6 @@ public interface UserService extends IService<UserEntity> {
      * 根据用户id删除用户
      * @param id
      */
-    boolean delete(String id);
+    boolean remove(String id);
 
 }

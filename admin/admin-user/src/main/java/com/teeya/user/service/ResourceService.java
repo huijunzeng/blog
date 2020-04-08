@@ -16,7 +16,7 @@ public interface ResourceService extends IService<ResourceEntity> {
      * 新增资源
      * @param resourceForm
      */
-    boolean insert(ResourceForm resourceForm);
+    boolean save(ResourceForm resourceForm);
 
     /**
      * 修改资源
@@ -65,4 +65,11 @@ public interface ResourceService extends IService<ResourceEntity> {
      * @return
      */
     List<ResourceEntity> getAll();
+
+    /**
+     * 根据id删除资源
+     * @param id
+     * @return
+     */
+    boolean remove(String id);
 }
