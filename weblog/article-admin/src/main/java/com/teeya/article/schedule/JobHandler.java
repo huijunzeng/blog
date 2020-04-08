@@ -22,9 +22,19 @@ public class JobHandler {
      */
     @XxlJob("articleJobHandler")
     public ReturnT<String> articleJobHandler(String param) throws Exception {
-        XxlJobLogger.log("XXL-JOB, Hello World.");
+        //XxlJobLogger.log("XXL-JOB, Hello World.");
         log.info("执行调度任务==============");
         System.out.println("8888888888888888888888");
+        for (int i = 0; i < 5; i++) {
+            XxlJobLogger.log("beat at:" + i);
+            TimeUnit.SECONDS.sleep(2);
+        }
+        return ReturnT.SUCCESS;
+    }
+
+    @XxlJob("demoJobHandler")
+    public ReturnT<String> demoJobHandler(String param) throws Exception {
+        XxlJobLogger.log("XXL-JOB, Hello World.");
         for (int i = 0; i < 5; i++) {
             XxlJobLogger.log("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
