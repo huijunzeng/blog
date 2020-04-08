@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 /**
  * <p>
@@ -34,7 +33,7 @@ public class ArticleController {
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
     @ApiImplicitParam(name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
-    public boolean save(@Valid @RequestBody ArticleForm articleForm) {
+    public boolean save(@RequestBody ArticleForm articleForm) {
         return articleService.save(articleForm);
     }
 

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.teeya.common.entity.pojo.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
