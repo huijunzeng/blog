@@ -21,13 +21,8 @@ public class AuthorizationProviderFallback implements FallbackFactory<Authorizat
     public AuthorizationProvider create(Throwable throwable) {
         return new AuthorizationProvider() {
             @Override
-            public UserEntity queryByUsername(String username) {
+            public UserEntity getByUniqueId(String uniqueId) {
                 log.info("===============降级");
-                return null;
-            }
-
-            @Override
-            public UserEntity loadUserByPhone(String phone) {
                 return null;
             }
 

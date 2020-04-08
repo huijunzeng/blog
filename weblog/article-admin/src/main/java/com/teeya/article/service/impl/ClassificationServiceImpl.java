@@ -40,7 +40,7 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
     private ArticleClassificationRelationService articleClassificationRelationService;
 
     @Override
-    public boolean insert(ClassificationForm classificationForm) {
+    public boolean save(ClassificationForm classificationForm) {
         ClassificationEntity classificationEntity = BeanUtils.instantiateClass(ClassificationEntity.class);
         BeanUtils.copyProperties(classificationForm, classificationEntity);
         return super.save(classificationEntity);
@@ -83,5 +83,10 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
         QueryWrapper<ClassificationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ClassificationEntity::getDeleted, 0).orderByDesc(ClassificationEntity::getUpdatedTime);
         return super.list(queryWrapper);
+    }
+
+    @Override
+    public boolean remove(String id) {
+        return super.removeById(id);
     }
 }

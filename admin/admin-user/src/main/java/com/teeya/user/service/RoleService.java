@@ -30,7 +30,7 @@ public interface RoleService extends IService<RoleEntity> {
      * @param id
      * @return
      */
-    RoleEntity getById(String id);
+    RoleEntity get(String id);
 
     /**
      * 根据用户id获取相应的角色集合

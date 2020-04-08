@@ -31,7 +31,7 @@ public interface UserService extends IService<UserEntity> {
     UserEntity get(String id);
 
     /**
-     * 根据用户名/用户手机号码获取指定用户信息
+     * 根据用户名/用户手机号码（唯一标识）获取指定用户信息
      * @param uniqueId
      * @return
      */

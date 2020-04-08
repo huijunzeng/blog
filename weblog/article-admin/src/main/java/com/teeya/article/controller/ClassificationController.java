@@ -36,8 +36,8 @@ public class ClassificationController {
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
     @ApiImplicitParam(name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
     @PostMapping
-    public boolean insert(@RequestBody ClassificationForm classificationForm) {
-        return classificationService.insert(classificationForm);
+    public boolean save(@RequestBody ClassificationForm classificationForm) {
+        return classificationService.save(classificationForm);
     }
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
@@ -59,22 +59,29 @@ public class ClassificationController {
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
     @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "string")
     @GetMapping("/article/{articleId}")
-    public List<ClassificationEntity> query(@PathVariable(value = "articleId") String articleId) {
+    public List<ClassificationEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
         return classificationService.queryListByArticleId(articleId);
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "根据条件获取文章分类信息列表")
     @ApiImplicitParam(name = "classificationQueryForm", value = "文章分类查询参数", required = true, dataType = "ClassificationQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody ClassificationQueryForm classificationQueryForm) {
+    public IPage queryList(@RequestBody ClassificationQueryForm classificationQueryForm) {
         log.info("classificationQueryForm:{}", classificationQueryForm);
         return classificationService.queryList(classificationQueryForm);
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "获取所有文章分类信息列表")
     @GetMapping(value = "/all")
-    public List<ClassificationEntity> get() {
+    public List<ClassificationEntity> getAll() {
         return classificationService.getAll();
+    }
+
+    @ApiOperation(value = "删除文章分类", notes = "根据id删除文章分类")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return classificationService.remove(id);
     }
 }
 

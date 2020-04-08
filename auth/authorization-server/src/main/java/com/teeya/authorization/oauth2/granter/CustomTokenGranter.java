@@ -3,7 +3,6 @@ package com.teeya.authorization.oauth2.granter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
@@ -26,22 +25,23 @@ public abstract class CustomTokenGranter extends AbstractTokenGranter {
         this.allowRefresh = false;
     }
 
-    public void setAllowRefresh(boolean allowRefresh) {
+    /*public void setAllowRefresh(boolean allowRefresh) {
         this.allowRefresh = allowRefresh;
-    }
+    }*/
 
+    @Override
     public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
         OAuth2AccessToken token = super.grant(grantType, tokenRequest);
         if (token != null) {
-            DefaultOAuth2AccessToken norefresh = new DefaultOAuth2AccessToken((OAuth2AccessToken)token);
+            DefaultOAuth2AccessToken norefresh = new DefaultOAuth2AccessToken(token);
             if (!this.allowRefresh) {
-                norefresh.setRefreshToken((OAuth2RefreshToken)null);
+                norefresh.setRefreshToken(null);
             }
 
             token = norefresh;
         }
 
-        return (OAuth2AccessToken)token;
+        return token;
     }
 
     @Override

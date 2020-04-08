@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
-import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 
 import java.util.Map;
@@ -34,6 +33,7 @@ public class PhoneCustomTokenGranter extends CustomTokenGranter {
         this.allowRefresh = allowRefresh;
     }
 
+    @Override
     public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
         OAuth2AccessToken token = super.grant(grantType, tokenRequest);
         if (token != null) {

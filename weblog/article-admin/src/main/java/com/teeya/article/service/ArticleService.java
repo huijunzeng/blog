@@ -21,7 +21,7 @@ public interface ArticleService extends IService<ArticleEntity> {
      * 新增文章
      * @param articleForm
      */
-    boolean insert(ArticleForm articleForm);
+    boolean save(ArticleForm articleForm);
 
     /**
      * 修改文章
@@ -44,4 +44,11 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @return
      */
     IPage queryList(ArticleQueryForm articleQueryForm);
+
+    /**
+     * 根据id删除文章
+     * @param id
+     * @return
+     */
+    boolean remove(String id);
 }

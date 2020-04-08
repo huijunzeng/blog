@@ -36,8 +36,8 @@ public class LabelController {
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
     @ApiImplicitParam(name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
     @PostMapping
-    public boolean insert(@RequestBody LabelForm labelForm) {
-        return labelService.insert(labelForm);
+    public boolean save(@RequestBody LabelForm labelForm) {
+        return labelService.save(labelForm);
     }
 
     @ApiOperation(value = "修改文章标签", notes = "修改文章标签")
@@ -59,23 +59,29 @@ public class LabelController {
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
     @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "string")
     @GetMapping("/article/{articleId}")
-    public List<LabelEntity> query(@PathVariable(value = "articleId") String articleId) {
+    public List<LabelEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
         return labelService.queryListByArticleId(articleId);
     }
     
     @ApiOperation(value = "搜索文章标签", notes = "根据条件获取文章标签信息列表")
     @ApiImplicitParam(name = "labelQueryForm", value = "文章标签查询参数", required = true, dataType = "LabelQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody LabelQueryForm labelQueryForm) {
+    public IPage queryList(@RequestBody LabelQueryForm labelQueryForm) {
         log.info("labelQueryForm:{}", labelQueryForm);
         return labelService.queryList(labelQueryForm);
     }
 
     @ApiOperation(value = "搜索文章标签", notes = "获取所有文章标签信息列表")
     @GetMapping(value = "/all")
-    public List<LabelEntity> get() {
+    public List<LabelEntity> getAll() {
         return labelService.getAll();
     }
-    
+
+    @ApiOperation(value = "删除文章标签", notes = "根据id删除文章标签")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return labelService.remove(id);
+    }
 }
 

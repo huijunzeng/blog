@@ -22,7 +22,7 @@ public interface AuthenticationProvider {
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
      */
     @GetMapping("/resource/all")
-    List<ResourceEntity> queryAll();
+    List<ResourceEntity> getAll();
 
     @GetMapping("/resource/user/{username}")
     List<ResourceEntity> queryListByUsername(@PathVariable("username") String username);

@@ -49,31 +49,31 @@ public class ResourceController {
         return resourceService.get(id);
     }
 
-   /* @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户ID", required = true, dataType = "string")
+    @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
+    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "string")
     @GetMapping("/user/{userId}")
     public List<ResourceEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
         return resourceService.queryListByUserId(userId);
-    }*/
+    }
 
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
     @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "string")
     @GetMapping("/user/{username}")
-    public List<ResourceEntity> queryListByUserId(@PathVariable(value = "username") String username) {
+    public List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username) {
         return resourceService.queryListByUsername(username);
     }
 
     @ApiOperation(value = "搜索资源", notes = "根据条件获取资源信息列表")
     @ApiImplicitParam(name = "resourceQueryForm", value = "资源查询参数", required = true, dataType = "ResourceQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody ResourceQueryForm resourceQueryForm) {
+    public IPage queryList(@RequestBody ResourceQueryForm resourceQueryForm) {
         log.info("resourceQueryForm:{}", resourceQueryForm);
         return resourceService.queryList(resourceQueryForm);
     }
 
     @ApiOperation(value = "获取所有资源集合", notes = "获取所有资源集合")
     @GetMapping("/all")
-    public List<ResourceEntity> get() {
+    public List<ResourceEntity> getAll() {
         return resourceService.getAll();
     }
 

@@ -24,7 +24,7 @@ public interface ClassificationService extends IService<ClassificationEntity> {
      * @param classificationForm
      * @return
      */
-    boolean insert(ClassificationForm classificationForm);
+    boolean save(ClassificationForm classificationForm);
 
     /**
      * 修改文章分类
@@ -60,4 +60,11 @@ public interface ClassificationService extends IService<ClassificationEntity> {
      * @return
      */
     List<ClassificationEntity> getAll();
+
+    /**
+     * 根据id删除文章分类
+     * @param id
+     * @return
+     */
+    boolean remove(String id);
 }

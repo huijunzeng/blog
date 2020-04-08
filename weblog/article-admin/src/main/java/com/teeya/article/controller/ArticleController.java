@@ -1,6 +1,5 @@
 package com.teeya.article.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.teeya.article.entity.form.*;
 import com.teeya.article.entity.pojo.ArticleEntity;
@@ -35,8 +34,8 @@ public class ArticleController {
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
     @ApiImplicitParam(name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
-    public boolean insert(@Valid @RequestBody ArticleForm articleForm) {
-        return articleService.insert(articleForm);
+    public boolean save(@Valid @RequestBody ArticleForm articleForm) {
+        return articleService.save(articleForm);
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
@@ -58,10 +57,16 @@ public class ArticleController {
     @ApiOperation(value = "搜索文章", notes = "根据条件获取文章信息列表")
     @ApiImplicitParam(name = "articleQueryForm", value = "文章查询参数", required = true, dataType = "ArticleQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody ArticleQueryForm articleQueryForm) {
+    public IPage queryList(@RequestBody ArticleQueryForm articleQueryForm) {
         log.info("articleQueryForm:{}", articleQueryForm);
         return articleService.queryList(articleQueryForm);
     }
 
+    @ApiOperation(value = "删除文章", notes = "根据id删除文章")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "string")
+    @DeleteMapping("/{id}")
+    public boolean remove(@PathVariable(value = "id") String id) {
+        return articleService.remove(id);
+    }
 }
 

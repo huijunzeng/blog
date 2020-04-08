@@ -38,7 +38,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     private ArticleClassificationRelationService articleClassificationRelationService;
 
     @Override
-    public boolean insert(ArticleForm articleForm) {
+    public boolean save(ArticleForm articleForm) {
         ArticleEntity articleEntity = BeanUtils.instantiateClass(ArticleEntity.class);
         BeanUtils.copyProperties(articleForm, articleEntity);
         super.save(articleEntity);
@@ -71,5 +71,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
         queryWrapper.orderByDesc(ArticleEntity::getCreatedTime);
         IPage<ArticleEntity> iPageUser = super.page(page, queryWrapper);
         return iPageUser;
+    }
+
+    @Override
+    public boolean remove(String id) {
+        return super.removeById(id);
     }
 }

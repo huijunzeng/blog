@@ -23,14 +23,11 @@ public interface AuthorizationProvider {
 
     /**
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
-     * @param username
+     * @param uniqueId
      * @return
      */
     @GetMapping("/user")
-    UserEntity queryByUsername(@RequestParam(value = "username") String username);
-
-    @GetMapping("/user/queryByPhone")
-    UserEntity loadUserByPhone(@RequestParam(value = "phone") String phone);
+    UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId);
 
     @GetMapping("/role/user/{userId}")
     List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId);

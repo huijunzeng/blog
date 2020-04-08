@@ -50,7 +50,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public RoleEntity getById(String id) {
+    public RoleEntity get(String id) {
         return super.getById(id);
     }
 

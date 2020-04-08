@@ -44,10 +44,10 @@ public class UserController {
         return userService.get(id);
     }
 
-    @ApiOperation(value = "获取用户", notes = "根据用户名/用户手机号码获取指定用户信息")
+    @ApiOperation(value = "获取用户", notes = "根据用户名/用户手机号码（唯一标识）获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "uniqueId", value = "用户名/用户手机号码", required = true, dataType = "string")
     @GetMapping
-    public UserEntity query(@RequestParam(value = "uniqueId") String uniqueId) {
+    public UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId) {
         log.info("uniqueId: " + uniqueId);
         return userService.getByUniqueId(uniqueId);
     }
@@ -55,7 +55,7 @@ public class UserController {
     @ApiOperation(value = "搜索用户", notes = "根据条件获取用户信息列表")
     @ApiImplicitParam(name = "userQueryForm", value = "用户查询参数", required = true, dataType = "UserQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody UserQueryForm userQueryForm) {
+    public IPage queryList(@RequestBody UserQueryForm userQueryForm) {
         log.info("userQueryForm:{}", userQueryForm);
         return userService.queryList(userQueryForm);
     }

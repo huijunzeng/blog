@@ -18,13 +18,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private AuthorizationProvider authorizationProvider;
 
     @Override
-    public UserEntity queryByUsername(String username) {
-        return authorizationProvider.queryByUsername(username);
-    }
-
-    @Override
-    public UserEntity loadUserByPhone(String phone) {
-        return authorizationProvider.loadUserByPhone(phone);
+    public UserEntity getByUniqueId(String uniqueId) {
+        return authorizationProvider.getByUniqueId(uniqueId);
     }
 
     @Override

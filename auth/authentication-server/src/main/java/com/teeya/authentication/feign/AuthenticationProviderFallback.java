@@ -16,7 +16,7 @@ import java.util.List;
 public class AuthenticationProviderFallback implements AuthenticationProvider {
 
     @Override
-    public List<ResourceEntity> queryAll() {
+    public List<ResourceEntity> getAll() {
         return null;
     }
 

@@ -41,7 +41,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
     private ArticleLabelRelationService articleLabelRelationService;
 
     @Override
-    public boolean insert(LabelForm labelForm) {
+    public boolean save(LabelForm labelForm) {
         LabelEntity labelEntity = BeanUtils.instantiateClass(LabelEntity.class);
         BeanUtils.copyProperties(labelForm, labelEntity);
         return super.save(labelEntity);
@@ -83,5 +83,10 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
         QueryWrapper<LabelEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(LabelEntity::getDeleted, 0).orderByDesc(LabelEntity::getUpdatedTime);
         return super.list(queryWrapper);
+    }
+
+    @Override
+    public boolean remove(String id) {
+        return super.removeById(id);
     }
 }

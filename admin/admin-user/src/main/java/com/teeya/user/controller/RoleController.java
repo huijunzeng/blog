@@ -46,27 +46,27 @@ public class RoleController {
     @GetMapping(value = "/{id}")
     public RoleEntity get(@PathVariable String id) {
         log.info("roleId: " + id);
-        return roleService.getById(id);
+        return roleService.get(id);
     }
 
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
     @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "string")
     @GetMapping("/user/{userId}")
-    public List<RoleEntity> query(@PathVariable(value = "userId") String userId) {
+    public List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
         return roleService.queryListByUserId(userId);
     }
 
     @ApiOperation(value = "搜索角色", notes = "根据条件获取角色信息列表")
     @ApiImplicitParam(name = "roleQueryForm", value = "角色查询参数", required = true, dataType = "RoleQueryForm")
     @PostMapping(value = "/list")
-    public IPage query(@RequestBody RoleQueryForm roleQueryForm) {
+    public IPage queryList(@RequestBody RoleQueryForm roleQueryForm) {
         log.info("roleQueryForm:{}", roleQueryForm);
         return roleService.queryList(roleQueryForm);
     }
 
     @ApiOperation(value = "搜索角色", notes = "获取所有角色信息列表")
     @GetMapping(value = "/all")
-    public List<RoleEntity> get() {
+    public List<RoleEntity> getAll() {
         return roleService.getAll();
     }
 

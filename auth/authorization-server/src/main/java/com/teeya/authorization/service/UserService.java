@@ -5,16 +5,10 @@ import com.teeya.user.entity.pojo.UserEntity;
 public interface UserService {
 
     /**
-     * 根据username查找用户信息
-     * @param username
+     * 根据用户名/用户手机号码（唯一标识）获取指定用户信息
+     * @param uniqueId
      * @return
      */
-    UserEntity queryByUsername(String username);
+    UserEntity getByUniqueId(String uniqueId);
 
-    /**
-     * 根据phone查找用户信息
-     * @param phone
-     * @return
-     */
-    UserEntity loadUserByPhone(String phone);
 }

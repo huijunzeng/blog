@@ -8,18 +8,11 @@ import java.util.List;
 public interface AuthorizationService {
 
     /**
-     * 根据username查找用户信息
-     * @param username
+     * 根据用户名/用户手机号码（唯一标识）获取指定用户信息
+     * @param uniqueId
      * @return
      */
-    UserEntity queryByUsername(String username);
-
-    /**
-     * 根据phone查找用户信息
-     * @param phone
-     * @return
-     */
-    UserEntity loadUserByPhone(String phone);
+    UserEntity getByUniqueId(String uniqueId);
 
     /**
      * 根据用户id获取相应的角色集合

@@ -24,7 +24,7 @@ public interface LabelService extends IService<LabelEntity> {
      * @param labelForm
      * @return
      */
-    boolean insert(LabelForm labelForm);
+    boolean save(LabelForm labelForm);
 
     /**
      * 文章标签修改表单
@@ -60,4 +60,11 @@ public interface LabelService extends IService<LabelEntity> {
      * @return
      */
     List<LabelEntity> getAll();
+
+    /**
+     * 根据id删除文章标签
+     * @param id
+     * @return
+     */
+    boolean remove(String id);
 }

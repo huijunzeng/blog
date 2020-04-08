@@ -55,7 +55,7 @@ public class SmsCodeUserDetailsService {
         return new User("admin", new BCryptPasswordEncoder().encode("password"), true, true, true, true,authoritiesSet);
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-       /* UserEntity userEntity = userService.loadUserByPhone(phone);
+       /* UserEntity userEntity = userService.getByUniqueId(phone);
         System.out.println(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("USER"));// 授权权限
