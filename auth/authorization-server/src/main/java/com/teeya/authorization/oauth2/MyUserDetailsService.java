@@ -1,11 +1,9 @@
 package com.teeya.authorization.oauth2;
 
 
-import com.teeya.authorization.service.RoleService;
-import com.teeya.authorization.service.UserService;
+import com.teeya.authorization.service.AuthorizationService;
 import com.teeya.user.entity.pojo.RoleEntity;
 import com.teeya.user.entity.pojo.UserEntity;
-import com.teeya.user.entity.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,9 +35,7 @@ import java.util.stream.Collectors;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
+    private AuthorizationService authorizationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     /**
@@ -68,7 +63,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = userService.getByUniqueId(username);
+        UserEntity userEntity = authorizationService.getByUniqueId(username);
         log.info(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         /*grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());*/
@@ -97,7 +92,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
-        List<RoleEntity> roles = roleService.queryListByUserId(userEntity.getId());
+        List<RoleEntity> roles = authorizationService.queryListByUserId(userEntity.getId());
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }
