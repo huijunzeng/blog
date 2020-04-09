@@ -1,5 +1,8 @@
 package com.teeya.article.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.teeya.article.entity.param.WebArticleQueryParam;
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ArticleMapper extends BaseMapper<ArticleEntity> {
 
+    IPage<ArticleEntity> queryList(Page<ArticleEntity> page, WebArticleQueryParam webArticleQueryParam);
 }

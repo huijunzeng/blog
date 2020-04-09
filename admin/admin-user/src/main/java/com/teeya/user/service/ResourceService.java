@@ -2,7 +2,7 @@ package com.teeya.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.user.entity.form.ResourceForm;
+import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
@@ -14,9 +14,9 @@ public interface ResourceService extends IService<ResourceEntity> {
 
     /**
      * 新增资源
-     * @param resourceForm
+     * @param resourceSaveForm
      */
-    boolean save(ResourceForm resourceForm);
+    boolean save(ResourceSaveForm resourceSaveForm);
 
     /**
      * 修改资源

@@ -1,7 +1,7 @@
 package com.teeya.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserSaveForm;
 import com.teeya.user.entity.form.UserQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
@@ -24,12 +24,12 @@ public class UserController {
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
     @ApiImplicitParam(name = "userForm", value = "用户新增表单", required = true, dataType = "UserForm")
     @PostMapping
-    public boolean save(@RequestBody UserForm userForm) {
-        return userService.save(userForm);
+    public boolean save(@RequestBody UserSaveForm userSaveForm) {
+        return userService.save(userSaveForm);
     }
 
     @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "userUpdateForm", value = "用户修改表单", required = true, dataType = "UserUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody UserUpdateForm userUpdateForm) {
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取用户", notes = "根据用户id获取指定用户信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public UserEntity get(@PathVariable String id) {
         log.info("userId: " + id);
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取用户", notes = "根据用户名/用户手机号码（唯一标识）获取指定用户信息")
-    @ApiImplicitParam(paramType = "query", name = "uniqueId", value = "用户名/用户手机号码", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "query", name = "uniqueId", value = "用户名/用户手机号码", required = true, dataType = "String")
     @GetMapping
     public UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId) {
         log.info("uniqueId: " + uniqueId);
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return userService.remove(id);

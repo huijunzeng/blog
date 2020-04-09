@@ -8,13 +8,14 @@ import java.io.Serializable;
 
 /**
  * @Author: ZJH
- * @Date: 2020/3/18 18:03
+ * @Date: 2020/1/7 15:33
  */
 
-@ApiModel(value = "文章分类form表单")
+@ApiModel(value = "文章标签form表单")
 @Data
-public class ClassificationForm implements Serializable {
+public class LabelSaveForm implements Serializable {
 
-    @ApiModelProperty("分类名称")
-    private String classificationName;
+    @ApiModelProperty("标签名称")
+    private String labelName;
+
 }

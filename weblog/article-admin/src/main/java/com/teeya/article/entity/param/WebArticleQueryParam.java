@@ -1,6 +1,6 @@
-package com.teeya.article.entity.form;
+package com.teeya.article.entity.param;
 
-import com.teeya.common.entity.form.BaseQueryForm;
+import com.teeya.common.entity.param.PageQueryParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,9 +10,9 @@ import lombok.Data;
  * @Date: 2020/1/7 15:33
  */
 
-@ApiModel(value = "文章查询表单")
+@ApiModel(value = "前台页面文章查询表单")
 @Data
-public class ArticleQueryForm extends BaseQueryForm {
+public class WebArticleQueryParam extends PageQueryParam {
 
     @ApiModelProperty("文章标题")
     private String title;
@@ -22,8 +22,5 @@ public class ArticleQueryForm extends BaseQueryForm {
 
     @ApiModelProperty("分类id")
     private String classificationId;
-
-    @ApiModelProperty("是否私密不可见 0否 1是")
-    private String visible;
 
 }

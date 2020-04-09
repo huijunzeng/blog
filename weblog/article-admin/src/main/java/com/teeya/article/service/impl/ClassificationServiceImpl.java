@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.teeya.article.entity.form.ClassificationQueryForm;
 import com.teeya.article.entity.form.ClassificationUpdateForm;
 import com.teeya.article.entity.pojo.*;
-import com.teeya.article.entity.form.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationSaveForm;
 import com.teeya.article.mapper.ClassificationMapper;
 import com.teeya.article.service.ArticleClassificationRelationService;
 import com.teeya.article.service.ClassificationService;
@@ -40,9 +40,9 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
     private ArticleClassificationRelationService articleClassificationRelationService;
 
     @Override
-    public boolean save(ClassificationForm classificationForm) {
+    public boolean save(ClassificationSaveForm classificationSaveForm) {
         ClassificationEntity classificationEntity = BeanUtils.instantiateClass(ClassificationEntity.class);
-        BeanUtils.copyProperties(classificationForm, classificationEntity);
+        BeanUtils.copyProperties(classificationSaveForm, classificationEntity);
         return super.save(classificationEntity);
     }
 

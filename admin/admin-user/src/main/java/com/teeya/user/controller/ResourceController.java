@@ -1,7 +1,7 @@
 package com.teeya.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.teeya.user.entity.form.ResourceForm;
+import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
@@ -27,14 +27,14 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @ApiOperation(value = "新增资源", notes = "新增资源")
-    @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源新增表单", required = true, dataType = "resourceForm")
+    @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源新增表单", required = true, dataType = "ResourceForm")
     @PostMapping
-    public boolean save(@RequestBody ResourceForm resourceForm) {
-        return resourceService.save(resourceForm);
+    public boolean save(@RequestBody ResourceSaveForm resourceSaveForm) {
+        return resourceService.save(resourceSaveForm);
     }
 
     @ApiOperation(value = "修改资源", notes = "更新资源信息")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "资源id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "资源id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody UserUpdateForm resourceUpdateForm) {
@@ -42,7 +42,7 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "获取资源", notes = "根据资源id获取指定资源信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public ResourceEntity get(@PathVariable String id) {
         log.info("resourceId: " + id);
@@ -50,14 +50,14 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "String")
     @GetMapping("/user/{userId}")
     public List<ResourceEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
         return resourceService.queryListByUserId(userId);
     }
 
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
     @GetMapping("/user/{username}")
     public List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username) {
         return resourceService.queryListByUsername(username);
@@ -78,7 +78,7 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "删除资源", notes = "根据id删除资源")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return resourceService.remove(id);

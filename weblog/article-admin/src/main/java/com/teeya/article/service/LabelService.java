@@ -5,7 +5,7 @@ import com.teeya.article.entity.form.LabelQueryForm;
 import com.teeya.article.entity.form.LabelUpdateForm;
 import com.teeya.article.entity.pojo.LabelEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.form.LabelForm;
+import com.teeya.article.entity.form.LabelSaveForm;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public interface LabelService extends IService<LabelEntity> {
 
     /**
      * 新增文章标签
-     * @param labelForm
+     * @param labelSaveForm
      * @return
      */
-    boolean save(LabelForm labelForm);
+    boolean save(LabelSaveForm labelSaveForm);
 
     /**
      * 文章标签修改表单

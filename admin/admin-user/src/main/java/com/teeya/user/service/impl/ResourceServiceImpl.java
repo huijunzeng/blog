@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.teeya.user.entity.form.ResourceForm;
+import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
@@ -50,9 +50,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     private RoleResourceRelationService roleResourceRelationService;
 
     @Override
-    public boolean save(ResourceForm resourceForm) {
+    public boolean save(ResourceSaveForm resourceSaveForm) {
         ResourceEntity resourceEntity = BeanUtils.instantiateClass(ResourceEntity.class);
-        BeanUtils.copyProperties(resourceForm, resourceEntity);
+        BeanUtils.copyProperties(resourceSaveForm, resourceEntity);
         return super.save(resourceEntity);
     }
 

@@ -1,7 +1,7 @@
 package com.teeya.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.teeya.user.entity.form.RoleForm;
+import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
 import com.teeya.user.entity.form.RoleUpdateForm;
 import com.teeya.user.entity.pojo.RoleEntity;
@@ -26,15 +26,15 @@ public class RoleController {
     private RoleService roleService;
 
     @ApiOperation(value = "新增角色", notes = "新增角色")
-    @ApiImplicitParam(paramType = "form", name = "roleForm", value = "角色新增表单", required = true, dataType = "roleForm")
+    @ApiImplicitParam(paramType = "form", name = "roleForm", value = "角色新增表单", required = true, dataType = "RoleForm")
     @PostMapping
-    public boolean save(@RequestBody RoleForm roleForm) {
-        return roleService.save(roleForm);
+    public boolean save(@RequestBody RoleSaveForm roleSaveForm) {
+        return roleService.save(roleSaveForm);
     }
 
 
     @ApiOperation(value = "修改角色", notes = "更新指定角色信息")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "角色id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "roleUpdateForm", value = "角色修改表单", required = true, dataType = "RoleUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody RoleUpdateForm roleUpdateForm) {
@@ -42,7 +42,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "获取角色", notes = "根据角色id获取指定角色信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public RoleEntity get(@PathVariable String id) {
         log.info("roleId: " + id);
@@ -50,7 +50,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
-    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "String")
     @GetMapping("/user/{userId}")
     public List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
         return roleService.queryListByUserId(userId);
@@ -71,7 +71,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return roleService.remove(id);

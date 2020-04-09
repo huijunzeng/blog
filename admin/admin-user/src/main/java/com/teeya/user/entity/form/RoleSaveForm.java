@@ -15,7 +15,7 @@ import java.util.Set;
 
 @ApiModel(value = "用户角色表单")
 @Data
-public class RoleForm implements Serializable {
+public class RoleSaveForm implements Serializable {
 
     @ApiModelProperty("角色编码")
     private String code;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.teeya.user.entity.form.RoleForm;
+import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
 import com.teeya.user.entity.form.RoleUpdateForm;
 import com.teeya.user.entity.pojo.RoleEntity;
@@ -36,9 +36,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
-    public boolean save(RoleForm roleForm) {
+    public boolean save(RoleSaveForm roleSaveForm) {
         RoleEntity roleEntity = BeanUtils.instantiateClass(RoleEntity.class);
-        BeanUtils.copyProperties(roleForm, roleEntity);
+        BeanUtils.copyProperties(roleSaveForm, roleEntity);
         return super.save(roleEntity);
     }
 

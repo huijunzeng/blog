@@ -14,7 +14,7 @@ import java.util.Set;
 
 @ApiModel(value = "文章form表单")
 @Data
-public class ArticleForm implements Serializable {
+public class ArticleSaveForm implements Serializable {
 
     @ApiModelProperty("文章标题")
     private String title;

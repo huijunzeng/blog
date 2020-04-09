@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @ApiModel(value = "资源表单")
 @Data
-public class ResourceForm implements Serializable {
+public class ResourceSaveForm implements Serializable {
 
     @ApiModelProperty("资源名称")
     private String name;

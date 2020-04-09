@@ -33,12 +33,12 @@ public class ArticleController {
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
     @ApiImplicitParam(name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
-    public boolean save(@RequestBody ArticleForm articleForm) {
-        return articleService.save(articleForm);
+    public boolean save(@RequestBody ArticleSaveForm articleSaveForm) {
+        return articleService.save(articleSaveForm);
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody ArticleUpdateForm articleUpdateForm) {
@@ -46,7 +46,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "获取文章", notes = "根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public ArticleEntity get(@PathVariable String id) {
         log.info("articleId: " + id);
@@ -54,7 +54,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "搜索文章", notes = "根据条件获取文章信息列表")
-    @ApiImplicitParam(name = "articleQueryForm", value = "文章查询参数", required = true, dataType = "ArticleQueryForm")
+    @ApiImplicitParam(name = "articleQueryForm", value = "文章查询表单", required = true, dataType = "ArticleQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ArticleQueryForm articleQueryForm) {
         log.info("articleQueryForm:{}", articleQueryForm);
@@ -62,7 +62,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "删除文章", notes = "根据id删除文章")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return articleService.remove(id);

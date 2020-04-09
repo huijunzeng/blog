@@ -5,7 +5,7 @@ import com.teeya.article.entity.form.ClassificationQueryForm;
 import com.teeya.article.entity.form.ClassificationUpdateForm;
 import com.teeya.article.entity.pojo.ClassificationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.form.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationSaveForm;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public interface ClassificationService extends IService<ClassificationEntity> {
 
     /**
      * 新增文章分类
-     * @param classificationForm
+     * @param classificationSaveForm
      * @return
      */
-    boolean save(ClassificationForm classificationForm);
+    boolean save(ClassificationSaveForm classificationSaveForm);
 
     /**
      * 修改文章分类

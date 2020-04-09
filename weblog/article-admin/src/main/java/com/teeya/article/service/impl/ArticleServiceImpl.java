@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.teeya.article.entity.form.ArticleQueryForm;
 import com.teeya.article.entity.form.ArticleUpdateForm;
+import com.teeya.article.entity.param.WebArticleQueryParam;
 import com.teeya.article.entity.pojo.ArticleEntity;
-import com.teeya.article.entity.form.ArticleForm;
+import com.teeya.article.entity.form.ArticleSaveForm;
 import com.teeya.article.mapper.ArticleMapper;
 import com.teeya.article.service.ArticleClassificationRelationService;
 import com.teeya.article.service.ArticleLabelRelationService;
@@ -38,13 +39,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     private ArticleClassificationRelationService articleClassificationRelationService;
 
     @Override
-    public boolean save(ArticleForm articleForm) {
+    public boolean save(ArticleSaveForm articleSaveForm) {
         ArticleEntity articleEntity = BeanUtils.instantiateClass(ArticleEntity.class);
-        BeanUtils.copyProperties(articleForm, articleEntity);
+        BeanUtils.copyProperties(articleSaveForm, articleEntity);
         super.save(articleEntity);
         log.info("insert_articleEntity=======: " + articleEntity.toString());
-        articleLabelRelationService.saveBatch(articleEntity.getId(), articleForm.getLabelIds());
-        return articleClassificationRelationService.saveBatch(articleEntity.getId(), articleForm.getClassificationIds());
+        articleLabelRelationService.saveBatch(articleEntity.getId(), articleSaveForm.getLabelIds());
+        return articleClassificationRelationService.saveBatch(articleEntity.getId(), articleSaveForm.getClassificationIds());
     }
 
     @Override
@@ -67,7 +68,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     public IPage queryList(ArticleQueryForm articleQueryForm) {
         Page page = articleQueryForm.getPage();
         LambdaQueryWrapper<ArticleEntity> queryWrapper = articleQueryForm.build().lambda();
-        queryWrapper.eq(StringUtils.isNotBlank(articleQueryForm.getTitle()), ArticleEntity::getTitle, articleQueryForm.getTitle());
+        queryWrapper.like(StringUtils.isNotBlank(articleQueryForm.getTitle()), ArticleEntity::getTitle, articleQueryForm.getTitle());
+        queryWrapper.like(StringUtils.isNotBlank(articleQueryForm.getTitle()), ArticleEntity::getTitle, articleQueryForm.getTitle());
         queryWrapper.orderByDesc(ArticleEntity::getCreatedTime);
         IPage<ArticleEntity> iPageUser = super.page(page, queryWrapper);
         return iPageUser;
@@ -76,5 +78,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     @Override
     public boolean remove(String id) {
         return super.removeById(id);
+    }
+
+    @Override
+    public IPage queryList(WebArticleQueryParam webArticleQueryParam) {
+        Page page = webArticleQueryParam.getPage();
+        return articleMapper.queryList(page, webArticleQueryParam);
     }
 }

@@ -2,7 +2,7 @@ package com.teeya.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.user.entity.form.RoleForm;
+import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
 import com.teeya.user.entity.form.RoleUpdateForm;
 import com.teeya.user.entity.pojo.RoleEntity;
@@ -13,10 +13,10 @@ public interface RoleService extends IService<RoleEntity> {
 
     /**
      * 新增角色
-     * @param roleForm
+     * @param roleSaveForm
      * @throws Exception
      */
-    boolean save(RoleForm roleForm);
+    boolean save(RoleSaveForm roleSaveForm);
 
     /**
      * 更新指定角色信息

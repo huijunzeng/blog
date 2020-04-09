@@ -2,7 +2,7 @@ package com.teeya.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserSaveForm;
 import com.teeya.user.entity.form.UserQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
@@ -11,10 +11,10 @@ public interface UserService extends IService<UserEntity> {
 
     /**
      * 新增用户信息
-     * @param userForm
+     * @param userSaveForm
      * @return
      */
-    boolean save(UserForm userForm);
+    boolean save(UserSaveForm userSaveForm);
 
     /**
      * 更新指定用户信息

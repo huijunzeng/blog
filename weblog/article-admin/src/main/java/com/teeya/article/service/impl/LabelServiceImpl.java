@@ -8,7 +8,7 @@ import com.teeya.article.entity.form.LabelQueryForm;
 import com.teeya.article.entity.form.LabelUpdateForm;
 import com.teeya.article.entity.pojo.ArticleLabelRelationEntity;
 import com.teeya.article.entity.pojo.LabelEntity;
-import com.teeya.article.entity.form.LabelForm;
+import com.teeya.article.entity.form.LabelSaveForm;
 import com.teeya.article.mapper.LabelMapper;
 import com.teeya.article.service.ArticleLabelRelationService;
 import com.teeya.article.service.LabelService;
@@ -41,9 +41,9 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
     private ArticleLabelRelationService articleLabelRelationService;
 
     @Override
-    public boolean save(LabelForm labelForm) {
+    public boolean save(LabelSaveForm labelSaveForm) {
         LabelEntity labelEntity = BeanUtils.instantiateClass(LabelEntity.class);
-        BeanUtils.copyProperties(labelForm, labelEntity);
+        BeanUtils.copyProperties(labelSaveForm, labelEntity);
         return super.save(labelEntity);
     }
 

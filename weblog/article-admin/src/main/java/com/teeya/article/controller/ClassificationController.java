@@ -1,7 +1,7 @@
 package com.teeya.article.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.teeya.article.entity.form.ClassificationForm;
+import com.teeya.article.entity.form.ClassificationSaveForm;
 import com.teeya.article.entity.form.ClassificationQueryForm;
 import com.teeya.article.entity.form.ClassificationUpdateForm;
 import com.teeya.article.entity.pojo.ClassificationEntity;
@@ -36,12 +36,12 @@ public class ClassificationController {
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
     @ApiImplicitParam(name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
     @PostMapping
-    public boolean save(@RequestBody ClassificationForm classificationForm) {
-        return classificationService.save(classificationForm);
+    public boolean save(@RequestBody ClassificationSaveForm classificationSaveForm) {
+        return classificationService.save(classificationSaveForm);
     }
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章分类id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章分类id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
@@ -49,7 +49,7 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "获取文章分类", notes = "根据文章分类id获取指定文章分类信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public ClassificationEntity get(@PathVariable String id) {
         log.info("classificationId: " + id);
@@ -57,14 +57,14 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
-    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
     @GetMapping("/article/{articleId}")
     public List<ClassificationEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
         return classificationService.queryListByArticleId(articleId);
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "根据条件获取文章分类信息列表")
-    @ApiImplicitParam(name = "classificationQueryForm", value = "文章分类查询参数", required = true, dataType = "ClassificationQueryForm")
+    @ApiImplicitParam(name = "classificationQueryForm", value = "文章分类查询表单", required = true, dataType = "ClassificationQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ClassificationQueryForm classificationQueryForm) {
         log.info("classificationQueryForm:{}", classificationQueryForm);
@@ -78,7 +78,7 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "删除文章分类", notes = "根据id删除文章分类")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return classificationService.remove(id);

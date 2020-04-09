@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.teeya.user.entity.form.UserForm;
+import com.teeya.user.entity.form.UserSaveForm;
 import com.teeya.user.entity.form.UserQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
 import com.teeya.user.entity.pojo.UserEntity;
@@ -35,15 +35,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean save(UserForm userForm) {
+    public boolean save(UserSaveForm userSaveForm) {
         UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
-        BeanUtils.copyProperties(userForm, userEntity);
+        BeanUtils.copyProperties(userSaveForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword())){
             userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
         }
         super.save(userEntity);
         log.info("insert_userEntity=======: " + userEntity.toString());
-        return userRoleRelationService.saveBatch(userEntity.getId(), userForm.getRoleIds());
+        return userRoleRelationService.saveBatch(userEntity.getId(), userSaveForm.getRoleIds());
     }
 
     @Override

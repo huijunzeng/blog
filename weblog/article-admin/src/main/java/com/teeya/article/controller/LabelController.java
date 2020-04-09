@@ -1,7 +1,7 @@
 package com.teeya.article.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.teeya.article.entity.form.LabelForm;
+import com.teeya.article.entity.form.LabelSaveForm;
 import com.teeya.article.entity.form.LabelQueryForm;
 import com.teeya.article.entity.form.LabelUpdateForm;
 import com.teeya.article.entity.pojo.LabelEntity;
@@ -36,12 +36,12 @@ public class LabelController {
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
     @ApiImplicitParam(name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
     @PostMapping
-    public boolean save(@RequestBody LabelForm labelForm) {
-        return labelService.save(labelForm);
+    public boolean save(@RequestBody LabelSaveForm labelSaveForm) {
+        return labelService.save(labelSaveForm);
     }
 
     @ApiOperation(value = "修改文章标签", notes = "修改文章标签")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章标签id", required = true, dataType = "string"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章标签id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody LabelUpdateForm labelUpdateForm) {
@@ -49,7 +49,7 @@ public class LabelController {
     }
 
     @ApiOperation(value = "获取文章标签", notes = "根据文章标签id获取指定文章标签信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
     public LabelEntity get(@PathVariable String id) {
         log.info("labelId: " + id);
@@ -57,14 +57,14 @@ public class LabelController {
     }
 
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
-    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
     @GetMapping("/article/{articleId}")
     public List<LabelEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
         return labelService.queryListByArticleId(articleId);
     }
     
     @ApiOperation(value = "搜索文章标签", notes = "根据条件获取文章标签信息列表")
-    @ApiImplicitParam(name = "labelQueryForm", value = "文章标签查询参数", required = true, dataType = "LabelQueryForm")
+    @ApiImplicitParam(name = "labelQueryForm", value = "文章标签查询表单", required = true, dataType = "LabelQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody LabelQueryForm labelQueryForm) {
         log.info("labelQueryForm:{}", labelQueryForm);
@@ -78,7 +78,7 @@ public class LabelController {
     }
 
     @ApiOperation(value = "删除文章标签", notes = "根据id删除文章标签")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "string")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable(value = "id") String id) {
         return labelService.remove(id);

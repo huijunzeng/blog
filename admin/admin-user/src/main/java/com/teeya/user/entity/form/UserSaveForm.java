@@ -14,7 +14,7 @@ import java.util.Set;
 
 @ApiModel(value = "用户表单")
 @Data
-public class UserForm implements Serializable {
+public class UserSaveForm implements Serializable {
 
     @ApiModelProperty("用户名")
     private String username;

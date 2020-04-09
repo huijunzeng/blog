@@ -3,9 +3,10 @@ package com.teeya.article.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.teeya.article.entity.form.ArticleQueryForm;
 import com.teeya.article.entity.form.ArticleUpdateForm;
+import com.teeya.article.entity.param.WebArticleQueryParam;
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.teeya.article.entity.form.ArticleForm;
+import com.teeya.article.entity.form.ArticleSaveForm;
 
 /**
  * <p>
@@ -19,9 +20,9 @@ public interface ArticleService extends IService<ArticleEntity> {
 
     /**
      * 新增文章
-     * @param articleForm
+     * @param articleSaveForm
      */
-    boolean save(ArticleForm articleForm);
+    boolean save(ArticleSaveForm articleSaveForm);
 
     /**
      * 修改文章
@@ -51,4 +52,11 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @return
      */
     boolean remove(String id);
+
+    /**
+     * 前台页面根据条件获取文章信息列表
+     * @param webArticleQueryParam
+     * @return
+     */
+    IPage queryList(WebArticleQueryParam webArticleQueryParam);
 }
