@@ -1,4 +1,4 @@
-package com.teeya.article.schedule;
+package com.teeya.article.scheduler;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;

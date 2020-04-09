@@ -11,9 +11,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class PictureApplication {
+public class FileApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PictureApplication.class, args);
+        SpringApplication.run(FileApplication.class, args);
     }
 }

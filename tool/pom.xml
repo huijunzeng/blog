@@ -12,7 +12,7 @@
     <artifactId>tool</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>picture-server</module>
+        <module>file-server</module>
     </modules>
 
 

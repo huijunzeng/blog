@@ -3,7 +3,7 @@ server:
     port: 7900 # 启动端口
 spring:
     application:
-        name: picture-server
+        name: file-server
     cloud:
         nacos:
             discovery: # nacos注册中心地址配置
@@ -35,7 +35,7 @@ spring:
             max-lifetime: 600000 # 池中连接最长生命周期
             connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
             connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
-name: picture-server  # 测试用
+name: file-server  # 测试用
 ##使用sentinel配置
 feign:
     sentinel:
@@ -50,4 +50,4 @@ qiniu:
     accessKey: iNffcCO5SH8qw-GgV9L_QGbTH2_xLgEVdZIsq6nW
     secretKey: NSNHLflVqXkOM86sEvxbTew3LEX2fCUf-ifQU5TI
     bucket: huijunzeng
-    path: 配置图片服务器访问域名进行图片访问
+    path: www.baidu.com #外链域名
