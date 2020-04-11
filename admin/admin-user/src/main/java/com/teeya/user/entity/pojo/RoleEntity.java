@@ -1,7 +1,7 @@
 package com.teeya.user.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.teeya.common.entity.pojo.BaseEntity;
+import com.teeya.common.web.entity.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.teeya.common.entity.pojo.BaseEntity;
+import com.teeya.common.web.entity.pojo.BaseEntity;
 
 /**
  * https://mp.baomidou.com/config/generator-config.html#mapper-2 文档链接

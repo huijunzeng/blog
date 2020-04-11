@@ -69,6 +69,7 @@ public class GlobalExceptionHandlerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
+        // CustomErrorWebExceptionHandler是自定义的ErrorWebExceptionHandler
         DefaultErrorWebExceptionHandler exceptionHandler = new CustomErrorWebExceptionHandler(
                 errorAttributes,
                 this.resourceProperties,

@@ -17,24 +17,6 @@ spring:
                 dashboard: localhost:8080 #控制台的地址
     profiles:
         active: dev # 根据不同环境切换配置环境
-    # 数据源mysql配置
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/weblog?characterEncoding=UTF-8&useUnicode=true&useSSL=false
-        username: root
-        password: 123456
-        max-idle: 5
-        # 数据源hikari连接池配置
-        type: com.zaxxer.hikari.HikariDataSource
-        hikari:
-            minimum-idle: 10 # 池中维护的最小空闲连接数
-            idle-timeout: 60000 # 连接允许在池中闲置的最长时间
-            maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
-            auto-commit: true # 自动提交从池中返回的连接
-            pool-name: HikariCP # 连接池的用户定义名称
-            max-lifetime: 600000 # 池中连接最长生命周期
-            connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
-            connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
 name: file-server  # 测试用
 ##使用sentinel配置
 feign:

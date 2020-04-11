@@ -1,6 +1,6 @@
 package com.teeya.user.exception;
 
-import com.teeya.common.exception.BaseException;
+import com.teeya.common.core.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -11,11 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 全局异常处理
  * @Author: ZJH
  * @Date: 2019/10/15 17:21
  */
 // todo  未完善
-@RestControllerAdvice // 与@RestController类型，相当于@ResponseBody与@ControllerAdvice的结合体
+// 与@RestController类型，相当于@ResponseBody与@ControllerAdvice的结合体
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -64,7 +66,7 @@ public class GlobalExceptionHandler {
         } else if (ex instanceof ArithmeticException) {
             map.put("code", 404);
             map.put("msg", "算法异常");
-        } else {
+        } else {// 统一处理服务间内部调用异常
             map.put("code", 500);
             map.put("msg", "内部错误");
         }

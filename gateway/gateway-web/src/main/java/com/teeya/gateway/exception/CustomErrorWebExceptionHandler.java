@@ -58,9 +58,10 @@ public class CustomErrorWebExceptionHandler extends DefaultErrorWebExceptionHand
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         boolean includeStackTrace = this.isIncludeStackTrace(request, MediaType.ALL);
         Map<String, Object> error = this.getErrorAttributes(request, includeStackTrace);
+        log.info("error===: {}", error.toString());
         Throwable throwable = this.getError(request);
         int httpStatus = this.getHttpStatus(error);
-        log.info("code===: " + httpStatus);
+        log.info("code===: {}", httpStatus);
         return ServerResponse.status(this.getHttpStatus(error))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(gateWayExceptionHandlerAdvice.handle(throwable)));

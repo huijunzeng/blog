@@ -1,8 +1,11 @@
 package com.teeya.gateway.config;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson.support.springfox.SwaggerJsonSerializer;
 import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
@@ -15,7 +18,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import java.util.Arrays;
 
 /**
- * feign调取服务时返回json格式内容
+ * feign调取服务时返回json格式内容  配置feign的json解析器
  * @Author: ZJH
  * @Date: 2020/2/24 13:29
  */
@@ -32,7 +35,7 @@ import java.util.Arrays;
  * Stack trace:
  * 		at feign.SynchronousMethodHandler.decode(SynchronousMethodHandler.java:182)
  */
-// feign调取接口时报以上的错误   配置这个时起作用，可以解决  todo
+// feign调取接口时报以上的错误   配置feign的json解析器，可以解决
 @Configuration
 @Slf4j
 public class FeignJsonConfiguration {
@@ -55,44 +58,32 @@ public class FeignJsonConfiguration {
                 MediaType.APPLICATION_FORM_URLENCODED,
                 MediaType.APPLICATION_PDF,
         };
+        // 默认Spring的Jackson解析库
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Arrays.asList(mediaTypes));
+
+        // 假如用的是阿里巴巴的FastJson解析库，用以下的配置
+        /*FastJsonHttpMessageConverter fastJsonHttpMessageConverter =
+                new FastJsonHttpMessageConverter();
+        fastJsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(mediaTypes));
+        FastJsonConfig config = new FastJsonConfig();
+        config.getSerializeConfig()
+                .put(Json.class, new SwaggerJsonSerializer());
+        config.setSerializerFeatures(
+                SerializerFeature.DisableCircularReferenceDetect);
+        fastJsonHttpMessageConverter.setFastJsonConfig(config);*/
         return converter;
     }
 
     public ObjectFactory<HttpMessageConverters> feignHttpMessageConverter() {
         final HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new MappingJackson2HttpMessageConverter());
-        //final HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new MappingJackson2HttpMessageConverter());
-        return new ObjectFactory<HttpMessageConverters>() {
+        return () -> httpMessageConverters;
+        // 以上为简写lambda表达式，相当于以下的匿名内部类
+        /*return new ObjectFactory<HttpMessageConverters>() {
             @Override
             public HttpMessageConverters getObject() throws BeansException {
                 return httpMessageConverters;
             }
-        };
+        };*/
     }
-
-    /*public class MappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
-        PhpMappingJackson2HttpMessageConverter(){
-            List<MediaType> mediaTypes = new ArrayList<>();
-            mediaTypes.add(MediaType.valueOf(MediaType.TEXT_HTML_VALUE + ";charset=UTF-8")); //关键
-            mediaTypes.add(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)); //关键
-            setSupportedMediaTypes(mediaTypes);
-        }
-    }*/
-
-    /*@Override
-    public void apply(RequestTemplate requestTemplate) {
-        *//*ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        String token = null;
-        String platform = null;
-        if(attributes != null) {
-            HttpServletRequest request1 = attributes.getRequest();
-            token = request.getHeader("token");
-            platform = request.getHeader("p_platform");
-        }
-
-        //添加token
-        requestTemplate.header("token", token);
-        requestTemplate.header("p_platform", platform);*//*
-    }*/
 }

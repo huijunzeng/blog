@@ -1,6 +1,6 @@
 package com.teeya.article.entity.param;
 
-import com.teeya.common.entity.param.PageQueryParam;
+import com.teeya.common.web.entity.param.PageQueryParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.teeya.article.entity.form;
 
-import com.teeya.common.entity.form.BaseQueryForm;
+import com.teeya.common.web.entity.form.BaseQueryForm;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

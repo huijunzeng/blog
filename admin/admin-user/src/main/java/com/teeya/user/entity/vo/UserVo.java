@@ -1,6 +1,6 @@
 package com.teeya.user.entity.vo;
 
-import com.teeya.common.entity.vo.BaseVo;
+import com.teeya.common.web.entity.vo.BaseVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

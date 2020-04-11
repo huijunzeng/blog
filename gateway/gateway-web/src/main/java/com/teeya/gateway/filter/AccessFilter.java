@@ -54,11 +54,12 @@ public class AccessFilter implements GlobalFilter {
      * @param chain
      * @return
      */
+    @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         // 获取请求头Authorization的内容
         String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        log.info("token ：" + token);
+        log.info("token：{}", token);
         // 获取请求方法
         String method = request.getMethodValue();
         // 获取请求url
@@ -66,7 +67,7 @@ public class AccessFilter implements GlobalFilter {
         log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
         // 忽视签权的url（如用户登录操作）
         if (authService.isIgnoreAuthenticationUrl(url)) {
-            log.info("忽视鉴权的url: " + url);
+            log.info("忽视鉴权的url:{}", url);
             return chain.filter(exchange);
         }
 
@@ -76,7 +77,6 @@ public class AccessFilter implements GlobalFilter {
             return unauthorized(exchange);
         }
 
-        // todo 怎么做到在每个服务调用之间传递token
         // 需要签权的url，判断用户是否有该资源的权限  服务调用需要携带上token，要做特殊处理
         if (authService.hasPermission(token, url, method)) {
             log.info("进入鉴权判断");
@@ -84,7 +84,7 @@ public class AccessFilter implements GlobalFilter {
             //将jwt token中的用户信息传给服务
             //builder.header(X_CLIENT_TOKEN_USER, getUserToken(authentication));
             String substringToken = StringUtils.substring(token, BEARER.length());
-            log.info("substring========: " + substringToken);
+            log.info("substring========:{} ", substringToken);
             Map<String, ?> stringMap = authService.checkToken(substringToken);
             // 信息安全  做加密  todo
             // 可以根据个人需要在转发的请求头加上token解析后的body的信息
@@ -115,7 +115,7 @@ public class AccessFilter implements GlobalFilter {
         String tokenBodyInfo = "{}";
         try {
             tokenBodyInfo = new ObjectMapper().writeValueAsString(authService.checkToken(substringToken));
-            log.info("checkTokenAndParseAsJson========: " + tokenBodyInfo);
+            log.info("checkTokenAndParseAsJson========:{}", tokenBodyInfo);
             return tokenBodyInfo;
         } catch (JsonProcessingException e) {
             log.error("token json error:{}", e.getMessage());

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.teeya.article.entity.param.WebArticleQueryParam;
 import com.teeya.article.entity.pojo.ArticleEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -16,5 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ArticleMapper extends BaseMapper<ArticleEntity> {
 
-    IPage<ArticleEntity> queryList(Page<ArticleEntity> page, WebArticleQueryParam webArticleQueryParam);
+    IPage<ArticleEntity> queryList(@Param("page") Page<ArticleEntity> page, @Param("webArticleQueryParam") WebArticleQueryParam webArticleQueryParam);
 }

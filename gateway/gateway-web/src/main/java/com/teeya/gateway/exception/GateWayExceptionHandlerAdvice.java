@@ -6,7 +6,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.netty.channel.ConnectTimeoutException;*/
-import com.teeya.common.exception.BaseException;
+import com.teeya.common.core.exception.BaseException;
 import io.netty.channel.ConnectTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.support.NotFoundException;
@@ -94,12 +94,28 @@ public class GateWayExceptionHandlerAdvice {
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(Exception ex) {
-        log.error("exception:{}", ex.toString());
+       /* log.error("exception======: {}", ex.toString());
         Map<String, Object> map = new HashMap<>();
         BaseException ex1 = (BaseException) ex;
         //map.put("msg", ex1.getMsg());
         map.put("code", ex1.getCode());
         map.put("msg", ex1.getMsg());
+        return map;*/
+        log.error("exception:{}", ex);
+        Map<String, Object> map = new HashMap<>();
+        if (ex instanceof BaseException){
+            BaseException ex1 = (BaseException) ex;
+            //map.put("msg", ex1.getMsg());
+            map.put("code", 404);
+            map.put("msg", ex1.getMsg());
+        } else if (ex instanceof ArithmeticException) {
+            map.put("code", 404);
+            map.put("msg", "算法异常");
+        } else {// 统一处理服务间内部调用异常
+            map.put("code", 500);
+            map.put("msg", "内部错误");
+        }
+        log.error("exception_map:{}", map.toString());
         return map;
     }
 

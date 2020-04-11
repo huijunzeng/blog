@@ -1,6 +1,6 @@
 package com.teeya.user.config;
 
-import com.teeya.common.handler.BaseEntityMetaObjectHandler;
+import com.teeya.common.web.handler.BaseEntityMetaObjectHandler;
 import org.springframework.stereotype.Component;
 
 /**

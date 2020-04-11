@@ -1,6 +1,6 @@
 package com.teeya.user.config;
 
-import com.teeya.user.interceptor.UserInterceptor;
+import com.teeya.common.web.interceptor.UserInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
