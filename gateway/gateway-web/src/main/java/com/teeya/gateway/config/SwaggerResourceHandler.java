@@ -12,7 +12,7 @@ import springfox.documentation.swagger.web.*;
 import java.util.Optional;
 
 /**
- * 建立相应的swagger-resource端点
+ * 建立相应的swagger-resource端点api
  * @Author: ZJH
  * @Date: 2020/2/24 13:29
  */
@@ -32,7 +32,6 @@ public class SwaggerResourceHandler {
     public SwaggerResourceHandler(SwaggerResourcesProvider swaggerResources) {
         this.swaggerResources = swaggerResources;
     }
-
 
     @GetMapping("/configuration/security")
     public Mono<ResponseEntity<SecurityConfiguration>> securityConfiguration() {

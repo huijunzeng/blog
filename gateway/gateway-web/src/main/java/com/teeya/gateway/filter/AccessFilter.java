@@ -1,7 +1,5 @@
 package com.teeya.gateway.filter;
 
-//import com.teeya.client.service.AuthService;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teeya.gateway.service.AuthService;
@@ -10,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +20,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 /**
- * 请求鉴权过滤器
+ * 路由请求鉴权过滤器
  */
 
 @Configuration
@@ -39,7 +36,7 @@ public class AccessFilter implements GlobalFilter {
     /**
      * 请求头变量key
      */
-    private static final String AUTHORIZATION = "authorization";
+    private static final String X_CLIENT_USER = "X-Client-User";
 
     /**
      * 鉴权客户端服务
@@ -88,7 +85,7 @@ public class AccessFilter implements GlobalFilter {
             Map<String, ?> stringMap = authService.checkToken(substringToken);
             // 信息安全  做加密  todo
             // 可以根据个人需要在转发的请求头加上token解析后的body的信息
-            builder.header(AUTHORIZATION, this.checkTokenAndParseAsJson(substringToken));
+            builder.header(X_CLIENT_USER, this.checkTokenAndParseAsJson(substringToken));
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         return unauthorized(exchange);

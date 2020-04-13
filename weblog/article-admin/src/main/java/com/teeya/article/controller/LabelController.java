@@ -34,15 +34,15 @@ public class LabelController {
     private LabelService labelService;
 
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
-    @ApiImplicitParam(name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
+    @ApiImplicitParam(paramType = "form", name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
     @PostMapping
     public boolean save(@RequestBody LabelSaveForm labelSaveForm) {
         return labelService.save(labelSaveForm);
     }
 
     @ApiOperation(value = "修改文章标签", notes = "修改文章标签")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章标签id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataType = "LabelUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody LabelUpdateForm labelUpdateForm) {
         return labelService.update(id, labelUpdateForm);
@@ -64,7 +64,7 @@ public class LabelController {
     }
     
     @ApiOperation(value = "搜索文章标签", notes = "根据条件获取文章标签信息列表")
-    @ApiImplicitParam(name = "labelQueryForm", value = "文章标签查询表单", required = true, dataType = "LabelQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "labelQueryForm", value = "文章标签查询表单", required = true, dataType = "LabelQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody LabelQueryForm labelQueryForm) {
         log.info("labelQueryForm:{}", labelQueryForm);

@@ -34,15 +34,15 @@ public class ClassificationController {
     private ClassificationService classificationService;
 
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
-    @ApiImplicitParam(name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
+    @ApiImplicitParam(paramType = "form", name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
     @PostMapping
     public boolean save(@RequestBody ClassificationSaveForm classificationSaveForm) {
         return classificationService.save(classificationSaveForm);
     }
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章分类id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
         return classificationService.update(id, classificationUpdateForm);
@@ -64,7 +64,7 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "根据条件获取文章分类信息列表")
-    @ApiImplicitParam(name = "classificationQueryForm", value = "文章分类查询表单", required = true, dataType = "ClassificationQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "classificationQueryForm", value = "文章分类查询表单", required = true, dataType = "ClassificationQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ClassificationQueryForm classificationQueryForm) {
         log.info("classificationQueryForm:{}", classificationQueryForm);

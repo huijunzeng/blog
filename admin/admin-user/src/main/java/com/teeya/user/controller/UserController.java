@@ -22,15 +22,15 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
-    @ApiImplicitParam(name = "userForm", value = "用户新增表单", required = true, dataType = "UserForm")
+    @ApiImplicitParam(paramType = "form", name = "userSaveForm", value = "用户新增表单", required = true, dataType = "userSaveForm")
     @PostMapping
     public boolean save(@RequestBody UserSaveForm userSaveForm) {
         return userService.save(userSaveForm);
     }
 
     @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "userUpdateForm", value = "用户修改表单", required = true, dataType = "UserUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "form", name = "userUpdateForm", value = "用户修改表单", required = true, dataType = "UserUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody UserUpdateForm userUpdateForm) {
         return userService.update(id, userUpdateForm);
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "搜索用户", notes = "根据条件获取用户信息列表")
-    @ApiImplicitParam(name = "userQueryForm", value = "用户查询参数", required = true, dataType = "UserQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "userQueryForm", value = "用户查询参数", required = true, dataType = "UserQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody UserQueryForm userQueryForm) {
         log.info("userQueryForm:{}", userQueryForm);

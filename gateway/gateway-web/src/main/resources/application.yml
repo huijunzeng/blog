@@ -22,7 +22,7 @@ spring:
             default-filters:
             discovery:
                 locator:
-                    enabled: true #注册中心生效，可以自动根据注册中心的服务名进行路由转发
+                    enabled: true #注册中心生效，可以自动根据注册中心的服务名进行路由转发（而不需要像以下配置routes）
             routes: #路由配置，实际生产环境需要做到动态路由配置
                 ##authorization-server调用  两种方式（实际中以第二种方式配置并持久化数据库）： 服务url的方式：http://localhost:9777/   或者注册服务serviceId的方式： lb://ribbon-consumer
                 -   id: authorization-server #路由的唯一id
@@ -44,22 +44,22 @@ spring:
                 port: 8719 #指定客户端监控 API 的端口  默认，可不设置
                 dashboard: localhost:8080 #控制台的地址
     # 数据源mysql配置
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
-        username: root
-        password: 123456
+#    datasource:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+#        username: root
+#        password: 123456
         # 数据源hikari连接池配置
-        type: com.zaxxer.hikari.HikariDataSource
-        hikari:
-            minimum-idle: 10 # 池中维护的最小空闲连接数
-            idle-timeout: 60000 # 连接允许在池中闲置的最长时间
-            maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
-            auto-commit: true # 自动提交从池中返回的连接
-            pool-name: HikariCP # 连接池的用户定义名称
-            max-lifetime: 600000 # 池中连接最长生命周期
-            connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
-            connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
+#        type: com.zaxxer.hikari.HikariDataSource
+#        hikari:
+#            minimum-idle: 10 # 池中维护的最小空闲连接数
+#            idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+#            maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+#            auto-commit: true # 自动提交从池中返回的连接
+#            pool-name: HikariCP # 连接池的用户定义名称
+#            max-lifetime: 600000 # 池中连接最长生命周期
+#            connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+#            connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
     # redis配置
     redis:
         host: localhost
@@ -67,62 +67,6 @@ spring:
         password:
     #profiles:
     #    active: dev # 根据不同环境切换配置环境
-zuul:
-    sensitive-headers: Cookie,Set-Cookie
-    routes:
-        authorization-server: #自定义名称
-            sensitive-headers: Cookie,Set-Cookie
-            service-id: authorization-server #服务的spring.application.name(所以前面说了个属性很重要，要注意) ant风格路径表达式，只能匹配一个层级
-            path: /authorization-server/**
-            #stripPrefix: true #如果stripPrefix=false，则去掉/ribbon，转发的请求是/**；如果为true，转发的请求是/ribbon/**
-        authentication-server: #自定义名称
-            service-id: authentication-server #服务的spring.application.name(所以前面说了个属性很重要，要注意) ant风格路径表达式，只能匹配一个层级
-            path: /authentication-server/**
-            #stripPrefix: true #如果stripPrefix=false，则去掉/feign，转发的请求是/**；如果为true，转发的请求是/feign/** ?????还没解决
-
-#如果您通过指定URL配置了Zuul路由，则需要使用
-    max:
-        host:
-            connections: 500
-    host:
-        socket-timeout-millis: 60000
-        connect-timeout-millis: 60000
-#如果Zuul使用服务发现，则需要使用
-ribbon:
-    ReadTimeout: 60000
-    ConnectTimeout: 60000
-
-#熔断机制超时
-hystrix:
-    command:
-        default:
-            execution:
-                timeout:
-                    enabled: true
-                isolation:
-                    thread:
-                        timeoutInMilliseconds: 240000
-#认证服务器地址
-#oauth-server: http://localhost:9779/authentication-server
-#security:
-#    oauth2:
-#        #   和认证服务器中的client设置对应
-#        client:
-#        client-id: zuul
-#            client-secret: secret
-#            #	   获取令牌地址
-#            access-token-uri: ${oauth-server}/oauth/token
-#            #      认证地址
-#            user-authorization-uri: ${oauth-server}/oauth/authorize
-#            resource:
-#                #      进行令牌校验
-#                #      一、访问controller获取Principal
-#                #      user-info-uri: ${oauth-server}/oauth2_token/current
-#                #      prefer-token-info: false
-#                #      二、访问授权服务器获取公钥 解析令牌
-#                jwt:
-#                    key-uri: ${oauth-server}/oauth/token_key
-
 name: gateway-web  #测试用
 ##使用sentinel配置
 feign:
@@ -148,4 +92,4 @@ logging: #日志配置文件引入 classpath的默认路径为resources目录下
 gateway:
     ignore:
         authentication:
-            url: /oauth/
+            url: /oauth/,/v2/api-docs #/oauth/ Oauth2授权端点    /v2/api-docs Swagger2接口页面的端点,需要放行

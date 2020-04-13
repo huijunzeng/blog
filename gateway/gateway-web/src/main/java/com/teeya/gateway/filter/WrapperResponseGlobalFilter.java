@@ -61,7 +61,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
 
                         // responseData就是下游服务返回的内容,可以查看修改
                         Object object = JSONObject.parseObject(responseData, Object.class);
-                        log.info("object instanceof BaseException}", object instanceof BaseException);
+                        log.info("object instanceof BaseException:{}", object instanceof BaseException);
                         log.info("响应内容responseData:{}", responseData);
                         // 判断下游服务返回的是正常的响应数据还是异常信息
                         JSONObject parseObject = JSONObject.parseObject(responseData);

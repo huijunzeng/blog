@@ -27,15 +27,15 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @ApiOperation(value = "新增资源", notes = "新增资源")
-    @ApiImplicitParam(paramType = "form", name = "resourceForm", value = "资源新增表单", required = true, dataType = "ResourceForm")
+    @ApiImplicitParam(paramType = "form", name = "resourceSaveForm", value = "资源新增表单", required = true, dataType = "ResourceSaveForm")
     @PostMapping
     public boolean save(@RequestBody ResourceSaveForm resourceSaveForm) {
         return resourceService.save(resourceSaveForm);
     }
 
     @ApiOperation(value = "修改资源", notes = "更新资源信息")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "资源id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "form", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody UserUpdateForm resourceUpdateForm) {
         return resourceService.update(id, resourceUpdateForm);
@@ -64,7 +64,7 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "搜索资源", notes = "根据条件获取资源信息列表")
-    @ApiImplicitParam(name = "resourceQueryForm", value = "资源查询参数", required = true, dataType = "ResourceQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "resourceQueryForm", value = "资源查询参数", required = true, dataType = "ResourceQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ResourceQueryForm resourceQueryForm) {
         log.info("resourceQueryForm:{}", resourceQueryForm);

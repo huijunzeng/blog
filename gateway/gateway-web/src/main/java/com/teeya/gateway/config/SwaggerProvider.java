@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 聚合各服务swagger接口
+ * 聚合各服务swagger接口，继承SwaggerResourcesProvider接口构造swagger资源
  * @Author: ZJH
  * @Date: 2020/2/24 13:29
  */
@@ -25,7 +25,6 @@ import java.util.Map;
 @Component
 @Slf4j
 public class SwaggerProvider implements SwaggerResourcesProvider {
-
 
     /**
      * swagger默认的url后缀
@@ -48,10 +47,10 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     @Override
     public List<SwaggerResource> get() {
         List<SwaggerResource> resources = new ArrayList<>();
-        SwaggerResource gatewayResource = new SwaggerResource();
+        /*SwaggerResource gatewayResource = new SwaggerResource();
         gatewayResource.setUrl(API_URI);
         gatewayResource.setName("gateway");
-        resources.add(gatewayResource);
+        resources.add(gatewayResource);*/
 
         Map<String, URI> routesMap = new HashMap<>(8);
         // 获取网关中配置的路由
@@ -63,9 +62,12 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
             String url = "/" + uri.getHost() + API_URI;
             SwaggerResource swaggerResource = new SwaggerResource();
             swaggerResource.setUrl(url);
+            swaggerResource.setUrl(url);
             swaggerResource.setName(name);
+            swaggerResource.setSwaggerVersion("2.0");
             resources.add(swaggerResource);
         });
+        log.info("routesMap===============:" + routesMap.toString());
         return resources;
     }
 }

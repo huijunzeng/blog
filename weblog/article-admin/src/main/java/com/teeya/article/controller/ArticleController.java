@@ -31,15 +31,15 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
-    @ApiImplicitParam(name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
+    @ApiImplicitParam(paramType = "form", name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
     public boolean save(@RequestBody ArticleSaveForm articleSaveForm) {
         return articleService.save(articleSaveForm);
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable String id, @RequestBody ArticleUpdateForm articleUpdateForm) {
         return articleService.update(id, articleUpdateForm);
@@ -54,7 +54,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "搜索文章", notes = "根据条件获取文章信息列表")
-    @ApiImplicitParam(name = "articleQueryForm", value = "文章查询表单", required = true, dataType = "ArticleQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "articleQueryForm", value = "文章查询表单", required = true, dataType = "ArticleQueryForm")
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ArticleQueryForm articleQueryForm) {
         log.info("articleQueryForm:{}", articleQueryForm);

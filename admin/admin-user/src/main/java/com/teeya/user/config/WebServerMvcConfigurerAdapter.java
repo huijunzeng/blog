@@ -8,7 +8,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 注入用户信息拦截器
+ * 自定义web配置
+ * @Author: ZJH
+ * @Date: 2019/12/5 10:15
  */
 @Configuration
 public class WebServerMvcConfigurerAdapter implements WebMvcConfigurer {
@@ -18,6 +20,10 @@ public class WebServerMvcConfigurerAdapter implements WebMvcConfigurer {
         return new UserInterceptor();
     }
 
+    /**
+     * 注入用户信息拦截器
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor());

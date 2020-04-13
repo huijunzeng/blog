@@ -22,12 +22,12 @@ public class UserInterceptor implements HandlerInterceptor {
     /**
      * 请求头变量key
      */
-    private static final String AUTHORIZATION = "authorization";
+    private static final String X_CLIENT_USER = "X-Client-User";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //从请求头中获取authorization信息（包含jwt中body体的信息）
-        String userInfoString = StringUtils.defaultIfBlank(request.getHeader(AUTHORIZATION), "{}");
+        String userInfoString = StringUtils.defaultIfBlank(request.getHeader(X_CLIENT_USER), "{}");
         // 将body体的信息转成map类型
         UserContextHolder.getInstance().setContext(new ObjectMapper().readValue(userInfoString, Map.class));
         return true;

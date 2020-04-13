@@ -3,12 +3,13 @@ package com.teeya.gateway.service;
 import com.teeya.gateway.feign.AuthorizationProvider;
 import com.teeya.gateway.feign.AuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * @Author: ZJH
@@ -29,14 +30,14 @@ public class AuthServiceImpl implements AuthService {
      * 默认/oauth开头是不需要的
      */
     @Value("${gateway.ignore.authentication.url}")
-    private String ignoreUrls = null;
+    private String ignoreUrls = "/oauth/";
     //private List<String> ignoreUrls = null;
 
     @Override
     public boolean isIgnoreAuthenticationUrl(String url) {
         log.info("ignoreUrls:{}", ignoreUrls);
         //return ignoreUrls.stream().anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
-        return url.startsWith(StringUtils.trim(ignoreUrls));
+        return Stream.of(this.ignoreUrls.split(",")).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
     @Override

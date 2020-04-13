@@ -1,10 +1,16 @@
 package com.teeya.user.config;
 
+import com.fasterxml.classmate.GenericType;
+import com.fasterxml.classmate.TypeResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -15,6 +21,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.*;
+
+import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 /**
  * swagger接口文档配置
@@ -27,6 +35,9 @@ import java.util.*;
 public class SwaggerConfig {
     // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui.html  IP为机器的IP，端口号为工程的端口
 
+    @Autowired
+    private TypeResolver typeResolver;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -34,9 +45,18 @@ public class SwaggerConfig {
                 .select()
                 // api接口路径，即controller层路径
                 .apis(RequestHandlerSelectors.basePackage("com.teeya.user"))
-                // 指定路径处理PathSelectors.any()代表所有的路径
+                // 指定路径处理PathSelectors.any()代表所有的路径（除了被@ApiIgnore指定的请求）
                 .paths(PathSelectors.any())
                 .build()
+                .alternateTypeRules(
+                        newRule(
+                                typeResolver.resolve(
+                                        DeferredResult.class,
+                                        typeResolver.resolve(GenericType.class, WildcardType.class)
+                                ),
+                                typeResolver.resolve(WildcardType.class)
+                        )
+                )
                 // 支持的协议
                 .protocols(newHashSet("https", "http"))
                 .securitySchemes(securitySchemes())
@@ -47,7 +67,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("后台用户管理api")
                 .description("后台用户管理接口")
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 
@@ -56,7 +76,7 @@ public class SwaggerConfig {
      */
     private List<ApiKey> securitySchemes() {
         // 在请求头header添加一个名为Authorization的token
-        return Collections.singletonList(new ApiKey("Authorization", "token", "header"));
+        return Collections.singletonList(new ApiKey(HttpHeaders.AUTHORIZATION, "token", "header"));
     }
 
     /**

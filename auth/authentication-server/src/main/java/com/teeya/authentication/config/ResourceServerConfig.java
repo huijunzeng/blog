@@ -31,10 +31,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // // 对 api/order 请求进行拦截   验证accessToken  与controller 的要有关系
         http.csrf().disable();
+        // 配置对某些访问路径放行
         http.authorizeRequests()
-                .antMatchers("/test/**", "/oauth2_token/**","/auth/hello").permitAll()
+                .antMatchers("/test/**", "/actuator/**", "/auth/hello").permitAll()
                 .anyRequest().authenticated();
     }
 

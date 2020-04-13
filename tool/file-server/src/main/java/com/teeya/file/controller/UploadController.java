@@ -1,13 +1,5 @@
 package com.teeya.file.controller;
 
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
 import com.teeya.file.service.UploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,7 +25,7 @@ public class UploadController {
     private UploadService uploadService;
 
     @ApiOperation(value = "图片上传", notes = "图片上传")
-    @ApiImplicitParam(name = "file", value = "图片上传文件", required = true, dataType = "MultipartFile")
+    @ApiImplicitParam(paramType = "query", name = "file", value = "图片上传文件", required = true, dataType = "MultipartFile")
     @PostMapping("/img")
     public String imgUpload(@RequestParam("file") MultipartFile file) throws IOException {
         return uploadService.imgUpload(file);

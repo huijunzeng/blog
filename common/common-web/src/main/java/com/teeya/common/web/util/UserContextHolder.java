@@ -1,7 +1,6 @@
 package com.teeya.common.web.util;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -58,7 +57,7 @@ public class UserContextHolder {
      */
     public String getUsername() {
         // user_name是jwt解析出来必有的key
-        return Optional.ofNullable(threadLocal.get()).orElse(Maps.newHashMap()).get("user_name");
+        return Optional.ofNullable(threadLocal.get()).orElse(new HashMap<>()).get("user_name");
     }
 
     /**
