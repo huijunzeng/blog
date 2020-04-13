@@ -13,10 +13,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
-@EnableResourceServer // 启用SpringSecurity过滤器，过滤器通过传入的OAuth2令牌token对请求进行身份验证
+// 启用SpringSecurity过滤器，过滤器通过传入的OAuth2令牌token对请求进行身份验证
+@EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String DEMO_RESOURCE_ID = "order";
+    private static final String DEMO_RESOURCE_ID = "demo";
 
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
@@ -46,8 +47,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
-                .resourceId("blog")// 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
-                .tokenStore(tokenStore());// 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
+                // 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
+                .resourceId("blog")
+                // 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
+                .tokenStore(tokenStore());
     }
 
     /**

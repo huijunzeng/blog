@@ -1,9 +1,9 @@
 package com.teeya.authorization.oauth2;
 
 
+import com.teeya.authorization.entity.RoleEntity;
+import com.teeya.authorization.entity.UserEntity;
 import com.teeya.authorization.service.AuthorizationService;
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

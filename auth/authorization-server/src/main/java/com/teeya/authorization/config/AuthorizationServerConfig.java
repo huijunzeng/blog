@@ -1,6 +1,5 @@
 package com.teeya.authorization.config;
 
-import com.google.common.collect.Lists;
 import com.teeya.authorization.oauth2.SmsCodeUserDetailsService;
 import com.teeya.authorization.oauth2.granter.PhoneCustomTokenGranter;
 import com.teeya.authorization.oauth2.jwt.CustomJwtToken;
@@ -40,10 +39,11 @@ import java.util.List;
  * AuthorizationServerConfig配置主要是覆写如下的三个方法，分别针对clients、endpoints、security配置。
  */
 @Configuration
-@EnableAuthorizationServer// 注解开启验证服务器 提供/oauth/authorize,/oauth/token,/oauth/check_token,/oauth/confirm_access,/oauth/error等endpoints端点
+// 注解开启验证服务器 提供/oauth/authorize,/oauth/token,/oauth/check_token,/oauth/confirm_access,/oauth/error等endpoints端点api
+@EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private static final String DEMO_RESOURCE_ID = "order";
+    private static final String DEMO_RESOURCE_ID = "demo";
 
     @Autowired
     DataSource dataSource;
@@ -130,13 +130,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenGranters.add(endpoints.getTokenGranter());
         endpoints
                 .userDetailsService(myUserDetailsService)
-                .authorizationCodeServices(authorizationCodeServices()) // 配置authorizationCode授权码的保存方式
-                .tokenEnhancer(tokenEnhancerChain()) // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
-                .tokenServices(tokenServices()) // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
-                .authenticationManager(authenticationManager) // 配置身份认证器
-                //.tokenGranter(this.tokenGranters(endpoints)) // 配置自定义扩展模式
-                .tokenGranter(new CompositeTokenGranter(tokenGranters)) // 配置自定义扩展模式
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); // 允许请求方法类型
+                // 配置authorizationCode授权码的保存方式
+                .authorizationCodeServices(authorizationCodeServices())
+                // token增强器，通过自定义token可添加额外的信息  项目用的是JWT
+                .tokenEnhancer(tokenEnhancerChain())
+                // 配置自定义的tokenServices 比如这里的jwt + redis的格式保存
+                .tokenServices(tokenServices())
+                // 配置身份认证器
+                .authenticationManager(authenticationManager)
+                //.tokenGranter(this.tokenGranters(endpoints))// 配置自定义扩展模式
+                // 配置自定义扩展模式
+                .tokenGranter(new CompositeTokenGranter(tokenGranters))
+                // 允许请求方法类型
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     /**
@@ -152,7 +158,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                .tokenKeyAccess("permitAll()") // 开启/oauth/token_key验证端口无权限访问  默认denyAll()拒绝访问   permitAll()允许访问  isAuthenticated()认证访问
+                // 开启/oauth/token_key验证端口无权限访问  默认denyAll()拒绝访问   permitAll()允许访问  isAuthenticated()认证访问
+                .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("permitAll()")
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
@@ -198,7 +205,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        String signingKey = "123456";// 使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
+        // 使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
+        String signingKey = "123456";
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(signingKey);
         return jwtAccessTokenConverter;
@@ -227,8 +235,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //defaultTokenServices.setSupportRefreshToken(false); // refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
         //defaultTokenServices.setAccessTokenValiditySeconds(); // refresh_token 的有效时长 (秒), 默认 30 天
         //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());// token增强器  可往token添加额外的信息
-        defaultTokenServices.setTokenStore(tokenStore());// token存储方式
+        // token增强器  可往token添加额外的信息
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
+        // token存储方式
+        defaultTokenServices.setTokenStore(tokenStore());
         return defaultTokenServices;
     }
 

@@ -23,7 +23,9 @@ public class BaseGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> 
         return true;
     }
 
-    //对于返回的对象如果不是最终对象ResponseResult，则需要包装一下
+    /**
+     * 对于返回的对象如果不是最终对象ResponseResult，则需要包装一下
+     */
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {

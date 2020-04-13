@@ -37,10 +37,8 @@ public abstract class CustomTokenGranter extends AbstractTokenGranter {
             if (!this.allowRefresh) {
                 norefresh.setRefreshToken(null);
             }
-
             token = norefresh;
         }
-
         return token;
     }
 

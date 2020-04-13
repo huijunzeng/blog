@@ -1,7 +1,7 @@
 package com.teeya.authorization.feign;
 
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.authorization.entity.UserEntity;
+import com.teeya.authorization.entity.RoleEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +23,7 @@ public interface AuthorizationProvider {
 
     /**
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
+     * 响应数据的字段不必一一相同
      * @param uniqueId
      * @return
      */

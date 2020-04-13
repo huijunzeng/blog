@@ -21,7 +21,10 @@ public class PhoneCustomTokenGranter extends CustomTokenGranter {
 
     SmsCodeUserDetailsService smsCodeUserDetailsService;
 
-    private static final String grantType = "phone_sms_code";// 自定义名称 在AuthorizationServerConfig配置类的authorizedGrantTypes属性值中引入（数据库对应字段authorized_grant_types）
+    /**
+     * 自定义名称 在AuthorizationServerConfig配置类的authorizedGrantTypes属性值中引入（数据库对应字段authorized_grant_types）
+     */
+    private static final String grantType = "phone_sms_code";
     private boolean allowRefresh;
 
     public PhoneCustomTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, SmsCodeUserDetailsService smsCodeUserDetailsService) {

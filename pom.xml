@@ -169,68 +169,19 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--生成实体maven命令： mvn mybatis-generator:generate -->
-            <!--<plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                &lt;!&ndash;<version>1.3.2</version>&ndash;&gt;
-                <version>1.3.7</version>
-                <configuration>
-                    &lt;!&ndash; generatorConfig.xml文件路径 ${basedir}表示项目根目录,即包含pom.xml文件的目录，是maven内置属性&ndash;&gt;
-                    <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
-                    &lt;!&ndash; 是否覆盖，true表示会替换生成的JAVA文件，false则不覆盖 &ndash;&gt;
-                    <overwrite>true</overwrite>
-                    <verbose>true</verbose>
-                </configuration>
-                <dependencies>
-                    &lt;!&ndash; https://mvnrepository.com/artifact/mysql/mysql-connector-java &ndash;&gt;
-                    &lt;!&ndash;mybatis自动生成代码插件  用mysql8.0的依赖以及驱动包会报错，可以切换mysql5.8版本以下的依赖&ndash;&gt;
-                    &lt;!&ndash; <dependency>
-                         <groupId>mysql</groupId>
-                         <artifactId>mysql-connector-java</artifactId>
-                         <version>5.1.45</version>
-                     </dependency>&ndash;&gt;
-                   &lt;!&ndash; <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.16</version>
-                    </dependency>&ndash;&gt;
-                    &lt;!&ndash; https://mvnrepository.com/artifact/tk.mybatis/mapper &ndash;&gt;
-                    &lt;!&ndash; 通用mapper依赖  假如需要使用通用mapper，放开注释 &ndash;&gt;
-                    &lt;!&ndash;<dependency>
-                        <groupId>tk.mybatis</groupId>
-                        <artifactId>mapper</artifactId>
-                        <version>4.1.2</version>
-                    </dependency>&ndash;&gt;
-                </dependencies>
-            </plugin>-->
         </plugins>
     </build>
 
-
-    <!--<repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>-->
     <repositories>
-        <repository>
+        <!--<repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/libs-milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
+        </repository>-->
+        <!--<repository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -240,7 +191,7 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
-        </repository>
+        </repository>-->
     </repositories>
 
     <pluginRepositories>

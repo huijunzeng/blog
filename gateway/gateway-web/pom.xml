@@ -24,12 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.teeya.blog</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.teeya.blog</groupId>
             <artifactId>common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
@@ -42,15 +36,15 @@
         </dependency>-->
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
-            <!--docker镜像build插件-->
+            &lt;!&ndash;docker镜像build插件&ndash;&gt;
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.2.0</version>
                 <configuration>
-                    <!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
+                    &lt;!&ndash; 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 &ndash;&gt;
                     <imageName>cike/${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <rm>true</rm>
@@ -64,5 +58,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

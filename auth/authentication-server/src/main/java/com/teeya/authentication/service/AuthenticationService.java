@@ -1,6 +1,6 @@
 package com.teeya.authentication.service;
 
-import com.teeya.user.entity.pojo.ResourceEntity;
+import com.teeya.authentication.entity.ResourceEntity;
 
 import java.util.List;
 

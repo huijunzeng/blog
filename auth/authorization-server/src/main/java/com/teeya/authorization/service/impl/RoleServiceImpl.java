@@ -1,9 +1,8 @@
 package com.teeya.authorization.service.impl;
 
+import com.teeya.authorization.entity.RoleEntity;
 import com.teeya.authorization.feign.AuthorizationProvider;
 import com.teeya.authorization.service.RoleService;
-import com.teeya.common.web.entity.vo.Result;
-import com.teeya.user.entity.pojo.RoleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

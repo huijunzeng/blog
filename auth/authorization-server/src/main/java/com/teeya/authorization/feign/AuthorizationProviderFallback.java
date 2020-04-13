@@ -1,7 +1,7 @@
 package com.teeya.authorization.feign;
 
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.authorization.entity.UserEntity;
+import com.teeya.authorization.entity.RoleEntity;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

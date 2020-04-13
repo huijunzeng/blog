@@ -1,6 +1,6 @@
 package com.teeya.authentication.feign;
 
-import com.teeya.user.entity.pojo.ResourceEntity;
+import com.teeya.authentication.entity.ResourceEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

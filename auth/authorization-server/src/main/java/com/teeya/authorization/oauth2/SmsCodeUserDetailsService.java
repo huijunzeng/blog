@@ -51,7 +51,8 @@ public class SmsCodeUserDetailsService {
         */
         //查询账号是否存在，是就返回一个UserDetails的对象，若不存在就抛出异常！
         Set<GrantedAuthority> authoritiesSet = new HashSet<GrantedAuthority>();
-        authoritiesSet.add(new SimpleGrantedAuthority("USER"));// 授权权限
+        // 授权权限
+        authoritiesSet.add(new SimpleGrantedAuthority("USER"));
         return new User("admin", new BCryptPasswordEncoder().encode("password"), true, true, true, true,authoritiesSet);
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password

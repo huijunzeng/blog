@@ -1,7 +1,7 @@
 package com.teeya.authorization.service;
 
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.authorization.entity.UserEntity;
+import com.teeya.authorization.entity.RoleEntity;
 
 import java.util.List;
 

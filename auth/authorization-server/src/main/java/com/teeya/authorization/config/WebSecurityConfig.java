@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-//@EnableOAuth2Sso
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -73,31 +72,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll();*/
-
-       /* http.csrf().disable();
-        http
-                .requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/**").authenticated()
-                .and()
-                .formLogin().permitAll(); //新增login form支持用户登录及授权*/
-        http
-                .authorizeRequests()
-                //设置忽略规则
-                .antMatchers("/oauth/**", "/actuator/**","/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v2/api-docs").permitAll()
-                //设置拦截规则
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().and()
-                .csrf().disable()
-                .httpBasic();
+            //设置忽略规则
+            .antMatchers("/oauth/**", "/actuator/**","/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v2/api-docs").permitAll()
+            //设置拦截规则
+            .anyRequest().authenticated()
+            .and()
+            .formLogin().and()
+            .csrf().disable()
+            .httpBasic();
     }
 
     @Override

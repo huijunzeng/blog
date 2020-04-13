@@ -1,6 +1,7 @@
 package com.teeya.authorization.service;
 
-import com.teeya.user.entity.pojo.UserEntity;
+
+import com.teeya.authorization.entity.UserEntity;
 
 public interface UserService {
 

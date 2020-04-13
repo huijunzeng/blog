@@ -29,8 +29,8 @@ public class AuthenticationController {
     @ApiOperation(value = "鉴权，判断用户是否有权限", notes = "获取指定用户的权限")
     @ApiImplicitParams ({
         @ApiImplicitParam(paramType = "query", name = "request", value = "request请求体", required = true, dataType = "HttpServletRequest"),
-        @ApiImplicitParam(paramType = "query", name = "url", value = "url", required = true, dataType = "string"),
-        @ApiImplicitParam(paramType = "query", name = "method", value = "method方法名", required = true, dataType = "string")
+        @ApiImplicitParam(paramType = "query", name = "url", value = "url", required = true, dataType = "String"),
+        @ApiImplicitParam(paramType = "query", name = "method", value = "method方法名", required = true, dataType = "String")
     })
     @PostMapping("/permission")
     public boolean hasPermission(HttpServletRequest request, @RequestParam("url") String url, @RequestParam("method") String method) {
