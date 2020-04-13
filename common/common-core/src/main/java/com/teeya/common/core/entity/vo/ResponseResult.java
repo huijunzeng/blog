@@ -1,7 +1,7 @@
 package com.teeya.common.core.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.teeya.common.core.exception.ErrorType;
+import com.teeya.common.core.exception.ExceptionType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,14 +22,14 @@ public class ResponseResult<T> implements Serializable {
     @ApiModelProperty(value = "响应数据体")
     private T data;
 
-    public ResponseResult(ErrorType errorType) {
-        this.code = errorType.getCode();
-        this.msg = errorType.getMsg();
+    public ResponseResult(ExceptionType exceptionType) {
+        this.code = exceptionType.getCode();
+        this.msg = exceptionType.getMsg();
     }
 
-    public ResponseResult(ErrorType errorType, T data) {
-        this.code = errorType.getCode();
-        this.msg = errorType.getMsg();
+    public ResponseResult(ExceptionType exceptionType, T data) {
+        this.code = exceptionType.getCode();
+        this.msg = exceptionType.getMsg();
         this.data = data;
     }
 

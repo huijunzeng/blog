@@ -1,7 +1,7 @@
 package com.teeya.common.web.response;
 
 import com.alibaba.fastjson.JSONObject;
-import com.teeya.common.core.exception.SystemErrorType;
+import com.teeya.common.core.exception.CommonExceptionEnum;
 import com.teeya.common.core.entity.vo.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -32,7 +32,7 @@ public class BaseGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> 
         log.info("start=============");
         if(!(o instanceof ResponseResult)) {
             Object newObject = JSONObject.toJSON(o);
-            ResponseResult responseResult = new ResponseResult(SystemErrorType.SYSTEM_SUCCESS, newObject);
+            ResponseResult responseResult = new ResponseResult(CommonExceptionEnum.SYSTEM_SUCCESS, newObject);
             log.info("responseResult============={}", responseResult.toString());
             log.info("toJSON(responseResult)============={}", JSONObject.toJSON(responseResult));
             return responseResult;

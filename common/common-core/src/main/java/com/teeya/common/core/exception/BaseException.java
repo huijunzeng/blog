@@ -1,26 +1,35 @@
 package com.teeya.common.core.exception;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class BaseException extends RuntimeException {
 
-    Integer code;
+    /*Integer code;
 
     String msg;
 
     public BaseException(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
-    }
-/**
+    }*/
+    /**
      * 异常对应的错误类型
      */
-    //private ErrorType errorType;
+    private final ExceptionType exceptionType;
 
     /**
      * 默认是系统异常
      */
+    public BaseException(ExceptionType exceptionType, String message) {
+        super(message);
+        this.exceptionType = exceptionType;
+    }
+
+    public BaseException(ExceptionType exceptionType, String message, Throwable cause) {
+        super(message, cause);
+        this.exceptionType = exceptionType;
+    }
     /*public BaseException() {
         this.errorType = SystemErrorType.SYSTEM_ERROR;
     }

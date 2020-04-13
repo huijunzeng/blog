@@ -2,8 +2,8 @@ package com.teeya.common.web.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.teeya.common.core.exception.ErrorType;
-import com.teeya.common.core.exception.SystemErrorType;
+import com.teeya.common.core.exception.ExceptionType;
+import com.teeya.common.core.exception.CommonExceptionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -33,20 +33,20 @@ public class Result<T> {
     }
 
     /**
-     * @param errorType
+     * @param exceptionType
      */
-    public Result(ErrorType errorType) {
-        this.code = errorType.getCode();
-        this.msg = errorType.getMsg();
+    public Result(ExceptionType exceptionType) {
+        this.code = exceptionType.getCode();
+        this.msg = exceptionType.getMsg();
         this.time = ZonedDateTime.now().toInstant();
     }
 
     /**
-     * @param errorType
+     * @param exceptionType
      * @param data
      */
-    public Result(ErrorType errorType, T data) {
-        this(errorType);
+    public Result(ExceptionType exceptionType, T data) {
+        this(exceptionType);
         this.data = data;
     }
 
@@ -89,7 +89,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result fail() {
-        return new Result(SystemErrorType.SYSTEM_ERROR);
+        return new Result(CommonExceptionEnum.SYSTEM_ERROR);
     }
 
     /**
@@ -115,22 +115,22 @@ public class Result<T> {
     /**
      * 系统异常类并返回结果数据
      *
-     * @param errorType
+     * @param exceptionType
      * @param data
      * @return Result
      */
-    public static Result fail(ErrorType errorType, Object data) {
-        return new Result<>(errorType, data);
+    public static Result fail(ExceptionType exceptionType, Object data) {
+        return new Result<>(exceptionType, data);
     }
 
     /**
      * 系统异常类并返回结果数据
      *
-     * @param errorType
+     * @param exceptionType
      * @return Result
      */
-    public static Result fail(ErrorType errorType) {
-        return Result.fail(errorType, null);
+    public static Result fail(ExceptionType exceptionType) {
+        return Result.fail(exceptionType, null);
     }
 
     /**
@@ -140,7 +140,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result fail(Object data) {
-        return new Result<>(SystemErrorType.SYSTEM_ERROR, data);
+        return new Result<>(CommonExceptionEnum.SYSTEM_ERROR, data);
     }
 
 

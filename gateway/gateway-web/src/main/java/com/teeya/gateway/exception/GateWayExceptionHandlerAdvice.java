@@ -7,15 +7,11 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.netty.channel.ConnectTimeoutException;*/
 import com.teeya.common.core.exception.BaseException;
-import io.netty.channel.ConnectTimeoutException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -107,7 +103,7 @@ public class GateWayExceptionHandlerAdvice {
             BaseException ex1 = (BaseException) ex;
             //map.put("msg", ex1.getMsg());
             map.put("code", 404);
-            map.put("msg", ex1.getMsg());
+            map.put("msg", ex1.getExceptionType().getMsg());
         } else if (ex instanceof ArithmeticException) {
             map.put("code", 404);
             map.put("msg", "算法异常");

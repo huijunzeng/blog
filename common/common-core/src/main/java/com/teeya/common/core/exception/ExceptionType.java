@@ -1,6 +1,6 @@
 package com.teeya.common.core.exception;
 
-public interface ErrorType {
+public interface ExceptionType {
     /**
      * 返回code
      *
