@@ -66,8 +66,12 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         // 判断下游服务返回的是正常的响应数据还是异常信息
                         JSONObject parseObject = JSONObject.parseObject(responseData);
                         log.info("parseObject========:{}", parseObject.toString());
-                        if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {
+                        if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {// 自定义异常信息不封装直接返回
                             log.info("error:{}", responseData);
+                        } else if (parseObject != null && parseObject.containsKey("error")) {// /oauth/token端点异常：{"error":"unauthorized","error_description":null}
+
+                        } else if (parseObject != null && parseObject.containsKey("swagger")) {// swagger接口文档不封装直接返回
+
                         } else {
                             log.info("normal invoke return");
                             ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", responseData);

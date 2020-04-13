@@ -38,6 +38,24 @@ spring:
                         - Path=/authentication-server/**
                     filters:
                         - StripPrefix=1
+                -   id: admin-user
+                    uri: lb://admin-user
+                    predicates:
+                        - Path=/admin-user/**
+                    filters:
+                        - StripPrefix=1
+                -   id: article-admin
+                    uri: lb://article-admin
+                    predicates:
+                        - Path=/article-admin/**
+                    filters:
+                        - StripPrefix=1
+                -   id: file-server
+                    uri: lb://file-server
+                    predicates:
+                       - Path=/file-server/**
+                    filters:
+                       - StripPrefix=1
         #sentinel配置
         sentinel:
             transport:

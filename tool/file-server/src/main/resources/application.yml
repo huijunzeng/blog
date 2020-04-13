@@ -17,6 +17,11 @@ spring:
                 dashboard: localhost:8080 #控制台的地址
     profiles:
         active: dev # 根据不同环境切换配置环境
+    # redis配置
+    redis:
+        host: localhost
+        port: 6379
+        password:
 name: file-server  # 测试用
 ##使用sentinel配置
 feign:
