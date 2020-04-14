@@ -1,9 +1,7 @@
 package com.teeya.common.web.exception;
 
 import com.google.common.collect.Maps;
-import com.teeya.common.core.exception.BaseException;
-import com.teeya.common.core.exception.CommonExceptionEnum;
-import com.teeya.common.core.exception.ExceptionType;
+import com.teeya.common.core.exception.SystemExceptionEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -13,58 +11,51 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class DefaultGlobalExceptionHandlerAdvice {
 
-    protected Map<String, Object> getException(ExceptionType exceptionType) {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("code", exceptionType.getCode());
-        map.put("msg", exceptionType.getMsg());
-        return map;
-    }
-
     @ExceptionHandler(value = {MissingServletRequestParameterException.class})
-    public Map<String, Object> missingServletRequestParameterException(MissingServletRequestParameterException ex) {
+    public Map missingServletRequestParameterException(MissingServletRequestParameterException ex) {
         log.error("missing servlet request parameter exception:{}", ex.getMessage());
-        return this.getException(CommonExceptionEnum.ARGUMENT_NOT_VALID);
+        return this.getException(SystemExceptionEnums.ARGUMENT_NOT_VALID);
     }
 
     @ExceptionHandler(value = {MultipartException.class})
-    public Map<String, Object> uploadFileLimitException(MultipartException ex) {
+    public Map uploadFileLimitException(MultipartException ex) {
         log.error("upload file size limit:{}", ex.getMessage());
-        return this.getException(CommonExceptionEnum.UPLOAD_FILE_SIZE_LIMIT);
+        return this.getException(SystemExceptionEnums.UPLOAD_FILE_SIZE_LIMIT);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public Map<String, Object> serviceException(MethodArgumentNotValidException ex) {
+    public Map serviceException(MethodArgumentNotValidException ex) {
         log.error("service exception:{}", ex.getMessage());
-        return this.getException(CommonExceptionEnum.ARGUMENT_NOT_VALID);
+        return this.getException(SystemExceptionEnums.ARGUMENT_NOT_VALID);
     }
 
     @ExceptionHandler(value = {DuplicateKeyException.class})
-    public Map<String, Object> duplicateKeyException(DuplicateKeyException ex) {
+    public Map duplicateKeyException(DuplicateKeyException ex) {
         log.error("primary key duplication exception:{}", ex.getMessage());
-        return this.getException(CommonExceptionEnum.DUPLICATE_PRIMARY_KEY);
+        return this.getException(SystemExceptionEnums.DUPLICATE_PRIMARY_KEY);
     }
 
-    /*@ExceptionHandler(value = {BaseException.class})
-    public Map<String, Object> baseException(BaseException ex) {
-        log.error("base exception:{}", ex.getMessage());
-        return Result.fail(ex.getErrorType());
-    }
-
-    @ExceptionHandler(value = {Exception.class})
+    /*@ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> exception() {
-        return Result.fail();
-    }
+    public Map exception() {
+        return this.getException(SystemExceptionEnums.INTERNAL_SERVER_ERROR);
+    }*/
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> throwable() {
-        return Result.fail();
-    }*/
+    public Map throwable() {
+        return this.getException(SystemExceptionEnums.INTERNAL_SERVER_ERROR);
+    }
+
+    protected Map getException(SystemExceptionEnums systemExceptionEnums) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("code", systemExceptionEnums.getCode());
+        map.put("msg", systemExceptionEnums.getMsg());
+        return map;
+    }
 }

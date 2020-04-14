@@ -1,7 +1,9 @@
 package com.teeya.gateway.config;
 
 import com.teeya.common.core.exception.BaseException;
+import com.teeya.common.core.exception.SystemExceptionEnums;
 import feign.Response;
+import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +24,19 @@ import org.springframework.http.HttpStatus;
 @Slf4j
 public class FeignErrorDecoder implements ErrorDecoder {
 
+    /**
+     * feign调取内部接口异常时的处理
+     * @param methodKey
+     * @param response
+     * @return
+     */
     @Override
     public Exception decode(String methodKey, Response response) {
         try {
-            //String message = Util.toString(response.body().asReader());
+            String message = Util.toString(response.body().asReader());
             log.info("methodKey: {}", methodKey);
             log.info("response: {}", response);
+            log.info("response.body(): {}", message);
             log.info("response status: {}", response.status());
             return new BaseException(response.status(), methodKey);
         } catch (Exception ignored) {

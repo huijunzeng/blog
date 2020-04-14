@@ -2,12 +2,12 @@ package com.teeya.common.core.exception;
 
 import lombok.Getter;
 
+// 继承ExceptionType接口方法
 @Getter
-public enum CommonExceptionEnum implements ExceptionType {
+public enum SystemExceptionEnums implements ExceptionType {
 
     SYSTEM_SUCCESS(200, "成功"),
-    SYSTEM_ERROR(500, "系统异常"),
-    SYSTEM_BUSY(1001, "系统繁忙,请稍候再试"),
+    INTERNAL_SERVER_ERROR(500, "内部服务错误"),
 
     GATEWAY_NOT_FOUND_SERVICE(1002, "服务未找到"),
     GATEWAY_ERROR(1003, "网关异常"),
@@ -23,12 +23,13 @@ public enum CommonExceptionEnum implements ExceptionType {
      * 错误类型码
      */
     private Integer code;
+
     /**
      * 错误类型描述信息
      */
     private String msg;
 
-    CommonExceptionEnum(Integer code, String msg) {
+    SystemExceptionEnums(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

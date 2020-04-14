@@ -3,7 +3,7 @@ package com.teeya.common.web.entity.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teeya.common.core.exception.ExceptionType;
-import com.teeya.common.core.exception.CommonExceptionEnum;
+import com.teeya.common.core.exception.SystemExceptionEnums;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -89,7 +89,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result fail() {
-        return new Result(CommonExceptionEnum.SYSTEM_ERROR);
+        return new Result(SystemExceptionEnums.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -140,7 +140,7 @@ public class Result<T> {
      * @return Result
      */
     public static Result fail(Object data) {
-        return new Result<>(CommonExceptionEnum.SYSTEM_ERROR, data);
+        return new Result<>(SystemExceptionEnums.INTERNAL_SERVER_ERROR, data);
     }
 
 

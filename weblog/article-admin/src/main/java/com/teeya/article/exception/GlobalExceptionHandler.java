@@ -1,6 +1,7 @@
 package com.teeya.article.exception;
 
 import com.teeya.common.core.exception.BaseException;
+import com.teeya.common.web.exception.DefaultGlobalExceptionHandlerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.Map;
 // 与@RestController类型，相当于@ResponseBody与@ControllerAdvice的结合体
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler /*extends DefaultGlobalExceptionHandlerAdvice*/ {
 
     /**
      * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
@@ -59,10 +60,10 @@ public class GlobalExceptionHandler {
         log.error("exception:{}", ex);
         Map<String, Object> map = new HashMap<>();
         if (ex instanceof BaseException){
-            BaseException ex1 = (BaseException) ex;
+            BaseException baseException = (BaseException) ex;
             //map.put("msg", ex1.getMsg());
             map.put("code", 404);
-            map.put("msg", ex1.getMsg());
+            map.put("msg", baseException.getMessage());
         } else if (ex instanceof ArithmeticException) {
             map.put("code", 404);
             map.put("msg", "算法异常");
