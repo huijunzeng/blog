@@ -3,9 +3,11 @@
 
     <contextName>logback</contextName>
 
+    <!-- 线上环境 -->
+    <property name="logback.logdir" value="/media/blog/filebeat/logs"/>
     <!-- 本地windows开发环境配置 不需要带盘符(会自动匹配到路径) -->
-    <property name="logback.logdir" value="filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>
-    <property name="logback.appname" value="logLocaldev"/>
+    <!--<property name="logback.logdir" value="filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
+    <property name="logback.appname" value="authentication-server"/>
 
     <!-- 格式化日志输出节点 -->
     <!-- 控制台打印设置 -->
@@ -48,10 +50,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
             <FileNamePattern>${logback.logdir}/info.${logback.appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--只保留最近90天的日志-->
-            <maxHistory>90</maxHistory>
-            <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
-            <!--<totalSizeCap>1GB</totalSizeCap>-->
+            <!--只保留最近15天的日志-->
+            <maxHistory>15</maxHistory>
         </rollingPolicy>
         <!--日志输出编码格式化-->
         <encoder>
@@ -75,10 +75,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
             <FileNamePattern>${logback.logdir}/error.${logback.appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--只保留最近90天的日志-->
-            <maxHistory>90</maxHistory>
-            <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
-            <!--<totalSizeCap>1GB</totalSizeCap>-->
+            <!--只保留最近15天的日志-->
+            <maxHistory>15</maxHistory>
         </rollingPolicy>
         <!--日志输出编码格式化-->
         <encoder>

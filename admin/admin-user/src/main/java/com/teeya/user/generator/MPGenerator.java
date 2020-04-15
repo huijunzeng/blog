@@ -1,10 +1,10 @@
-package com.teeya.article.generator;
+package com.teeya.user.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
@@ -27,7 +27,7 @@ public class MPGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("C:\\Users\\admin\\IdeaProjects\\blog\\weblog\\article-admin\\src\\main\\java");// 生成文件的输出目录
+        gc.setOutputDir("C:\\Users\\admin\\IdeaProjects\\blog\\weblog\\admin-user\\src\\main\\java");// 生成文件的输出目录
         gc.setFileOverride(true); //是否覆盖已有文件
         gc.setOpen(false);// 是否打开输出目录
         gc.setAuthor("ZJH");// 开发人员
@@ -65,7 +65,7 @@ public class MPGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.teeya.article");// 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
+        pc.setParent("com.teeya.user");// 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
         pc.setEntity("entity.pojo");
         pc.setController("controller");
         pc.setService("service");

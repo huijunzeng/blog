@@ -5,7 +5,6 @@ import com.teeya.gateway.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -23,10 +22,10 @@ import java.util.Map;
 //@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) //排除数据库配置
 @SpringBootApplication
 @RestController
-public class GatewayApplication {
+public class GatewayWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class, args);
+        SpringApplication.run(GatewayWebApplication.class, args);
     }
 
     @Autowired

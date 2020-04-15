@@ -12,9 +12,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) //排除数据库配置
-public class FileApplication {
+public class FileServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileApplication.class, args);
+        SpringApplication.run(FileServerApplication.class, args);
     }
 }
