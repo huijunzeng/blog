@@ -8,7 +8,7 @@
 访问rabbitmq控制台：http://129.211.34.120:15671
 访问xxl-job控制台：http://129.211.34.120:9090/xxl-job-admin/
 
-日志配置：elk + filebeat  本地启动输出日志到elk，需要下载安装filebeat，然后配置logstash的输出地址（129.211.34.120:5044）以及监听的日志文件路径
+日志配置：elk + filebeat  本地启动输出日志到elk，需要下载安装filebeat，然后配置logstash的输出地址（129.211.34.120:5044）以及监听的日志文件路径(启动fielbeat看到输出 Connection to backoff(async(tcp://129.211.34.120:5044)) established 表示连接成功)
 
 
 一个实体类在多个系统中唯一，在客户端创建VO接收来自服务端的对象

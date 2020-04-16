@@ -73,8 +73,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            //设置忽略规则
-            .antMatchers("/oauth/**", "/actuator/**","/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v2/api-docs").permitAll()
+            //允许对于网站静态资源以及某些请求路径的无授权访问
+            .antMatchers("/oauth/**", "/actuator/**","/*.html",
+                    "/favicon.ico",
+                    "/**/*.html",
+                    "/**/*.css",
+                    "/**/*.js",
+                    "/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v2/api-docs").permitAll()
             //设置拦截规则
             .anyRequest().authenticated()
             .and()
@@ -83,6 +88,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic();
     }
 
+    /**
+     * Web层面的配置，一般用来配置无需权限校验的路径，也可以在HttpSecurity中配置，但是在web.ignoring()中配置效率更高。
+     * web.ignoring()是一个忽略的过滤器，而HttpSecurity中定义了一个过滤器链，即使permitAll()放行还是会走所有的过滤器，
+     * 直到最后一个过滤器FilterSecurityInterceptor认定是可以放行的，才能访问。
+     */
     @Override
     public void configure(WebSecurity web) {
         /*super.configure(web);*/

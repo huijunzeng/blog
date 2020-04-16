@@ -3,10 +3,10 @@
 
     <contextName>logback</contextName>
 
-    <!-- 线上环境 -->
-    <property name="logback.logdir" value="/media/blog/filebeat/logs"/>
-    <!-- 本地windows开发环境配置 不需要带盘符(会自动匹配到路径) -->
-    <!--<property name="logback.logdir" value="filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
+    <!-- 线上环境 docker部署，所以需要将这个路径挂载到宿主机中filebeat挂载的日志收集路径 -->
+    <property name="logback.logdir" value="/logs"/>
+    <!-- 本地windows开发环境配置 不设置绝对路径时，默认为当前项目下的路径 -->
+    <!--<property name="logback.logdir" value="E:\\filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
     <property name="logback.appname" value="authorization-server"/>
 
     <!-- 格式化日志输出节点 -->
