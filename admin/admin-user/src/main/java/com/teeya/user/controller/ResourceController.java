@@ -57,9 +57,9 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
-    @GetMapping("/user/{username}")
-    public List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username) {
+    @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "String")
+    @GetMapping
+    public List<ResourceEntity> queryListByUsername(@RequestParam(value = "username") String username) {
         return resourceService.queryListByUsername(username);
     }
 

@@ -110,4 +110,4 @@ logging: #日志配置文件引入 classpath的默认路径为resources目录下
 gateway:
     ignore:
         authentication:
-            url: /oauth/,/v2/api-docs,/favor.ioc #/oauth/ Oauth2授权端点    /v2/api-docs Swagger2接口页面的端点,需要放行
+            url: /oauth/,/v2/api-docs,/favor.ioc,/web/ #/oauth/ Oauth2授权端点   /v2/api-docs Swagger2接口页面的端点  /web/前台页面接口前缀
