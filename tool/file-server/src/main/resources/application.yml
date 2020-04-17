@@ -4,6 +4,10 @@ server:
 spring:
     application:
         name: file-server
+    servlet:
+        multipart: # 配置MultipartFile
+            max-file-size: 10MB # 最大单个文件大小
+            max-request-size: 10MB # 最大请求文件大小
     cloud:
         nacos:
             discovery: # nacos注册中心地址配置

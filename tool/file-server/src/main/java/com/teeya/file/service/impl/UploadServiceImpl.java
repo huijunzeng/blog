@@ -6,6 +6,7 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import com.sun.org.apache.bcel.internal.classfile.Constant;
 import com.teeya.file.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,13 +42,27 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public String imgUpload(MultipartFile file) throws IOException {
+        // 判断文件是否为空
+        if(file.isEmpty()) {
+            return null;
+        }
+        //检查是否是图片
+        BufferedImage bi = ImageIO.read(file.getInputStream());
+        if(bi == null){
+            return null;
+        }
         byte[] fileBytes = file.getBytes();
         ByteArrayInputStream byteInputStream = new ByteArrayInputStream(fileBytes);
         // 文件名
         String originalFilename = file.getOriginalFilename();
         log.info("originalFilename: {}", originalFilename);
         // 获得图片后缀名称,如果后缀不为图片格式，则不上传
-        String suffix = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+        String suffix = null;
+        if(originalFilename.contains(".")) {
+            suffix = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+        } else {
+            return null;
+        }
         log.info("suffix: {}", suffix);
         UploadManager uploadManager = new UploadManager(configuration);
         // 获取一个随机的文件名
