@@ -9,11 +9,13 @@ import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
 import com.teeya.user.entity.form.RoleUpdateForm;
 import com.teeya.user.entity.pojo.RoleEntity;
+import com.teeya.user.entity.pojo.UserEntity;
 import com.teeya.user.entity.pojo.UserRoleRelationEntity;
 import com.teeya.user.mapper.RoleMapper;
 import com.teeya.user.mapper.UserRoleRelationMapper;
 import com.teeya.user.service.RoleService;
 import com.teeya.user.service.UserRoleRelationService;
+import com.teeya.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +36,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private UserRoleRelationService userRoleRelationService;
     @Autowired
     private UserRoleRelationMapper userRoleRelationMapper;
+    @Autowired
+    private UserService userService;
 
     @Override
     public boolean save(RoleSaveForm roleSaveForm) {
@@ -58,6 +62,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     public List<RoleEntity> queryListByUserId(String userId) {
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userId);
+        List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);
+        Set<String> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
+        return super.listByIds(roleIds);
+    }
+
+    @Override
+    public List<RoleEntity> queryListByUsername(String username) {
+        UserEntity userEntity = userService.getByUniqueId(username);
+        if (null == userEntity) {
+            return null;
+        }
+        QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userEntity.getId());
         List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);
         Set<String> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
         return super.listByIds(roleIds);

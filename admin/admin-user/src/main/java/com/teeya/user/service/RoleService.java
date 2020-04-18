@@ -40,6 +40,13 @@ public interface RoleService extends IService<RoleEntity> {
     List<RoleEntity> queryListByUserId(String userId);
 
     /**
+     * 根据用户名获取相应的角色集合
+     * @param username
+     * @return
+     */
+    List<RoleEntity> queryListByUsername(String username);
+
+    /**
      * 根据条件获取角色信息列表
      * @param roleQueryForm
      * @return
@@ -57,4 +64,5 @@ public interface RoleService extends IService<RoleEntity> {
      * @return
      */
     boolean remove(String id);
+
 }

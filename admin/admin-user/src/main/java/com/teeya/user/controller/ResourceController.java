@@ -50,17 +50,24 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "String")
-    @GetMapping("/user/{userId}")
-    public List<ResourceEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
+    @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
+    @GetMapping
+    public List<ResourceEntity> queryListByUserId(@RequestParam(value = "userId") String userId) {
         return resourceService.queryListByUserId(userId);
     }
 
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
-    @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "String")
-    @GetMapping
-    public List<ResourceEntity> queryListByUsername(@RequestParam(value = "username") String username) {
+    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
+    @GetMapping("/user/{username}")
+    public List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username) {
         return resourceService.queryListByUsername(username);
+    }
+
+    @ApiOperation(value = "根据角色code获取相应的资源集合", notes = "根据角色code获取相应的资源集合")
+    @ApiImplicitParam(paramType = "path", name = "roleId", value = "角色code", required = true, dataType = "String")
+    @GetMapping("/role/{roleId}")
+    public List<ResourceEntity> queryListByRoleId(@PathVariable(value = "roleId") String roleId) {
+        return resourceService.queryListByRoleId(roleId);
     }
 
     @ApiOperation(value = "搜索资源", notes = "根据条件获取资源信息列表")

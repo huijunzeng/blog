@@ -54,6 +54,13 @@ public interface ResourceService extends IService<ResourceEntity> {
     List<ResourceEntity> queryListByUsername(String username);
 
     /**
+     * 根据角色code获取相应的资源集合
+     * @param roleId
+     * @return
+     */
+    List<ResourceEntity> queryListByRoleId(String roleId);
+
+    /**
      * 根据条件获取资源信息列表
      * @param resourceQueryForm
      * @return

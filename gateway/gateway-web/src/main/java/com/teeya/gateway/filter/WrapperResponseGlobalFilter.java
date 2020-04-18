@@ -1,5 +1,6 @@
 package com.teeya.gateway.filter;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.teeya.common.core.entity.vo.ResponseResult;
 import com.teeya.common.core.exception.BaseException;
@@ -64,7 +65,15 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         log.info("object instanceof BaseException:{}", object instanceof BaseException);
                         log.info("响应内容responseData:{}", responseData);
                         // 判断下游服务返回的是正常的响应数据还是异常信息
-                        JSONObject parseObject = JSONObject.parseObject(responseData);
+                        JSONObject parseObject = null;
+                        if (object instanceof JSONObject) {
+                            parseObject = JSONObject.parseObject(responseData);
+                        } else if (object instanceof JSONArray) {
+                            String value = JSONObject.toJSONString(JSONObject.parseArray(responseData, Object.class).get(0));
+                            parseObject = JSONObject.parseObject(value);
+                        } else {
+                            log.info("object========:{}", object);
+                        }
                         log.info("parseObject========:{}", parseObject.toString());
                         if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {
                             // 自定义异常信息不封装直接返回

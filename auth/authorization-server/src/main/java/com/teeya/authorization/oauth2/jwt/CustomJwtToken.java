@@ -1,10 +1,14 @@
 package com.teeya.authorization.oauth2.jwt;
 
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +17,7 @@ import java.util.Map;
  * @Author: ZJH
  * @Date: 2019/6/26 18:50
  */
+@Slf4j
 public class CustomJwtToken implements TokenEnhancer {
 
     /**
@@ -29,7 +34,7 @@ public class CustomJwtToken implements TokenEnhancer {
          * refresh_token - 当访问令牌失效，使用这个令牌重新获取访问令牌
          * token_type - 令牌类型，这里是Bearer也就是基本HTTP认证
          * expire_in - 过期时间
-         * organization - 自定义的内容
+         * username - 自定义的内容
          * jti - JWT ID
          * ————————————————
          * {
@@ -37,15 +42,18 @@ public class CustomJwtToken implements TokenEnhancer {
          *     "token_type": "bearer",
          *     "expires_in": 43198,
          *     "scope": "select",
-         *     "organization": "user_1",
+         *     "username": "user_1",
          *     "jti": "658ea968-95c4-4cfb-b9d8-97bf775a7133"
          * }
          */
 
-
         //自定义token内容
         Map<String, Object> additionalInfo = new HashMap();
-        additionalInfo.put("organization", oAuth2Authentication.getName());//加入organization组织机构信息  这里加入用户名
+        Collection<GrantedAuthority> authorities = oAuth2Authentication.getAuthorities();
+        additionalInfo.put("username", oAuth2Authentication.getName());// 这里加入用户名
+        Object principal = oAuth2Authentication.getPrincipal();
+        log.info("principal: {}", JSONObject.toJSONString(principal));
+        additionalInfo.put("roles", oAuth2Authentication.getAuthorities());// 这里加入用户的角色code
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInfo);
         return oAuth2AccessToken;
     }

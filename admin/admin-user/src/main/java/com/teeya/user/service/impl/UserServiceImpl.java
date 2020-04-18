@@ -36,6 +36,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public boolean save(UserSaveForm userSaveForm) {
+        UserEntity queryEntity = (null == this.getByUniqueId(userSaveForm.getUsername()) ? this.getByUniqueId(userSaveForm.getPhone()) : this.getByUniqueId(userSaveForm.getUsername()));
+        if (null != queryEntity) {
+            log.info("exist the same username or phone");
+            return false;
+        }
         UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
         BeanUtils.copyProperties(userSaveForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword())){

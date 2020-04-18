@@ -8,10 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
 import com.teeya.user.entity.form.UserUpdateForm;
-import com.teeya.user.entity.pojo.ResourceEntity;
-import com.teeya.user.entity.pojo.RoleEntity;
-import com.teeya.user.entity.pojo.RoleResourceRelationEntity;
-import com.teeya.user.entity.pojo.UserEntity;
+import com.teeya.user.entity.pojo.*;
 import com.teeya.user.mapper.ResourceMapper;
 import com.teeya.user.mapper.RoleMapper;
 import com.teeya.user.mapper.RoleResourceRelationMapper;
@@ -88,6 +85,15 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userEntity.getId());
         Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
+        Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
+        return super.listByIds(resourceIds);
+    }
+
+    @Override
+    public List<ResourceEntity> queryListByRoleId(String roleId) {
+        QueryWrapper<RoleResourceRelationEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RoleResourceRelationEntity::getRoleId, roleId);
+        List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.list(queryWrapper);
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);
     }

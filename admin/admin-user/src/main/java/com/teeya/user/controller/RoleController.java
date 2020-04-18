@@ -50,10 +50,17 @@ public class RoleController {
     }
 
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
-    @ApiImplicitParam(paramType = "path", name = "userId", value = "用户id", required = true, dataType = "String")
-    @GetMapping("/user/{userId}")
-    public List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId) {
+    @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
+    @GetMapping
+    public List<RoleEntity> queryListByUserId(@RequestParam(value = "userId") String userId) {
         return roleService.queryListByUserId(userId);
+    }
+
+    @ApiOperation(value = "根据用户名获取相应的角色集合", notes = "根据用户名获取相应的角色集合")
+    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
+    @GetMapping("/user/{username}")
+    public List<RoleEntity> queryListByUsername(@PathVariable(value = "username") String username) {
+        return roleService.queryListByUsername(username);
     }
 
     @ApiOperation(value = "搜索角色", notes = "根据条件获取角色信息列表")
