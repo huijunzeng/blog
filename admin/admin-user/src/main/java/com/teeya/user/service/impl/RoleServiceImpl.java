@@ -41,6 +41,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
     @Override
     public boolean save(RoleSaveForm roleSaveForm) {
+        QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RoleEntity::getCode, roleSaveForm.getCode());
+        if (null != this.getOne(queryWrapper)) {
+            return false;
+        }
         RoleEntity roleEntity = BeanUtils.instantiateClass(RoleEntity.class);
         BeanUtils.copyProperties(roleSaveForm, roleEntity);
         return super.save(roleEntity);
