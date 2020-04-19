@@ -36,7 +36,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public boolean save(UserSaveForm userSaveForm) {
-        UserEntity queryEntity = (null == this.getByUniqueId(userSaveForm.getUsername()) ? this.getByUniqueId(userSaveForm.getPhone()) : this.getByUniqueId(userSaveForm.getUsername()));
+        QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserEntity::getUsername, userSaveForm.getUsername()).or().eq(UserEntity::getPhone, userSaveForm.getPhone()).eq(UserEntity::getDeleted, 0);
+        UserEntity queryEntity = super.getOne(queryWrapper);
         if (null != queryEntity) {
             log.info("exist the same username or phone");
             return false;
