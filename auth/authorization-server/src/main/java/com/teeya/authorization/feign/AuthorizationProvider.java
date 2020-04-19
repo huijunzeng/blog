@@ -30,6 +30,6 @@ public interface AuthorizationProvider {
     @GetMapping("/user")
     UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId);
 
-    @GetMapping("/role/user/{userId}")
-    List<RoleEntity> queryListByUserId(@PathVariable(value = "userId") String userId);
+    @GetMapping("/role/user/{username}")
+    List<RoleEntity> queryListByUsername(@PathVariable(value = "username") String username);
 }

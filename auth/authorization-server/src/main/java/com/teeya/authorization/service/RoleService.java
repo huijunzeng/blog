@@ -7,9 +7,9 @@ import java.util.List;
 public interface RoleService {
 
     /**
-     * 根据用户id获取相应的角色集合
-     * @param userId
+     * 根据用户名获取相应的角色集合
+     * @param username
      * @return
      */
-    List<RoleEntity> queryListByUserId(String userId);
+    List<RoleEntity> queryListByUsername(String username);
 }

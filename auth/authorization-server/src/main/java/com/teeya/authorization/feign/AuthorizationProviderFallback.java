@@ -27,7 +27,7 @@ public class AuthorizationProviderFallback implements FallbackFactory<Authorizat
             }
 
             @Override
-            public List<RoleEntity> queryListByUserId(String userId) {
+            public List<RoleEntity> queryListByUsername(String username) {
                 return null;
             }
         };

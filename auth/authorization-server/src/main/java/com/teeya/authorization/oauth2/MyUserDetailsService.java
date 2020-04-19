@@ -91,7 +91,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
-        List<RoleEntity> roles = authorizationService.queryListByUserId(userEntity.getId());
+        List<RoleEntity> roles = authorizationService.queryListByUsername(userEntity.getUsername());
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }

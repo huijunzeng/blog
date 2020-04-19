@@ -8,9 +8,8 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 自定义JWT token  可拓展
@@ -43,6 +42,7 @@ public class CustomJwtToken implements TokenEnhancer {
          *     "expires_in": 43198,
          *     "scope": "select",
          *     "username": "user_1",
+         *     "roles":["R001"],
          *     "jti": "658ea968-95c4-4cfb-b9d8-97bf775a7133"
          * }
          */
@@ -53,7 +53,9 @@ public class CustomJwtToken implements TokenEnhancer {
         additionalInfo.put("username", oAuth2Authentication.getName());// 这里加入用户名
         Object principal = oAuth2Authentication.getPrincipal();
         log.info("principal: {}", JSONObject.toJSONString(principal));
-        additionalInfo.put("roles", oAuth2Authentication.getAuthorities());// 这里加入用户的角色code
+        Set<String> roles = authorities.stream().map(grantedAuthority -> grantedAuthority.getAuthority()).collect(Collectors.toSet());
+        log.info("roles: {}", roles);
+        additionalInfo.put("roles", roles);// 这里加入用户的角色code
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInfo);
         return oAuth2AccessToken;
     }
