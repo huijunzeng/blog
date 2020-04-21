@@ -7,6 +7,8 @@
 访问sentinel控制台：http://129.211.34.120:8088 （需启动jar包）
 访问rabbitmq控制台：http://129.211.34.120:15671
 访问xxl-job控制台：http://129.211.34.120:9090/xxl-job-admin/
+访问swaggerApi: http://129.211.34.120:9800/swagger-ui.html
+访问portainer控制台: http://129.211.34.120:9000
 
 日志配置：elk + filebeat  本地启动输出日志到elk，需要下载安装filebeat，然后配置logstash的输出地址（129.211.34.120:5044）以及监听的日志文件路径(启动fielbeat看到输出 Connection to backoff(async(tcp://129.211.34.120:5044)) established 表示连接成功)
 

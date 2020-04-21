@@ -76,9 +76,8 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                             parseObject = JSONObject.parseObject(value);
                         } else {// 其他类型
                             log.info("object========:{}", object);
-                            parseObject = JSONObject.parseObject(object.toString());
                         }
-                        log.info("parseObject========:{}", parseObject.toString());
+                        log.info("parseObject========:{}", JSONObject.toJSONString(parseObject));
                         if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {
                             // 自定义异常信息不封装直接返回
                             log.info("error:{}", responseData);
@@ -88,7 +87,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                             // swagger接口文档不封装直接返回
                         } else {
                             log.info("normal invoke return");
-                            ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", responseData);
+                            ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", object);
                             responseData = JSONObject.toJSONString(responseResult);
                         }
                         byte[] uppedContent = new String(responseData.getBytes(), StandardCharsets.UTF_8).getBytes();
