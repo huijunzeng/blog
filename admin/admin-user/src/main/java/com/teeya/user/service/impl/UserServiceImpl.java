@@ -81,8 +81,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public IPage queryList(UserQueryForm userQueryForm) {
         Page page = userQueryForm.getPage();
         LambdaQueryWrapper<UserEntity> queryWrapper = userQueryForm.build().lambda();
-        queryWrapper.eq(StringUtils.isNotBlank(userQueryForm.getUsername()), UserEntity::getPhone, userQueryForm.getUsername());
+        queryWrapper.eq(StringUtils.isNotBlank(userQueryForm.getUsername()), UserEntity::getUsername, userQueryForm.getUsername());
         queryWrapper.eq(StringUtils.isNotBlank(userQueryForm.getPhone()), UserEntity::getPhone, userQueryForm.getPhone());
+        queryWrapper.eq(userQueryForm.getDeleted() != null || !userQueryForm.getDeleted().equals(""), UserEntity::getDeleted, userQueryForm.getDeleted());
         queryWrapper.orderByDesc(UserEntity::getUpdatedTime);
         IPage<UserEntity> iPageUser = super.page(page, queryWrapper);
         return iPageUser;

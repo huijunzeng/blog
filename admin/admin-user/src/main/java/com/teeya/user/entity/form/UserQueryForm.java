@@ -21,4 +21,7 @@ public class UserQueryForm extends BaseQueryForm {
     @ApiModelProperty("手机号码")
     private String phone;
 
+    @ApiModelProperty("是否已删除 1已删除 0未删除")
+    private Integer deleted;
+
 }
