@@ -15,8 +15,10 @@ import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -31,6 +33,7 @@ import java.nio.charset.StandardCharsets;
  */
 @Configuration
 @Slf4j
+@ResponseBody
 public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
@@ -66,13 +69,14 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         log.info("响应内容responseData:{}", responseData);
                         // 判断下游服务返回的是正常的响应数据还是异常信息
                         JSONObject parseObject = null;
-                        if (object instanceof JSONObject) {
+                        if (object instanceof JSONObject) {// 对象类型
                             parseObject = JSONObject.parseObject(responseData);
-                        } else if (object instanceof JSONArray) {
+                        } else if (object instanceof JSONArray) {// 数组类型
                             String value = JSONObject.toJSONString(JSONObject.parseArray(responseData, Object.class).get(0));
                             parseObject = JSONObject.parseObject(value);
-                        } else {
+                        } else {// 其他类型
                             log.info("object========:{}", object);
+                            parseObject = JSONObject.parseObject(object.toString());
                         }
                         log.info("parseObject========:{}", parseObject.toString());
                         if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {
@@ -92,6 +96,8 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                     }));
                 }
             };
+            // 确保data体返回的是json格式数据
+            response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
             return chain.filter(exchange.mutate().response(decoratedResponse).build());
         }
         return chain.filter(exchange);
