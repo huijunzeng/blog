@@ -41,7 +41,7 @@
                 <if test="articleQueryForm.classificationId != null and articleQueryForm.classificationId != ''">
                     AND t3.classification_id = #{articleQueryForm.classificationId}
                 </if>
-                <if test="articleQueryForm.visible != null">
+                <if test="articleQueryForm.visible != null and articleQueryForm.classificationId != ''">
                     AND t1.visible = #{articleQueryForm.visible}
                 </if>
                 <if test="articleQueryForm.classificationId != null">
