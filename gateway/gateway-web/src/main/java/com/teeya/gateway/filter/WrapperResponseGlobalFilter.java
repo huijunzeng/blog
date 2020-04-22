@@ -33,7 +33,6 @@ import java.nio.charset.StandardCharsets;
  */
 @Configuration
 @Slf4j
-@ResponseBody
 public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
@@ -95,8 +94,6 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                     }));
                 }
             };
-            // 确保data体返回的是json格式数据
-            response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
             return chain.filter(exchange.mutate().response(decoratedResponse).build());
         }
         return chain.filter(exchange);

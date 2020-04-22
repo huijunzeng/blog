@@ -1,5 +1,6 @@
 package com.teeya.file.controller;
 
+import com.teeya.file.entity.vo.UploadResultVo;
 import com.teeya.file.service.UploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -8,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * @author ZJH
@@ -27,7 +26,7 @@ public class UploadController {
     @ApiOperation(value = "图片上传", notes = "图片上传")
     @ApiImplicitParam(paramType = "query", name = "file", value = "图片上传文件", required = true, dataType = "MultipartFile")
     @PostMapping("/img")
-    public String imgUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public UploadResultVo imgUpload(@RequestParam("file") MultipartFile file) {
         return uploadService.imgUpload(file);
     }
 

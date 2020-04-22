@@ -6,6 +6,7 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import com.teeya.file.entity.vo.UploadResultVo;
 import com.teeya.file.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,58 +40,59 @@ public class UploadServiceImpl implements UploadService {
     private String path;
 
     @Override
-    public String imgUpload(MultipartFile file) throws IOException {
-        // 判断文件是否为空
-        if(file.isEmpty()) {
-            return null;
-        }
-        //检查是否是图片
-        BufferedImage bi = ImageIO.read(file.getInputStream());
-        if(bi == null){
-            return null;
-        }
-        byte[] fileBytes = file.getBytes();
-        ByteArrayInputStream byteInputStream = new ByteArrayInputStream(fileBytes);
-        // 文件名
-        String originalFilename = file.getOriginalFilename();
-        log.info("originalFilename: {}", originalFilename);
-        // 获得图片后缀名称,如果后缀不为图片格式，则不上传
-        String suffix = null;
-        if(originalFilename.contains(".")) {
-            suffix = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-        } else {
-            return null;
-        }
-        log.info("suffix: {}", suffix);
-        UploadManager uploadManager = new UploadManager(configuration);
-        // 获取一个随机的文件名
-        String filename = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-        log.info("new filename: {}", filename);
-        // 获取七牛云提供的 token
-        String upToken = auth.uploadToken(bucket);
-
+    public UploadResultVo imgUpload(MultipartFile file) {
+        UploadResultVo uploadResultVo = new UploadResultVo();
         // 七牛云用来获取返回信息的相应
         Response response;
         // 用来获取上传后的图片地址
         String picAddr = null;
         try {
+            // 判断文件是否为空
+            if(file.isEmpty()) {
+                return null;
+            }
+            //检查是否是图片
+            BufferedImage bi = ImageIO.read(file.getInputStream());
+            if(bi == null){
+                return null;
+            }
+            byte[] fileBytes = file.getBytes();
+            ByteArrayInputStream byteInputStream = new ByteArrayInputStream(fileBytes);
+            // 文件名
+            String originalFilename = file.getOriginalFilename();
+            log.info("originalFilename: {}", originalFilename);
+            // 获得图片后缀名称,如果后缀不为图片格式，则不上传
+            String suffix = null;
+            if(originalFilename.contains(".")) {
+                suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+            } else {
+                return null;
+            }
+            log.info("suffix: {}", suffix);
+            UploadManager uploadManager = new UploadManager(configuration);
+            // 获取一个随机的文件名
+            String filename = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+            log.info("new filename: {}", filename);
+            // 获取七牛云提供的 token
+            String upToken = auth.uploadToken(bucket);
+
             response = uploadManager.put(byteInputStream, filename, upToken, null, null);
             // 返回的 response其实是一个 json，转换为 Map，然后其中的 key就是上传的文件名了，其实就是上面生产的 filename
             // 由于域名还未备案完成，所以还不能真正得到图片直链访问地址，这里只是得到图片的文件名
             picAddr = new Gson().fromJson(response.bodyString(), Map.class).get("key").toString();
             log.info("response json: {}", new Gson().fromJson(response.bodyString(), Map.class));
+            uploadResultVo.setUrl(path + picAddr);
+            uploadResultVo.setStatus("success");
+            uploadResultVo.setMessage("upload success!");
         } catch (QiniuException e) {
             response = e.response;
             log.error("【上传服务】上传图片发生出错误！{}", response.toString());
+            uploadResultVo.setStatus("fail");
+            uploadResultVo.setMessage("upload failed!");
+        } catch (IOException e) {
+            uploadResultVo.setStatus("fail");
+            uploadResultVo.setMessage("try again!");
         }
-
-        // 这里是前端使用的 editor.md，要求上传图片后的返回格式
-        Map<String, Object> result = new HashMap<String, Object>(3) {{
-            put("url", "picAddr");
-            put("success", 1);
-            put("message", "upload success!");
-        }};
-
-        return picAddr;
+        return uploadResultVo;
     }
 }

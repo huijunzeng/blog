@@ -1,8 +1,7 @@
 package com.teeya.file.service;
 
+import com.teeya.file.entity.vo.UploadResultVo;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 public interface UploadService {
 
@@ -11,5 +10,5 @@ public interface UploadService {
      * @param file
      * @return
      */
-    String imgUpload(MultipartFile file) throws IOException;
+    UploadResultVo imgUpload(MultipartFile file);
 }
