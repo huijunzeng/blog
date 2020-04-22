@@ -83,7 +83,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     }
 
     @Override
-    public IPage queryList(WebArticleQueryParam webArticleQueryParam) {
+    public IPage queryWebList(WebArticleQueryParam webArticleQueryParam) {
         Page page = webArticleQueryParam.getPage();
         return articleMapper.queryWebList(page, webArticleQueryParam);
     }

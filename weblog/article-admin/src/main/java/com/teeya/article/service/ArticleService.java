@@ -58,5 +58,5 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @param webArticleQueryParam
      * @return
      */
-    IPage queryList(WebArticleQueryParam webArticleQueryParam);
+    IPage queryWebList(WebArticleQueryParam webArticleQueryParam);
 }

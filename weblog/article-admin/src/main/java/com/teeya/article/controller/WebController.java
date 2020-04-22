@@ -43,7 +43,7 @@ public class WebController {
     @PostMapping(value = "/article/list")
     public IPage queryList(@RequestBody WebArticleQueryParam webArticleQueryParam) {
         log.info("webArticleQueryParam:{}", webArticleQueryParam);
-        return articleService.queryList(webArticleQueryParam);
+        return articleService.queryWebList(webArticleQueryParam);
     }
 
 }
