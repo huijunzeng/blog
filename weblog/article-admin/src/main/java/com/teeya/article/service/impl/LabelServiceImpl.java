@@ -72,7 +72,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
     public IPage queryList(LabelQueryForm labelQueryForm) {
         Page page = labelQueryForm.getPage();
         LambdaQueryWrapper<LabelEntity> queryWrapper = labelQueryForm.build().lambda();
-        queryWrapper.eq(StringUtils.isNotBlank(labelQueryForm.getLabelName()), LabelEntity::getLabelName, labelQueryForm.getLabelName());
+        queryWrapper.eq(StringUtils.isNotBlank(labelQueryForm.getName()), LabelEntity::getName, labelQueryForm.getName());
         queryWrapper.orderByDesc(LabelEntity::getCreatedTime);
         IPage<LabelEntity> iPageUser = super.page(page, queryWrapper);
         return iPageUser;

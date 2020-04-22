@@ -17,5 +17,5 @@ import lombok.Data;
 public class ClassificationQueryForm extends BaseQueryForm<ClassificationEntity> {
 
     @ApiModelProperty("分类名称")
-    private String classificationName;
+    private String name;
 }

@@ -26,4 +26,6 @@ public class ArticleQueryForm extends BaseQueryForm {
     @ApiModelProperty("是否私密不可见 0否 1是")
     private String visible;
 
+    @ApiModelProperty("是否已删除 1已删除 0未删除")
+    private Integer deleted;
 }

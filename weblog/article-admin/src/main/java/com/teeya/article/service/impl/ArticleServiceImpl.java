@@ -67,12 +67,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     @Override
     public IPage queryList(ArticleQueryForm articleQueryForm) {
         Page page = articleQueryForm.getPage();
-        LambdaQueryWrapper<ArticleEntity> queryWrapper = articleQueryForm.build().lambda();
+        /*LambdaQueryWrapper<ArticleEntity> queryWrapper = articleQueryForm.build().lambda();
         queryWrapper.like(StringUtils.isNotBlank(articleQueryForm.getTitle()), ArticleEntity::getTitle, articleQueryForm.getTitle());
-        queryWrapper.like(StringUtils.isNotBlank(articleQueryForm.getTitle()), ArticleEntity::getTitle, articleQueryForm.getTitle());
+        queryWrapper.eq(null != articleQueryForm.getVisible() && !articleQueryForm.getVisible().equals(""), ArticleEntity::getVisible, articleQueryForm.getVisible());
+        queryWrapper.eq(null != articleQueryForm.getDeleted() && !articleQueryForm.getDeleted().equals(""), ArticleEntity::getDeleted, articleQueryForm.getDeleted());
         queryWrapper.orderByDesc(ArticleEntity::getCreatedTime);
         IPage<ArticleEntity> iPageUser = super.page(page, queryWrapper);
-        return iPageUser;
+        return iPageUser;*/
+        return articleMapper.queryList(page, articleQueryForm);
     }
 
     @Override
@@ -83,6 +85,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     @Override
     public IPage queryList(WebArticleQueryParam webArticleQueryParam) {
         Page page = webArticleQueryParam.getPage();
-        return articleMapper.queryList(page, webArticleQueryParam);
+        return articleMapper.queryWebList(page, webArticleQueryParam);
     }
 }

@@ -16,5 +16,5 @@ import java.io.Serializable;
 public class LabelUpdateForm implements Serializable {
 
     @ApiModelProperty("标签名称")
-    private String labelName;
+    private String name;
 }

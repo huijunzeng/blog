@@ -32,13 +32,36 @@
             LEFT JOIN article_label_relation t2 ON t1.id = t2.article_id
             LEFT JOIN article_classification_relation t3 ON t1.id = t3.article_id
             <where>
+                <if test="articleQueryForm.title != null and articleQueryForm.title != ''">
+                    AND t1.title = #{webArticleQueryParam.title}
+                </if>
+                <if test="articleQueryForm.labelId != null and articleQueryForm.labelId != ''">
+                    AND t2.label_id = #{webArticleQueryParam.labelId}
+                </if>
+                <if test="articleQueryForm.classificationId != null and articleQueryForm.classificationId != ''">
+                    AND t3.classification_id = #{webArticleQueryParam.classificationId}
+                </if>
+                <if test="articleQueryForm.visible != null">
+                    AND t1.visible = #{webArticleQueryParam.visible}
+                </if>
+                <if test="articleQueryForm.classificationId != null">
+                    AND t1.deleted = #{webArticleQueryParam.deleted}
+                </if>
+            </where>
+    </select>
+
+    <select id="queryWebList" resultType="com.teeya.article.entity.pojo.ArticleEntity">
+        SELECT t1.* FROM article t1
+            LEFT JOIN article_label_relation t2 ON t1.id = t2.article_id
+            LEFT JOIN article_classification_relation t3 ON t1.id = t3.article_id
+            WHERE
+                t1.deleted = 0
                 <if test="webArticleQueryParam.labelId != null and webArticleQueryParam.labelId != ''">
                     AND t2.label_id = #{webArticleQueryParam.labelId}
                 </if>
                 <if test="webArticleQueryParam.classificationId != null and webArticleQueryParam.classificationId != ''">
                     AND t3.classification_id = #{webArticleQueryParam.classificationId}
                 </if>
-            </where>
     </select>
 
 

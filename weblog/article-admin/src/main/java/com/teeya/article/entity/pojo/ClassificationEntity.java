@@ -25,7 +25,7 @@ public class ClassificationEntity extends BaseEntity {
     /**
      * 分类名称
      */
-    @TableField("classification_name")
-    private String classificationName;
+    @TableField("name")
+    private String name;
 
 }

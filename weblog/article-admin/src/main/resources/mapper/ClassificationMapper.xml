@@ -8,7 +8,7 @@
     <result column="deleted" property="deleted" />
     <result column="remark" property="remark" />
     <result column="version" property="version" />
-        <result column="classification_name" property="classificationName" />
+        <result column="name" property="name" />
         <result column="created_time" property="createdTime" />
         <result column="updated_time" property="updatedTime" />
         <result column="created_by" property="createdBy" />
@@ -21,7 +21,7 @@
         deleted,
         remark,
         version,
-        classification_name, created_time, updated_time, created_by, updated_by
+        name, created_time, updated_time, created_by, updated_by
     </sql>
 
 </mapper>

@@ -16,5 +16,5 @@ import java.io.Serializable;
 public class ClassificationSaveForm implements Serializable {
 
     @ApiModelProperty("分类名称")
-    private String classificationName;
+    private String name;
 }

@@ -71,7 +71,7 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
     public IPage queryList(ClassificationQueryForm classificationQueryForm) {
         Page page = classificationQueryForm.getPage();
         LambdaQueryWrapper<ClassificationEntity> queryWrapper = classificationQueryForm.build().lambda();
-        queryWrapper.eq(StringUtils.isNotBlank(classificationQueryForm.getClassificationName()), ClassificationEntity::getClassificationName, classificationQueryForm.getClassificationName());
+        queryWrapper.eq(StringUtils.isNotBlank(classificationQueryForm.getName()), ClassificationEntity::getName, classificationQueryForm.getName());
         queryWrapper.eq(ClassificationEntity::getDeleted, 0);
         queryWrapper.orderByDesc(ClassificationEntity::getCreatedTime);
         IPage<ClassificationEntity> iPageUser = super.page(page, queryWrapper);
