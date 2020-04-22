@@ -41,10 +41,10 @@
                 <if test="articleQueryForm.classificationId != null and articleQueryForm.classificationId != ''">
                     AND t3.classification_id = #{articleQueryForm.classificationId}
                 </if>
-                <if test="articleQueryForm.visible != null and articleQueryForm.classificationId != ''">
+                <if test="articleQueryForm.visible != null and articleQueryForm.visible != ''">
                     AND t1.visible = #{articleQueryForm.visible}
                 </if>
-                <if test="articleQueryForm.classificationId != null">
+                <if test="articleQueryForm.deleted != null">
                     AND t1.deleted = #{articleQueryForm.deleted}
                 </if>
             </where>
