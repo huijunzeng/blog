@@ -33,19 +33,19 @@
             LEFT JOIN article_classification_relation t3 ON t1.id = t3.article_id
             <where>
                 <if test="articleQueryForm.title != null and articleQueryForm.title != ''">
-                    AND t1.title = #{webArticleQueryParam.title}
+                    AND t1.title = #{articleQueryForm.title}
                 </if>
                 <if test="articleQueryForm.labelId != null and articleQueryForm.labelId != ''">
-                    AND t2.label_id = #{webArticleQueryParam.labelId}
+                    AND t2.label_id = #{articleQueryForm.labelId}
                 </if>
                 <if test="articleQueryForm.classificationId != null and articleQueryForm.classificationId != ''">
-                    AND t3.classification_id = #{webArticleQueryParam.classificationId}
+                    AND t3.classification_id = #{articleQueryForm.classificationId}
                 </if>
                 <if test="articleQueryForm.visible != null">
-                    AND t1.visible = #{webArticleQueryParam.visible}
+                    AND t1.visible = #{articleQueryForm.visible}
                 </if>
                 <if test="articleQueryForm.classificationId != null">
-                    AND t1.deleted = #{webArticleQueryParam.deleted}
+                    AND t1.deleted = #{articleQueryForm.deleted}
                 </if>
             </where>
     </select>
