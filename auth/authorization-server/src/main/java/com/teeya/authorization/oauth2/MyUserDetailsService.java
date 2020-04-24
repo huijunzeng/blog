@@ -86,13 +86,14 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * 获得所有角色的权限集合.
+     * 获得用户的所有角色的权限集合.
      * @param userEntity
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
         List<RoleEntity> roles = authorizationService.queryListByUsername(userEntity.getUsername());
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
+        // 用户的所有角色code
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }
 

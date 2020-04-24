@@ -41,7 +41,6 @@ public class CustomJwtToken implements TokenEnhancer {
          *     "token_type": "bearer",
          *     "expires_in": 43198,
          *     "scope": "select",
-         *     "username": "user_1",
          *     "roles":["R001"],
          *     "jti": "658ea968-95c4-4cfb-b9d8-97bf775a7133"
          * }
@@ -50,9 +49,6 @@ public class CustomJwtToken implements TokenEnhancer {
         //自定义token内容
         Map<String, Object> additionalInfo = new HashMap();
         Collection<GrantedAuthority> authorities = oAuth2Authentication.getAuthorities();
-        additionalInfo.put("username", oAuth2Authentication.getName());// 这里加入用户名
-        Object principal = oAuth2Authentication.getPrincipal();
-        log.info("principal: {}", JSONObject.toJSONString(principal));
         Set<String> roles = authorities.stream().map(grantedAuthority -> grantedAuthority.getAuthority()).collect(Collectors.toSet());
         log.info("roles: {}", roles);
         additionalInfo.put("roles", roles);// 这里加入用户的角色code
