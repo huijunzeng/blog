@@ -93,6 +93,9 @@ public class MyUserDetailsService implements UserDetailsService {
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
         List<RoleEntity> roles = authorizationService.queryListByUsername(userEntity.getUsername());
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
+        if (null == roles || roles.isEmpty()) {
+            return null;
+        }
         // 用户的所有角色code
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
     }
