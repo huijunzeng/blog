@@ -64,7 +64,7 @@ public class ArticleController {
     @ApiOperation(value = "删除文章", notes = "根据id删除文章")
     @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return articleService.remove(id);
     }
 }

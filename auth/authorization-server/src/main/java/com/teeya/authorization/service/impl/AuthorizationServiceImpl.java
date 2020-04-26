@@ -43,8 +43,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public boolean logout(String token) {
         // 删除相关的key
-        stringRedisTemplate.delete(ACCESS + token);
-        stringRedisTemplate.delete(AUTH + token);
-        return false;
+        boolean flag = stringRedisTemplate.delete(ACCESS + token) && stringRedisTemplate.delete(AUTH + token);
+        return flag;
     }
 }

@@ -24,9 +24,9 @@ public class AuthorizationController {
     private AuthorizationService authorizationService;
 
     @ApiOperation(value = "用户登出", notes = "用户登出")
-    @ApiImplicitParam(paramType = "query", name = "token", value = "token", required = true, dataType = "String")
-    @DeleteMapping("/oauth/token")
-    public boolean logout(@RequestParam("token") String token) {
-            return authorizationService.logout(token);
+    @ApiImplicitParam(paramType = "path", name = "token", value = "token", required = true, dataType = "String")
+    @DeleteMapping("/oauth/token/{token}")
+    public boolean logout(@PathVariable String token) {
+        return authorizationService.logout(token);
     }
 }

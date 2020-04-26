@@ -59,7 +59,7 @@ public class LabelController {
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
     @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
     @GetMapping("/article/{articleId}")
-    public List<LabelEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
+    public List<LabelEntity> queryListByArticleId(@PathVariable String articleId) {
         return labelService.queryListByArticleId(articleId);
     }
     
@@ -80,7 +80,7 @@ public class LabelController {
     @ApiOperation(value = "删除文章标签", notes = "根据id删除文章标签")
     @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return labelService.remove(id);
     }
 }

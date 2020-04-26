@@ -59,7 +59,7 @@ public class RoleController {
     @ApiOperation(value = "根据用户名获取相应的角色集合", notes = "根据用户名获取相应的角色集合")
     @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
     @GetMapping("/user/{username}")
-    public List<RoleEntity> queryListByUsername(@PathVariable(value = "username") String username) {
+    public List<RoleEntity> queryListByUsername(@PathVariable String username) {
         return roleService.queryListByUsername(username);
     }
 
@@ -80,7 +80,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return roleService.remove(id);
     }
 

@@ -25,5 +25,5 @@ public interface AuthenticationProvider {
     List<ResourceEntity> getAll();
 
     @GetMapping("/resource/user/{username}")
-    List<ResourceEntity> queryListByUsername(@PathVariable("username") String username);
+    List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username);
 }

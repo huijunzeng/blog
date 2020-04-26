@@ -63,7 +63,7 @@ public class UserController {
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
     @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return userService.remove(id);
     }
 

@@ -59,7 +59,7 @@ public class ClassificationController {
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
     @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
     @GetMapping("/article/{articleId}")
-    public List<ClassificationEntity> queryListByArticleId(@PathVariable(value = "articleId") String articleId) {
+    public List<ClassificationEntity> queryListByArticleId(@PathVariable String articleId) {
         return classificationService.queryListByArticleId(articleId);
     }
 
@@ -80,7 +80,7 @@ public class ClassificationController {
     @ApiOperation(value = "删除文章分类", notes = "根据id删除文章分类")
     @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return classificationService.remove(id);
     }
 }

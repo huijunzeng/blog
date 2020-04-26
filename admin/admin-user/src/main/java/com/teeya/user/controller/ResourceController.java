@@ -59,14 +59,14 @@ public class ResourceController {
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
     @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
     @GetMapping("/user/{username}")
-    public List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username) {
+    public List<ResourceEntity> queryListByUsername(@PathVariable String username) {
         return resourceService.queryListByUsername(username);
     }
 
     @ApiOperation(value = "根据角色code获取相应的资源集合", notes = "根据角色code获取相应的资源集合")
     @ApiImplicitParam(paramType = "path", name = "roleId", value = "角色code", required = true, dataType = "String")
     @GetMapping("/role/{roleId}")
-    public List<ResourceEntity> queryListByRoleId(@PathVariable(value = "roleId") String roleId) {
+    public List<ResourceEntity> queryListByRoleId(@PathVariable String roleId) {
         return resourceService.queryListByRoleId(roleId);
     }
 
@@ -87,7 +87,7 @@ public class ResourceController {
     @ApiOperation(value = "删除资源", notes = "根据id删除资源")
     @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable(value = "id") String id) {
+    public boolean remove(@PathVariable String id) {
         return resourceService.remove(id);
     }
 }
