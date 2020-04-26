@@ -5,6 +5,7 @@ import com.teeya.authorization.oauth2.granter.PhoneCustomTokenGranter;
 import com.teeya.authorization.oauth2.jwt.CustomJwtToken;
 import com.teeya.authorization.oauth2.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -44,6 +45,9 @@ import java.util.List;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private static final String DEMO_RESOURCE_ID = "demo";
+
+    @Value("${spring.security.oauth2.jwt.signingKey}")
+    private String signingKey;
 
     @Autowired
     DataSource dataSource;
@@ -187,10 +191,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * （1）InMemoryTokenStore 内存的方式
      * （2）JdbcTokenStore 数据库的方式，源码实现crud，但必须要实现oauth_access_token以及oauth_refresh_token表结构
      * （3）JwtTokenStore  jwt的方式，既不保存到内存也不保存到数据库，而是将相关信息编码到token令牌里面 ； 其中有两个JwtTokenStore的实现类，可以相当于是一种
-     * （4）源码中还有另外一个 RedisTokenStore（redis的方式）  key键源码中设定了，token保存在access键下
+     * （4）源码中还有另外一个 RedisTokenStore（redis的方式）  key键源码中设定了，token保存在access键下   源码org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore
      * （默认不配置的情况下，假如有JwtAccessTokenConverter的JwtTokenStore，则用JwtTokenStore的方式；否则用InMemoryTokenStore内存的方式    详细可看AuthorizationServerEndpointsConfigurer类的源码）
      *  这里自定义redis的方式，使用jwt生成token，并保存到redis，方便token令牌的主动过期以及管理等  通过tokenServices去整合封装
      * @return JwtTokenStore
+     */
+    /**
+     * RedisTokenStore中默认的redis的key含义：共存储了9个键值对，其中有5个跟access_token相关，4个和refresh_token相关
+     * access_token相关access:(OAuth2AccessToken)、auth:(OAuth2Authentication)、auth_to_access:(OAuth2AccessToken)、client_id_to_access:(OAuth2AccessToken)、uname_to_access:(OAuth2AccessToken)
+     * refresh_token相关refresh:(OAuth2RefreshToken)、refresh_auth:(OAuth2Authentication)、access_to_refresh(refresh_token):、refresh_to_access:(refresh_token)
+     *
+     * @return
      */
     @Bean
     public TokenStore tokenStore() {
@@ -206,7 +217,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         // 使用jwt需要设置的秘钥进行签名，即加密（生产环境需设置复杂点）  可考虑对称性加密  实际可用RSA非对称公私钥加密
-        String signingKey = "123456";
+        //String signingKey = "123456";
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(signingKey);
         return jwtAccessTokenConverter;
@@ -231,8 +242,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        //defaultTokenServices.setSupportRefreshToken(true); // 是否支持refreshToken
-        //defaultTokenServices.setSupportRefreshToken(false); // refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
+        defaultTokenServices.setSupportRefreshToken(true); // 是否支持refreshToken
+        defaultTokenServices.setSupportRefreshToken(false); // refreshToken端点是否可复用 默认true，如果为 false, 每次请求刷新都会删除旧的 refresh_token, 创建新的 refresh_token
         //defaultTokenServices.setAccessTokenValiditySeconds(); // refresh_token 的有效时长 (秒), 默认 30 天
         //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
         // token增强器  可往token添加额外的信息

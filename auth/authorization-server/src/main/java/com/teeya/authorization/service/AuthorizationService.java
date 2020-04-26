@@ -20,4 +20,11 @@ public interface AuthorizationService {
      * @return
      */
     List<RoleEntity> queryListByUsername(String username);
+
+    /**
+     * 用户登出
+     * @param token
+     * @return
+     */
+    boolean logout(String token);
 }
