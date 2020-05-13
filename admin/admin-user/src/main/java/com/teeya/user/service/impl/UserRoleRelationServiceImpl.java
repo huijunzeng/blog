@@ -9,7 +9,6 @@ import com.teeya.user.service.UserRoleRelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
 
     @Override
     public boolean saveBatch(String userId, Set<String> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)){
+        if (roleIds.isEmpty()){
             return false;
         }
         this.removeByUserId(userId);

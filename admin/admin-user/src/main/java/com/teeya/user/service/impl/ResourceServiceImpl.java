@@ -5,9 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.teeya.common.web.entity.pojo.BaseEntity;
 import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
-import com.teeya.user.entity.form.UserUpdateForm;
+import com.teeya.user.entity.form.ResourceUpdateForm;
 import com.teeya.user.entity.pojo.*;
 import com.teeya.user.mapper.ResourceMapper;
 import com.teeya.user.mapper.RoleMapper;
@@ -22,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -54,8 +56,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     }
 
     @Override
-    public boolean update(String id, UserUpdateForm resourceUpdateForm) {
+    public boolean update(String id, ResourceUpdateForm resourceUpdateForm) {
         ResourceEntity resourceEntity = super.getById(id);
+        Assert.isNull(resourceEntity, "resource not found");
         BeanUtils.copyProperties(resourceUpdateForm, resourceEntity);
         return super.updateById(resourceEntity);
     }
@@ -73,7 +76,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     @Override
     public List<ResourceEntity> queryListByUserId(String userId) {
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userId);
-        Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
+        Set<String> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);
@@ -82,8 +85,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     @Override
     public List<ResourceEntity> queryListByUsername(String username) {
         UserEntity userEntity = userService.getByUniqueId(username);
+        Assert.isNull(userEntity, "user not found");
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userEntity.getId());
-        Set<String> roleIds = roleEntities.stream().map(roleEntity -> roleEntity.getId()).collect(Collectors.toSet());
+        Set<String> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
         Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);

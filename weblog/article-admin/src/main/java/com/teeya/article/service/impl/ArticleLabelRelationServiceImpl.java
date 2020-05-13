@@ -7,7 +7,6 @@ import com.teeya.article.service.ArticleLabelRelationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public class ArticleLabelRelationServiceImpl extends ServiceImpl<ArticleLabelRel
 
     @Override
     public boolean saveBatch(String articleId, Set<String> labelIds) {
-        if (CollectionUtils.isEmpty(labelIds)){
+        if (labelIds.isEmpty()){
             return false;
         }
         this.removeByArticleId(articleId);

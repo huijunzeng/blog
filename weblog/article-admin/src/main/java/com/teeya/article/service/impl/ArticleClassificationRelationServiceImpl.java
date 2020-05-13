@@ -7,8 +7,6 @@ import com.teeya.article.service.ArticleClassificationRelationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class ArticleClassificationRelationServiceImpl extends ServiceImpl<Articl
 
     @Override
     public boolean saveBatch(String articleId, Set<String> classificationIds) {
-        if (CollectionUtils.isEmpty(classificationIds)){
+        if (classificationIds.isEmpty()){
             return false;
         }
         this.removeByArticleId(articleId);

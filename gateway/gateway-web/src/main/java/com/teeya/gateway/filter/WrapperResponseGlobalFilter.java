@@ -2,7 +2,7 @@ package com.teeya.gateway.filter;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.teeya.common.core.entity.vo.ResponseResult;
+import com.teeya.common.core.entity.vo.CommonResponse;
 import com.teeya.common.core.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -84,8 +84,8 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                             // swagger接口文档不封装直接返回
                         } else {
                             log.info("normal invoke return");
-                            ResponseResult responseResult = new ResponseResult(HttpStatus.OK.value(), "success", object);
-                            responseData = JSONObject.toJSONString(responseResult);
+                            CommonResponse commonResponse = new CommonResponse(HttpStatus.OK.value(), "success", object);
+                            responseData = JSONObject.toJSONString(commonResponse);
                         }
                         byte[] uppedContent = new String(responseData.getBytes(), StandardCharsets.UTF_8).getBytes();
                         return bufferFactory.wrap(uppedContent);

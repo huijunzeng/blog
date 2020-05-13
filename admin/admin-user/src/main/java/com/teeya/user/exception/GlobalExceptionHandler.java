@@ -16,11 +16,10 @@ import java.util.Map;
  * @Author: ZJH
  * @Date: 2019/10/15 17:21
  */
-// todo  未完善
 // 与@RestController类型，相当于@ResponseBody与@ControllerAdvice的结合体
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler /*extends DefaultGlobalExceptionHandlerAdvice*/ {
+public class GlobalExceptionHandler extends DefaultGlobalExceptionHandlerAdvice {
 
     /**
      * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
@@ -54,7 +53,7 @@ public class GlobalExceptionHandler /*extends DefaultGlobalExceptionHandlerAdvic
         return map;
     }*/
 
-    @ExceptionHandler(value = {Exception.class})
+    /*@ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(Exception ex) {
         log.error("exception:{}", ex);
@@ -73,14 +72,14 @@ public class GlobalExceptionHandler /*extends DefaultGlobalExceptionHandlerAdvic
         }
         log.error("exception_map:{}", map.toString());
         return map;
-    }
+    }*/
 
-    @ExceptionHandler(value = {Throwable.class})
+    /*@ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(Throwable throwable) {
         Map<String, Object> map = new HashMap<>();
         log.error("throwable_map:{}", throwable.toString());
-        /*if (throwable instanceof ResponseStatusException) {
+        *//*if (throwable instanceof ResponseStatusException) {
             result = handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {
             result = handle((ConnectTimeoutException) throwable);
@@ -88,10 +87,10 @@ public class GlobalExceptionHandler /*extends DefaultGlobalExceptionHandlerAdvic
             result = handle((NotFoundException) throwable);
         } else if (throwable instanceof RuntimeException) {
             result = handle((RuntimeException) throwable);
-        } else*/
+        } else*//*
         if (throwable instanceof Exception) {
             map = handle((Exception) throwable);
         }
         return map;
-    }
+    }*/
 }

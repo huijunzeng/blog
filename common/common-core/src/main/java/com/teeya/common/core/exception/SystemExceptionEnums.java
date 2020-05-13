@@ -1,12 +1,15 @@
 package com.teeya.common.core.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 // 继承ExceptionType接口方法
 @Getter
+@AllArgsConstructor
 public enum SystemExceptionEnums implements ExceptionType {
 
     SYSTEM_SUCCESS(200, "成功"),
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),
 
     GATEWAY_NOT_FOUND_SERVICE(1002, "服务未找到"),
@@ -17,7 +20,8 @@ public enum SystemExceptionEnums implements ExceptionType {
     INVALID_TOKEN(2002, "无效token"),
     UPLOAD_FILE_SIZE_LIMIT(2003, "上传文件大小超过限制"),
 
-    DUPLICATE_PRIMARY_KEY(3001,"唯一键冲突");
+    DUPLICATE_PRIMARY_KEY(3001,"唯一键冲突"),
+    ARITHMETIC_ERROR(4001,"算法错误");
 
     /**
      * 错误类型码
@@ -29,8 +33,4 @@ public enum SystemExceptionEnums implements ExceptionType {
      */
     private String msg;
 
-    SystemExceptionEnums(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
 }

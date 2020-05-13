@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -16,6 +17,7 @@ import java.io.Serializable;
 public class LabelSaveForm implements Serializable {
 
     @ApiModelProperty("标签名称")
+    @NotBlank(message = "标签名称不能为空")
     private String name;
 
 }

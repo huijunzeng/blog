@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -75,9 +76,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public List<RoleEntity> queryListByUsername(String username) {
         UserEntity userEntity = userService.getByUniqueId(username);
-        if (null == userEntity) {
-            return null;
-        }
+        Assert.isNull(userEntity, "user not found");
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userEntity.getId());
         List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);

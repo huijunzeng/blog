@@ -3,7 +3,7 @@ package com.teeya.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.teeya.user.entity.form.ResourceSaveForm;
 import com.teeya.user.entity.form.ResourceQueryForm;
-import com.teeya.user.entity.form.UserUpdateForm;
+import com.teeya.user.entity.form.ResourceUpdateForm;
 import com.teeya.user.entity.pojo.ResourceEntity;
 import com.teeya.user.service.ResourceService;
 import io.swagger.annotations.Api;
@@ -37,7 +37,7 @@ public class ResourceController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "form", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody UserUpdateForm resourceUpdateForm) {
+    public boolean update(@PathVariable String id, @RequestBody ResourceUpdateForm resourceUpdateForm) {
         return resourceService.update(id, resourceUpdateForm);
     }
 

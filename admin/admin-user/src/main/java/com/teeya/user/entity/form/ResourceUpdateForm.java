@@ -12,9 +12,9 @@ import java.io.Serializable;
  * @Date: 2020/1/7 15:33
  */
 
-@ApiModel(value = "资源新增表单")
+@ApiModel(value = "资源更新表单")
 @Data
-public class ResourceSaveForm implements Serializable {
+public class ResourceUpdateForm implements Serializable {
 
     @ApiModelProperty("资源名称")
     @NotBlank(message = "资源名称不能为空")

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -16,5 +17,6 @@ import java.io.Serializable;
 public class ClassificationUpdateForm implements Serializable {
 
     @ApiModelProperty("分类名称")
+    @NotBlank(message = "分类名称不能为空")
     private String name;
 }

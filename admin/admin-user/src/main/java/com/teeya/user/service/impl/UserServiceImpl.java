@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 @Slf4j
@@ -56,6 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public boolean update(String id, UserUpdateForm userUpdateForm) {
         UserEntity userEntity = super.getById(id);
+        Assert.isNull(userEntity, "user not found");
         BeanUtils.copyProperties(userUpdateForm, userEntity);
         if (StringUtils.isNotBlank(userUpdateForm.getPassword())){
             userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));
