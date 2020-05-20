@@ -1,0 +1,71 @@
+## 用本地配置
+server:
+    port: 9900 # 启动端口
+spring:
+    application:
+        name: distributed-transaction-rabbitmq-producer
+    cloud:
+        nacos:
+            discovery: # nacos注册中心地址配置
+                server-addr: localhost:8848
+            config: # nacos配置中心地址配置
+                server-addr: localhost:8848
+        #sentinel配置
+        sentinel:
+            transport:
+                port: 8719 #指定客户端监控 API 的端口  默认，可不设置
+                dashboard: localhost:8080 #控制台的地址
+    profiles:
+        active: dev # 根据不同环境切换配置环境
+        # 数据源mysql配置
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/distributed-transaction-rabbitmq-producer?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+        username: root
+        password: 123456
+        max-idle: 5
+        # 数据源hikari连接池配置
+        type: com.zaxxer.hikari.HikariDataSource
+        hikari:
+            minimum-idle: 10 # 池中维护的最小空闲连接数
+            idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+            maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+            auto-commit: true # 自动提交从池中返回的连接
+            pool-name: HikariCP # 连接池的用户定义名称
+            max-lifetime: 600000 # 池中连接最长生命周期
+            connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+            connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
+    # redis配置
+    redis:
+        host: localhost
+        port: 6379
+        password:
+    #rabbitmq配置
+    rabbitmq:
+        host: localhost #ip
+        port: 5672 #端口
+        username: guest #用户名
+        password: guest #密码
+        virtual-host: / #虚拟主机 每个virtual-host相当于一个相对独立的RabbitMQ服务器，每个virtual-host之间是相互隔离的
+        publisher-returns: true #消息接收确认
+        publisher-confirm-type: correlated #确认回调
+# mybatis配置
+mybatis:
+    # mapper层xml文件路径映射
+    mapper-locations: classpath:mapper/*.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    type-aliases-package: com.teeya.demo.entity
+    configuration:
+        # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
+        map-underscore-to-camel-case: true
+name: distributed-transaction-rabbitmq-producer  # 测试用
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true
+logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
+    config: classpath:logback-logstash.xml
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
