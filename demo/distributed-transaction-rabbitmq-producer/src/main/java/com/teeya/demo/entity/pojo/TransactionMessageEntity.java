@@ -1,14 +1,13 @@
 package com.teeya.demo.entity.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.teeya.common.web.entity.pojo.BaseEntity;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.*;
 
 /**
  * <p>
@@ -19,12 +18,19 @@ import lombok.experimental.Accessors;
  * @since 2020-05-21
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("transaction_message")
-public class TransactionMessageEntity extends BaseEntity {
+public class TransactionMessageEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
+
+    /**
+     * id主键
+     */
+    @TableId(type = IdType.ASSIGN_ID)
+    private String id;
 
     /**
      * 当前重试次数
@@ -61,6 +67,12 @@ public class TransactionMessageEntity extends BaseEntity {
      */
     @TableField("routing_key")
     private String routingKey;
+
+    /**
+     * 消息内容
+     */
+    @TableField("message")
+    private String message;
 
     /**
      * 消息状态

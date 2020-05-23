@@ -56,7 +56,7 @@ public class MPGenerator {
         // 数据库表配置
         StrategyConfig sc = new StrategyConfig();
         sc.setNaming(NamingStrategy.underline_to_camel); // 表名生成策略
-        sc.setSuperEntityClass(BaseEntity.class);// 自定义继承的Entity类全称，带包名
+        // sc.setSuperEntityClass(BaseEntity.class);// 自定义继承的Entity类全称，带包名
         sc.setEntityBuilderModel(true);// 是否为构建者模型
         sc.setEntityLombokModel(true);// 是否为lombok模型
         sc.setRestControllerStyle(true);// 生成 @RestController 控制器

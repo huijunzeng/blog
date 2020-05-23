@@ -24,7 +24,7 @@ import java.util.List;
 public class DefaultGlobalExceptionHandlerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {MissingServletRequestParameterException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public CommonResponse methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         log.error("handleMethodArgumentNotValidException start, uri:{}, caused by: {} ", request.getRequestURI(), ex);
         StringBuilder msg = new StringBuilder();
@@ -56,12 +56,6 @@ public class DefaultGlobalExceptionHandlerAdvice {
     public CommonResponse uploadFileLimitException(MultipartException ex) {
         log.error("upload file size limit:{}", ex.getMessage());
         return CommonResponse.fail(SystemExceptionEnums.UPLOAD_FILE_SIZE_LIMIT);
-    }
-
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public CommonResponse methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error("methodArgumentNotValidException:{}", ex.getMessage());
-        return CommonResponse.fail(SystemExceptionEnums.ARGUMENT_NOT_VALID);
     }
 
     @ExceptionHandler(value = {DuplicateKeyException.class})
