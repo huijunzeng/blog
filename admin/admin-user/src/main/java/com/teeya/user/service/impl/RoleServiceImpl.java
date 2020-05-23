@@ -76,7 +76,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public List<RoleEntity> queryListByUsername(String username) {
         UserEntity userEntity = userService.getByUniqueId(username);
-        Assert.isNull(userEntity, "user not found");
+        Assert.notNull(userEntity, "user not found");
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userEntity.getId());
         List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);

@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public boolean update(String id, UserUpdateForm userUpdateForm) {
         UserEntity userEntity = super.getById(id);
-        Assert.isNull(userEntity, "user not found");
+        Assert.notNull(userEntity, "user not found");
         BeanUtils.copyProperties(userUpdateForm, userEntity);
         if (StringUtils.isNotBlank(userUpdateForm.getPassword())){
             userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));

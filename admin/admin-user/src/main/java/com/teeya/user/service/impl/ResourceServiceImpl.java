@@ -58,7 +58,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     @Override
     public boolean update(String id, ResourceUpdateForm resourceUpdateForm) {
         ResourceEntity resourceEntity = super.getById(id);
-        Assert.isNull(resourceEntity, "resource not found");
+        Assert.notNull(resourceEntity, "resource not found");
         BeanUtils.copyProperties(resourceUpdateForm, resourceEntity);
         return super.updateById(resourceEntity);
     }
@@ -85,7 +85,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     @Override
     public List<ResourceEntity> queryListByUsername(String username) {
         UserEntity userEntity = userService.getByUniqueId(username);
-        Assert.isNull(userEntity, "user not found");
+        Assert.notNull(userEntity, "user not found");
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userEntity.getId());
         Set<String> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
