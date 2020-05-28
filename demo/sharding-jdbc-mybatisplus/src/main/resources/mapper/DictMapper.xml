@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teeya.demo.mapper.DictMapper">
+
+    <update id="createTableIfNotExists">
+        CREATE TABLE IF NOT EXISTS
+        `t_dict` (
+        `id` varchar(30) NOT NULL COMMENT 'id',
+        `user_id` varchar(30) NOT NULL COMMENT '用户id',
+        `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL COMMENT '名称',
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+</mapper>

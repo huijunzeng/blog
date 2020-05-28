@@ -14,6 +14,7 @@
     <modules>
         <module>distributed-transaction-rabbitmq-consumer</module>
         <module>distributed-transaction-rabbitmq-producer</module>
+        <module>sharding-jdbc-mybatisplus</module>
     </modules>
 
 </project>

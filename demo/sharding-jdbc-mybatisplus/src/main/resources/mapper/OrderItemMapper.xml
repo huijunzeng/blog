@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teeya.demo.mapper.OrderItemMapper">
+
+    <select id="joinTest" resultType="com.teeya.demo.entity.pojo.OrderItemEntity">
+        select
+            item.id,
+            item.order_id as orderId,
+            item.shop_id as shopId,
+            item.name as name
+        from o_order as t  join o_order_item as item  on t.id = item.order_id where t.shop_id = 1
+    </select>
+    <update id="createTableIfNotExists">
+        CREATE TABLE IF NOT EXISTS
+        `t_order_item` (
+        `id` varchar(30) NOT NULL COMMENT 'id',
+        `order_id` varchar(30) NOT NULL COMMENT '订单id',
+        `user_id` varchar(30) NOT NULL COMMENT '用户id',
+        `item_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL COMMENT '商品名称',
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+</mapper>

@@ -1,0 +1,123 @@
+## 用本地配置
+server:
+    port: 9903 # 启动端口
+spring:
+    application:
+        name: sharding-jdbc-mybatisplus
+    cloud:
+        nacos:
+            discovery: # nacos注册中心地址配置
+                server-addr: localhost:8848
+            config: # nacos配置中心地址配置
+                server-addr: localhost:8848
+        #sentinel配置
+        sentinel:
+            transport:
+                port: 8719 #指定客户端监控 API 的端口  默认，可不设置
+                dashboard: localhost:8080 #控制台的地址
+    profiles:
+        active: dev # 根据不同环境切换配置环境
+
+    # 配置sharding-jdbc分表分库
+    shardingsphere:
+        props:
+            # 打印sql
+            sql.show: true
+            check:
+                table:
+                    metadata:
+                        # 是否在启动时检查分表元数据一致性
+                        enabled: false
+        # 分库 数据源配置
+        datasource:
+            # 数据源汇总 这里案例使用三个数据库
+            names: db,db0,db1,db2
+            # 真实数据源连接
+            db:
+                type: com.zaxxer.hikari.HikariDataSource
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                jdbcUrl: jdbc:mysql://localhost:3306/db?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
+                username: root
+                password: root
+            db0:
+                type: com.zaxxer.hikari.HikariDataSource
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                jdbcUrl: jdbc:mysql://localhost:3306/db0?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
+                username: root
+                password: root
+            db1:
+                type: com.zaxxer.hikari.HikariDataSource
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                jdbcUrl: jdbc:mysql://localhost:3306/db1
+                username: root
+                password: root
+            db2:
+                type: com.zaxxer.hikari.HikariDataSource
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                jdbcUrl: jdbc:mysql://localhost:3306/db2
+                username: root
+                password: root
+        # 分片规则
+        sharding:
+            # 默认数据源
+            default-data-source-name: db
+            # 默认主键生成策略
+            default-key-generator:
+                type: SNOWFLAKE
+                column: id
+                worker:
+                    id: order # 雪花算法workid  还没想好多实例docker情况下如何配置
+                max:
+                    tolerate:
+                        time:
+                            difference:
+                                milliseconds: 1
+            # 默认分库策略 根据用户id取模
+            default-database-strategy:
+                inline:
+                    sharding-column: user-id
+                    algorithm-expression: db$->{user-id % 3}
+            # 广播表 一些静态信息表。 广播分发到每一个数据源，方便查询join。例如：订单字典表
+            broadcast-tables:
+                - t_dict
+            # 绑定表关系 分片策略相同的表，即可建立绑定关系
+            bindingTables:
+                - t_order,t_order_item
+            # 具体表策略
+            tables:
+                # 订单表 根据订单id取模
+                o_order:
+                    # 共9个节点 db0.t_order_0,db0.t_order_1,db0.t_order_2,db1.t_order_0,db1.t_order_1,db1.t_order_2,db2.t_order_0,db2.t_order_1,db2.t_order_2
+                    actual-data-nodes: db$->{0..2}.t_order$->{0..2}
+                    table-strategy:
+                        inline:
+                            sharding-column: id
+                            algorithm-expression: t_order$->{id % 3}
+
+                # 订单表详情 根据订单id取模
+                o_order_item:
+                    actual-data-nodes: db$->{0..2}.t_order_item$->{0..2}
+                    table-strategy:
+                        inline:
+                            sharding-column: order_id
+                            algorithm-expression: t_order_item$->{order_id % 3}
+# mybatis配置
+mybatis-plus:
+    # mapper层xml文件路径映射
+    mapper-locations: classpath:mapper/*.xml
+    # 实体扫描，多个package用逗号或者分号分隔
+    type-aliases-package: com.teeya.demo.entity
+    configuration:
+        # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
+        map-underscore-to-camel-case: true
+        #mybatis-plus配置控制台打印完整带参数SQL语句
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+name: sharding-jdbc-mybatisplus  # 测试用
+##使用sentinel配置
+feign:
+    sentinel:
+        enabled: true
+logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
+    config: classpath:logback-logstash.xml
+
