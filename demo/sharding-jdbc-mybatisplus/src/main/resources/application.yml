@@ -60,7 +60,7 @@ spring:
         # 分片规则
         sharding:
             # 默认数据源
-            default-data-source-name: db
+            default-data-source-name: db0
             # 默认主键生成策略
             default-key-generator:
                 type: SNOWFLAKE
@@ -75,8 +75,8 @@ spring:
             # 默认分库策略 根据用户id取模
             default-database-strategy:
                 inline:
-                    sharding-column: user-id
-                    algorithm-expression: db$->{user-id % 3}
+                    sharding-column: user_id
+                    algorithm-expression: db$->{user_id % 3}
             # 广播表 一些静态信息表。 广播分发到每一个数据源，方便查询join。例如：订单字典表
             broadcast-tables:
                 - t_dict
@@ -88,19 +88,19 @@ spring:
                 # 订单表 根据订单id取模
                 o_order:
                     # 共9个节点 db0.t_order_0,db0.t_order_1,db0.t_order_2,db1.t_order_0,db1.t_order_1,db1.t_order_2,db2.t_order_0,db2.t_order_1,db2.t_order_2
-                    actual-data-nodes: db$->{0..2}.t_order$->{0..2}
+                    actual-data-nodes: db$->{0..2}.t_order_$->{0..2}
                     table-strategy:
                         inline:
                             sharding-column: id
-                            algorithm-expression: t_order$->{id % 3}
+                            algorithm-expression: t_order_$->{id % 3}
 
                 # 订单表详情 根据订单id取模
                 o_order_item:
-                    actual-data-nodes: db$->{0..2}.t_order_item$->{0..2}
+                    actual-data-nodes: db$->{0..2}.t_order_item_$->{0..2}
                     table-strategy:
                         inline:
                             sharding-column: order_id
-                            algorithm-expression: t_order_item$->{order_id % 3}
+                            algorithm-expression: t_order_item_$->{order_id % 3}
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射
@@ -112,7 +112,6 @@ mybatis-plus:
         map-underscore-to-camel-case: true
         #mybatis-plus配置控制台打印完整带参数SQL语句
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 name: sharding-jdbc-mybatisplus  # 测试用
 ##使用sentinel配置
 feign:

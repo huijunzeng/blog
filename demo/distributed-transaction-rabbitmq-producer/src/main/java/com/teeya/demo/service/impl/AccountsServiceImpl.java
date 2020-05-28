@@ -2,12 +2,17 @@ package com.teeya.demo.service.impl;
 
 import com.teeya.demo.entity.form.AccountSaveForm;
 import com.teeya.demo.entity.pojo.AccountsEntity;
+import com.teeya.demo.entity.pojo.TransactionalMessageEntity;
 import com.teeya.demo.mapper.AccountsMapper;
 import com.teeya.demo.service.AccountsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.teeya.demo.service.TransactionalMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * <p>
@@ -21,11 +26,30 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AccountsServiceImpl extends ServiceImpl<AccountsMapper, AccountsEntity> implements AccountsService {
 
+    @Autowired
+    private TransactionalMessageService transactionalMessageService;
+
     @Override
     public boolean save(AccountSaveForm accountSaveForm) {
         AccountsEntity accountsEntity = BeanUtils.instantiateClass(AccountsEntity.class);
         BeanUtils.copyProperties(accountSaveForm, accountsEntity);
         log.info("insert_accountsEntity=======: " + accountsEntity.toString());
-        return super.save(accountsEntity);
+        boolean save1 = super.save(accountsEntity);
+        TransactionalMessageEntity record = new TransactionalMessageEntity();
+        record.setQueueName("1");
+        record.setExchangeName("1");
+        record.setExchangeType("topic");
+        record.setRoutingKey("test");
+        String content = accountSaveForm.toString();
+        record.setMessage(content);
+        boolean save = transactionalMessageService.save(record);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+            @Override
+            public void afterCommit() {
+                //managementService.sendMessageSync(record, content);
+            }
+        });
+        return true;
     }
 }

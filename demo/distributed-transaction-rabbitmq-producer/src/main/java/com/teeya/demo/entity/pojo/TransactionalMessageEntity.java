@@ -21,8 +21,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("transaction_message")
-public class TransactionMessageEntity implements Serializable {
+@TableName("transactional_message")
+public class TransactionalMessageEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 

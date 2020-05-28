@@ -32,7 +32,7 @@ public class OrderEntity implements Serializable {
     /**
      * id主键
      */
-    @TableId(type = IdType.ASSIGN_ID)
+    //@TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /**

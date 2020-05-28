@@ -1,6 +1,6 @@
 package com.teeya.demo.mapper;
 
-import com.teeya.demo.entity.pojo.TransactionMessageEntity;
+import com.teeya.demo.entity.pojo.TransactionalMessageEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ZJH
  * @since 2020-05-21
  */
-public interface TransactionMessageMapper extends BaseMapper<TransactionMessageEntity> {
+public interface TransactionalMessageMapper extends BaseMapper<TransactionalMessageEntity> {
 
 }

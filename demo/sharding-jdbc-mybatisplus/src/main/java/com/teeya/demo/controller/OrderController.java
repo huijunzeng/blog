@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,7 +27,7 @@ public class OrderController {
 
     @ApiOperation(value = "新增订单（测试）", notes = "新增一条订单记录")
     @PostMapping
-    public boolean save() {
+    public boolean save(@RequestParam String userId) {
         return orderService.save();
     }
 }

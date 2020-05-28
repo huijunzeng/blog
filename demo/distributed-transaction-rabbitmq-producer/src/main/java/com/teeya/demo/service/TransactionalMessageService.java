@@ -1,6 +1,6 @@
 package com.teeya.demo.service;
 
-import com.teeya.demo.entity.pojo.TransactionMessageEntity;
+import com.teeya.demo.entity.pojo.TransactionalMessageEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ZJH
  * @since 2020-05-21
  */
-public interface TransactionMessageService extends IService<TransactionMessageEntity> {
+public interface TransactionalMessageService extends IService<TransactionalMessageEntity> {
 
 }

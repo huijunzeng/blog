@@ -41,7 +41,7 @@ spring:
         port: 6379
         password:
 # mybatis配置
-mybatis:
+mybatis-plus:
     # mapper层xml文件路径映射
     mapper-locations: classpath:mapper/*.xml
     #实体扫描，多个package用逗号或者分号分隔
@@ -49,6 +49,8 @@ mybatis:
     configuration:
         # 开启驼峰式命名规则自动转换 对于数据库有下划线_的字段，需要配置
         map-underscore-to-camel-case: true
+        # mybatis-plus配置控制台打印完整带参数SQL语句
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 name: article-admin  # 测试用
 ##使用sentinel配置
 feign:
@@ -59,10 +61,6 @@ feign:
  #ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name
 logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件，假如本地不配置这个，会出现上面的报错信息
     config: classpath:logback-logstash.xml
-# mybatis-plus配置控制台打印完整带参数SQL语句
-mybatis-plus:
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # xxl-job配置参数
 xxl:
     job:
