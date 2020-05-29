@@ -29,12 +29,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Override
     public boolean save() {
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setId("8");
-        orderEntity.setUserId("12");
+        orderEntity.setId(8L);
+        orderEntity.setUserId(12L);
         log.info("insert_orderEntity=======: " + orderEntity.toString());
         super.save(orderEntity);
         OrderItemEntity orderItemEntity = new OrderItemEntity();
-        orderItemEntity.setUserId("12");
+        orderItemEntity.setUserId(12L);
         orderItemEntity.setOrderId(orderEntity.getId());
         orderItemEntity.setItemName("三只松鼠芒果干");
         log.info("insert_orderItemEntity=======: " + orderItemEntity.toString());

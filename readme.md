@@ -24,4 +24,7 @@
 
 
 
-构造Dockerfile时，需要自行更改docker服务器的ip地址
+构造Dockerfile时，需要自行更改docker服务器的ip地址并且开放docker的2375远程端口(具体步骤[以ubuntu系统为例子]：
+1）停止docker服务 sudo sysctl stop docker
+2）编辑docker启动配置文件vim /lib/systemd/system/docker.service，注释掉ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock这一行，并新添加ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock，退出保存配置文件 
+3）重启docker服务 sudo sysctl start docker
