@@ -34,25 +34,25 @@ public class RoleController {
 
 
     @ApiOperation(value = "修改角色", notes = "更新指定角色信息")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "roleUpdateForm", value = "角色修改表单", required = true, dataType = "RoleUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody RoleUpdateForm roleUpdateForm) {
+    public boolean update(@PathVariable Long id, @RequestBody RoleUpdateForm roleUpdateForm) {
         return roleService.update(id, roleUpdateForm);
     }
 
     @ApiOperation(value = "获取角色", notes = "根据角色id获取指定角色信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public RoleEntity get(@PathVariable String id) {
+    public RoleEntity get(@PathVariable Long id) {
         log.info("roleId: " + id);
         return roleService.get(id);
     }
 
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
-    @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "Long")
     @GetMapping
-    public List<RoleEntity> queryListByUserId(@RequestParam(value = "userId") String userId) {
+    public List<RoleEntity> queryListByUserId(@RequestParam(value = "userId") Long userId) {
         return roleService.queryListByUserId(userId);
     }
 
@@ -78,9 +78,9 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return roleService.remove(id);
     }
 

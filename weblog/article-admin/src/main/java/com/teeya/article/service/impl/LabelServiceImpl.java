@@ -48,23 +48,23 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
     }
 
     @Override
-    public boolean update(String id, LabelUpdateForm labelUpdateForm) {
+    public boolean update(Long id, LabelUpdateForm labelUpdateForm) {
         LabelEntity labelEntity = super.getById(id);
         BeanUtils.copyProperties(labelUpdateForm, labelEntity);
         return super.updateById(labelEntity);
     }
 
     @Override
-    public LabelEntity get(String id) {
+    public LabelEntity get(Long id) {
         return super.getById(id);
     }
 
     @Override
-    public List<LabelEntity> queryListByArticleId(String articleId) {
+    public List<LabelEntity> queryListByArticleId(Long articleId) {
         QueryWrapper<ArticleLabelRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ArticleLabelRelationEntity::getArticleId, articleId);
         List<ArticleLabelRelationEntity> articleLabelRelationEntities = articleLabelRelationService.list(queryWrapper);
-        Set<String> labelIds = articleLabelRelationEntities.stream().map(articleLabelRelationEntity -> articleLabelRelationEntity.getLabelId()).collect(Collectors.toSet());
+        Set<Long> labelIds = articleLabelRelationEntities.stream().map(articleLabelRelationEntity -> articleLabelRelationEntity.getLabelId()).collect(Collectors.toSet());
         return super.listByIds(labelIds);
     }
 
@@ -86,7 +86,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, LabelEntity> impl
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         return super.removeById(id);
     }
 }

@@ -23,7 +23,7 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
     private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
-    public boolean saveBatch(String userId, Set<String> roleIds) {
+    public boolean saveBatch(Long userId, Set<Long> roleIds) {
         if (roleIds.isEmpty()){
             return false;
         }
@@ -33,7 +33,7 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
     }
 
     @Override
-    public boolean removeByUserId(String userId) {
+    public boolean removeByUserId(Long userId) {
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userId).eq(UserRoleRelationEntity::getDeleted, 0);
         return super.remove(queryWrapper);

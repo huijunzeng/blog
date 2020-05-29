@@ -30,14 +30,14 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @param articleUpdateForm
      * @return
      */
-    boolean update(String id, ArticleUpdateForm articleUpdateForm);
+    boolean update(Long id, ArticleUpdateForm articleUpdateForm);
 
     /**
      * 根据文章id获取指定文章信息
      * @param id
      * @return
      */
-    ArticleEntity get(String id);
+    ArticleEntity get(Long id);
 
     /**
      * 根据条件获取文章信息列表
@@ -51,7 +51,7 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @param id
      * @return
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 
     /**
      * 前台页面根据条件获取文章信息列表

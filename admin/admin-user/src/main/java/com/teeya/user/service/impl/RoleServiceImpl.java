@@ -53,23 +53,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public boolean update(String id, RoleUpdateForm roleUpdateForm) {
+    public boolean update(Long id, RoleUpdateForm roleUpdateForm) {
         RoleEntity roleEntity = super.getById(id);
         BeanUtils.copyProperties(roleUpdateForm, roleEntity);
         return super.updateById(roleEntity);
     }
 
     @Override
-    public RoleEntity get(String id) {
+    public RoleEntity get(Long id) {
         return super.getById(id);
     }
 
     @Override
-    public List<RoleEntity> queryListByUserId(String userId) {
+    public List<RoleEntity> queryListByUserId(Long userId) {
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userId);
         List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);
-        Set<String> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
+        Set<Long> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
         return super.listByIds(roleIds);
     }
 
@@ -80,7 +80,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         QueryWrapper<UserRoleRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(UserRoleRelationEntity::getUserId, userEntity.getId());
         List<UserRoleRelationEntity> userRoleRelationEntities = userRoleRelationService.list(queryWrapper);
-        Set<String> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
+        Set<Long> roleIds = userRoleRelationEntities.stream().map(userRoleRelationEntity -> userRoleRelationEntity.getRoleId()).collect(Collectors.toSet());
         return super.listByIds(roleIds);
     }
 
@@ -103,7 +103,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         return super.removeById(id);
     }
 

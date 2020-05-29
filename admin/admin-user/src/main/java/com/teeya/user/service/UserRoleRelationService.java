@@ -14,12 +14,12 @@ public interface UserRoleRelationService extends IService<UserRoleRelationEntity
      * @param roleIds
      * @return
      */
-    boolean saveBatch(String userId, Set<String> roleIds);
+    boolean saveBatch(Long userId, Set<Long> roleIds);
 
     /**
      * 根据用户id删除用户的角色
      * @param userId
      * @return
      */
-    boolean removeByUserId(String userId);
+    boolean removeByUserId(Long userId);
 }

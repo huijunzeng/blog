@@ -55,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean update(String id, UserUpdateForm userUpdateForm) {
+    public boolean update(Long id, UserUpdateForm userUpdateForm) {
         UserEntity userEntity = super.getById(id);
         Assert.notNull(userEntity, "user not found");
         BeanUtils.copyProperties(userUpdateForm, userEntity);
@@ -68,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity get(String id) {
+    public UserEntity get(Long id) {
         return super.getById(id);
     }
 
@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         super.removeById(id);
         return userRoleRelationService.removeByUserId(id);
     }

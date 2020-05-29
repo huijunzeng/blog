@@ -24,27 +24,27 @@ public interface ResourceService extends IService<ResourceEntity> {
      * @param resourceUpdateForm
      * @return
      */
-    boolean update(String id, ResourceUpdateForm resourceUpdateForm);
+    boolean update(Long id, ResourceUpdateForm resourceUpdateForm);
 
     /**
      * 根据用户id获取相应的资源集合
      * @param id
      * @return
      */
-    ResourceEntity get(String id);
+    ResourceEntity get(Long id);
 
     /**
      * 根据资源id集合获取相应的资源集合
      * @param resourceIds
      */
-    List<ResourceEntity> queryListByResourceIds(Set<String> resourceIds);
+    List<ResourceEntity> queryListByResourceIds(Set<Long> resourceIds);
 
     /**
      * 根据用户id获取相应的资源集合
      * @param userId
      * @return
      */
-    List<ResourceEntity> queryListByUserId(String userId);
+    List<ResourceEntity> queryListByUserId(Long userId);
 
     /**
      * 根据用户名获取相应的资源集合
@@ -58,7 +58,7 @@ public interface ResourceService extends IService<ResourceEntity> {
      * @param roleId
      * @return
      */
-    List<ResourceEntity> queryListByRoleId(String roleId);
+    List<ResourceEntity> queryListByRoleId(Long roleId);
 
     /**
      * 根据条件获取资源信息列表
@@ -78,5 +78,5 @@ public interface ResourceService extends IService<ResourceEntity> {
      * @param id
      * @return
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 }

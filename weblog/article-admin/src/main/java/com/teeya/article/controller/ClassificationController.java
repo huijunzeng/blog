@@ -41,25 +41,25 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
+    public boolean update(@PathVariable Long id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
         return classificationService.update(id, classificationUpdateForm);
     }
 
     @ApiOperation(value = "获取文章分类", notes = "根据文章分类id获取指定文章分类信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public ClassificationEntity get(@PathVariable String id) {
+    public ClassificationEntity get(@PathVariable Long id) {
         log.info("classificationId: " + id);
         return classificationService.get(id);
     }
 
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
-    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "Long")
     @GetMapping("/article/{articleId}")
-    public List<ClassificationEntity> queryListByArticleId(@PathVariable String articleId) {
+    public List<ClassificationEntity> queryListByArticleId(@PathVariable Long articleId) {
         return classificationService.queryListByArticleId(articleId);
     }
 
@@ -78,9 +78,9 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "删除文章分类", notes = "根据id删除文章分类")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return classificationService.remove(id);
     }
 }

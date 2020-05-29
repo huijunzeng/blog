@@ -47,23 +47,23 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
     }
 
     @Override
-    public boolean update(String id, ClassificationUpdateForm classificationUpdateForm) {
+    public boolean update(Long id, ClassificationUpdateForm classificationUpdateForm) {
         ClassificationEntity classificationEntity = super.getById(id);
         BeanUtils.copyProperties(classificationUpdateForm, classificationEntity);
         return super.updateById(classificationEntity);
     }
 
     @Override
-    public ClassificationEntity get(String id) {
+    public ClassificationEntity get(Long id) {
         return super.getById(id);
     }
 
     @Override
-    public List<ClassificationEntity> queryListByArticleId(String articleId) {
+    public List<ClassificationEntity> queryListByArticleId(Long articleId) {
         QueryWrapper<ArticleClassificationRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ArticleClassificationRelationEntity::getArticleId, articleId);
         List<ArticleClassificationRelationEntity> articleClassificationRelationEntities = articleClassificationRelationService.list(queryWrapper);
-        Set<String> labelIds = articleClassificationRelationEntities.stream().map(articleClassificationRelationEntity -> articleClassificationRelationEntity.getClassificationId()).collect(Collectors.toSet());
+        Set<Long> labelIds = articleClassificationRelationEntities.stream().map(articleClassificationRelationEntity -> articleClassificationRelationEntity.getClassificationId()).collect(Collectors.toSet());
         return super.listByIds(labelIds);
     }
 
@@ -86,7 +86,7 @@ public class ClassificationServiceImpl extends ServiceImpl<ClassificationMapper,
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         return super.removeById(id);
     }
 }

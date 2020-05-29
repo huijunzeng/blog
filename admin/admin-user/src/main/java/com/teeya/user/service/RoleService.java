@@ -23,21 +23,21 @@ public interface RoleService extends IService<RoleEntity> {
      * @param id
      * @param roleUpdateForm
      */
-    boolean update(String id, RoleUpdateForm roleUpdateForm);
+    boolean update(Long id, RoleUpdateForm roleUpdateForm);
 
     /**
      * 根据角色id获取指定角色信息
      * @param id
      * @return
      */
-    RoleEntity get(String id);
+    RoleEntity get(Long id);
 
     /**
      * 根据用户id获取相应的角色集合
      * @param userId
      * @return
      */
-    List<RoleEntity> queryListByUserId(String userId);
+    List<RoleEntity> queryListByUserId(Long userId);
 
     /**
      * 根据用户名获取相应的角色集合
@@ -63,6 +63,6 @@ public interface RoleService extends IService<RoleEntity> {
      * 根据id删除角色
      * @return
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 
 }

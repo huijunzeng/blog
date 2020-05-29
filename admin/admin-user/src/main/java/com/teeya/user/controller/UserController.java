@@ -29,17 +29,17 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "userUpdateForm", value = "用户修改表单", required = true, dataType = "UserUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody UserUpdateForm userUpdateForm) {
+    public boolean update(@PathVariable Long id, @RequestBody UserUpdateForm userUpdateForm) {
         return userService.update(id, userUpdateForm);
     }
 
     @ApiOperation(value = "获取用户", notes = "根据用户id获取指定用户信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public UserEntity get(@PathVariable String id) {
+    public UserEntity get(@PathVariable Long id) {
         log.info("userId: " + id);
         return userService.get(id);
     }
@@ -61,9 +61,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return userService.remove(id);
     }
 

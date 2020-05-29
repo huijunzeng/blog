@@ -21,11 +21,11 @@ public interface ArticleLabelRelationService extends IService<ArticleLabelRelati
      * @param labelIds
      * @return
      */
-    boolean saveBatch(String articleId, Set<String> labelIds);
+    boolean saveBatch(Long articleId, Set<Long> labelIds);
 
     /**
      * 根据文章id删除文章的标签
      * @param articleId
      */
-    boolean removeByArticleId(String articleId);
+    boolean removeByArticleId(Long articleId);
 }

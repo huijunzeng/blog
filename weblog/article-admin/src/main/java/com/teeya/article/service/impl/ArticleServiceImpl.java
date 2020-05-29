@@ -49,7 +49,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     }
 
     @Override
-    public boolean update(String id, ArticleUpdateForm articleUpdateForm) {
+    public boolean update(Long id, ArticleUpdateForm articleUpdateForm) {
         ArticleEntity articleEntity = super.getById(id);
         BeanUtils.copyProperties(articleUpdateForm, articleEntity);
         articleLabelRelationService.removeByArticleId(id);
@@ -60,7 +60,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     }
 
     @Override
-    public ArticleEntity get(String id) {
+    public ArticleEntity get(Long id) {
         return super.getById(id);
     }
 
@@ -78,7 +78,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         return super.removeById(id);
     }
 

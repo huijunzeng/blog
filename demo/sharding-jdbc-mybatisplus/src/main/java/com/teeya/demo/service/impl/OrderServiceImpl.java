@@ -28,16 +28,32 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Override
     public boolean save() {
+        /*for (int i = 0; i < 20; i++) {
+            long userId = i;
+            OrderEntity orderEntity = new OrderEntity();
+            orderEntity.setUserId(userId);
+            log.info("insert_orderEntity=======: " + orderEntity.toString());
+            super.save(orderEntity);
+            OrderItemEntity orderItemEntity = new OrderItemEntity();
+            orderItemEntity.setUserId(userId);
+            orderItemEntity.setOrderId(orderEntity.getId());
+            log.info("insert_orderEntity_id=======: " + orderEntity.getId());
+            orderItemEntity.setItemName("三只松鼠芒果干");
+            log.info("insert_orderItemEntity=======: " + orderItemEntity.toString());
+            orderItemService.save(orderItemEntity);
+        }*/
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setId(8L);
-        orderEntity.setUserId(12L);
+        orderEntity.setUserId(90L);
+        orderEntity.setId(1266338382508789762L);
         log.info("insert_orderEntity=======: " + orderEntity.toString());
         super.save(orderEntity);
         OrderItemEntity orderItemEntity = new OrderItemEntity();
-        orderItemEntity.setUserId(12L);
+        orderItemEntity.setUserId(90L);
         orderItemEntity.setOrderId(orderEntity.getId());
+        log.info("insert_orderEntity_id=======: " + orderEntity.getId());
         orderItemEntity.setItemName("三只松鼠芒果干");
         log.info("insert_orderItemEntity=======: " + orderItemEntity.toString());
-        return orderItemService.save(orderItemEntity);
+        orderItemService.save(orderItemEntity);
+        return true;
     }
 }

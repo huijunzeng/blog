@@ -38,17 +38,17 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody ArticleUpdateForm articleUpdateForm) {
+    public boolean update(@PathVariable Long id, @RequestBody ArticleUpdateForm articleUpdateForm) {
         return articleService.update(id, articleUpdateForm);
     }
 
     @ApiOperation(value = "获取文章", notes = "根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public ArticleEntity get(@PathVariable String id) {
+    public ArticleEntity get(@PathVariable Long id) {
         log.info("articleId: " + id);
         return articleService.get(id);
     }
@@ -62,9 +62,9 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "删除文章", notes = "根据id删除文章")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return articleService.remove(id);
     }
 }

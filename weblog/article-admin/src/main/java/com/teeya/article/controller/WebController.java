@@ -31,9 +31,9 @@ public class WebController {
     private ArticleService articleService;
 
     @ApiOperation(value = "前台页面获取文章", notes = "前台页面根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
     @GetMapping(value = "/article/{id}")
-    public ArticleEntity get(@PathVariable String id) {
+    public ArticleEntity get(@PathVariable Long id) {
         log.info("articleId: " + id);
         return articleService.get(id);
     }

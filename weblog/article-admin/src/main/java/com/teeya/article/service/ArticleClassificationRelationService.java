@@ -21,11 +21,11 @@ public interface ArticleClassificationRelationService extends IService<ArticleCl
      * @param classificationIds
      * @return
      */
-    boolean saveBatch(String articleId, Set<String> classificationIds);
+    boolean saveBatch(Long articleId, Set<Long> classificationIds);
 
     /**
      * 根据文章id删除文章的分类
      * @param articleId
      */
-    boolean removeByArticleId(String articleId);
+    boolean removeByArticleId(Long articleId);
 }
