@@ -41,7 +41,7 @@ public class MPGenerator {
         gc.setMapperName("%sMapper");
         gc.setEntityName("%sEntity");// 实体命名方式 例如：%sEntity 生成 UserEntity
         gc.setXmlName("%sMapper");
-        gc.setIdType(IdType.ASSIGN_ID);// 指定生成的主键的ID类型
+        gc.setIdType(IdType.ASSIGN_ID);// 指定生成的主键的ID类型  雪花算法
         mpg.setGlobalConfig(gc);
 
         // 数据源配置

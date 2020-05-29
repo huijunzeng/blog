@@ -28,3 +28,6 @@
 1）停止docker服务 sudo sysctl stop docker
 2）编辑docker启动配置文件vim /lib/systemd/system/docker.service，注释掉ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock这一行，并新添加ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock，退出保存配置文件 
 3）重启docker服务 sudo sysctl start docker
+
+
+分布式服务，id使用雪花算法（mp主键生成策略IdType.ASSIGN_ID），所以数据库主键用bigint，对应实体类用Long
