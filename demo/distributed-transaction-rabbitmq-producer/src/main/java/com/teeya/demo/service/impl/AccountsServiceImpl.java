@@ -35,19 +35,23 @@ public class AccountsServiceImpl extends ServiceImpl<AccountsMapper, AccountsEnt
         BeanUtils.copyProperties(accountSaveForm, accountsEntity);
         log.info("insert_accountsEntity=======: " + accountsEntity.toString());
         boolean save1 = super.save(accountsEntity);
-        TransactionalMessageEntity record = new TransactionalMessageEntity();
-        record.setQueueName("1");
-        record.setExchangeName("1");
-        record.setExchangeType("topic");
-        record.setRoutingKey("test");
+        TransactionalMessageEntity transactionalMessageEntity = new TransactionalMessageEntity();
+        transactionalMessageEntity.setQueueName("1");
+        transactionalMessageEntity.setExchangeName("1");
+        transactionalMessageEntity.setExchangeType("topic");
+        transactionalMessageEntity.setRoutingKey("test");
         String content = accountSaveForm.toString();
-        record.setMessage(content);
-        boolean save = transactionalMessageService.save(record);
+        transactionalMessageEntity.setMessage(content);
+        // 保存事务消息记录
+        boolean save = transactionalMessageService.save(transactionalMessageEntity);
 
+        //--------------------------以上执行成功后，才会执行以下操作-----------------------------
+        // 注册事务同步器
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
             @Override
             public void afterCommit() {
-                //managementService.sendMessageSync(record, content);
+                // 给mq服务器发送消息
+                transactionalMessageService.sendMessage(transactionalMessageEntity, content);
             }
         });
         return true;

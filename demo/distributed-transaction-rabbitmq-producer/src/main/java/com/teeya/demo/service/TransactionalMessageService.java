@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TransactionalMessageService extends IService<TransactionalMessageEntity> {
 
+    void sendMessage(TransactionalMessageEntity transactionalMessageEntity, String content);
 }
