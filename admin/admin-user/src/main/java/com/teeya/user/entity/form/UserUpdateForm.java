@@ -35,5 +35,5 @@ public class UserUpdateForm implements Serializable {
     private String phone;
 
     @ApiModelProperty("用户角色id集合")
-    private Set<String> roleIds;
+    private Set<Long> roleIds;
 }

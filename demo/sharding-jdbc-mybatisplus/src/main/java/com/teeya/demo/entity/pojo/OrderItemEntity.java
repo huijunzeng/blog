@@ -31,20 +31,20 @@ public class OrderItemEntity implements Serializable {
     /**
      * id主键
      */
-    //@TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 订单id
      */
     @TableField("order_id")
-    private String orderId;
+    private Long orderId;
 
     /**
      * 用户id
      */
     @TableField("user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 商品名称

@@ -12,7 +12,7 @@ import java.util.Date;
 public class BaseVo implements Serializable {
 
     @ApiModelProperty("id主键")
-    private String id;
+    private Long id;
 
     @ApiModelProperty("创建人")
     private String createdBy;

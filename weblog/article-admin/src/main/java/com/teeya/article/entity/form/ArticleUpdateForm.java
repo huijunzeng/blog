@@ -27,11 +27,11 @@ public class ArticleUpdateForm implements Serializable {
 
     @ApiModelProperty("标签id集合")
     @NotBlank(message = "文章标签不能为空")
-    private Set<String> labelIds;
+    private Set<Long> labelIds;
 
     @ApiModelProperty("分类id集合")
     @NotBlank(message = "文章分类不能为空")
-    private Set<String> classificationIds;
+    private Set<Long> classificationIds;
 
     @ApiModelProperty("是否私密不可见 0否 1是")
     private String visible;

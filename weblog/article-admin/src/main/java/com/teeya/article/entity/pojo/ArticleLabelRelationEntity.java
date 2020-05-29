@@ -26,12 +26,12 @@ public class ArticleLabelRelationEntity extends BaseEntity {
      * 文章id
      */
     @TableField("article_id")
-    private String articleId;
+    private Long articleId;
 
     /**
      * 标签id
      */
     @TableField("label_id")
-    private String labelId;
+    private Long labelId;
 
 }

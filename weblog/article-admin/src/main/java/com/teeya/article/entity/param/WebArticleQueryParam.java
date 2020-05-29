@@ -18,9 +18,9 @@ public class WebArticleQueryParam extends PageQueryParam {
     private String title;
 
     @ApiModelProperty("标签id")
-    private String labelId;
+    private Long labelId;
 
     @ApiModelProperty("分类id")
-    private String classificationId;
+    private Long classificationId;
 
 }

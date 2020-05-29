@@ -26,12 +26,12 @@ public class ArticleClassificationRelationEntity extends BaseEntity {
      * 文章id
      */
     @TableField("article_id")
-    private String articleId;
+    private Long articleId;
 
     /**
      * 分类id
      */
     @TableField("classification_id")
-    private String classificationId;
+    private Long classificationId;
 
 }

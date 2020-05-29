@@ -20,11 +20,11 @@ public class RoleResourceRelationEntity extends BaseEntity {
     /**
      * 角色id
      */
-    private String roleId;
+    private Long roleId;
 
     /**
      * 资源id
      */
-    private String resourceId;
+    private Long resourceId;
 
 }

@@ -21,7 +21,7 @@ public class BaseEntity implements Serializable {
      * id主键
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     /**
      * 创建时间
@@ -65,5 +65,5 @@ public class BaseEntity implements Serializable {
      * 版本  每次操作版本加1
      */
     @TableField(update = "%s+1", fill = FieldFill.INSERT_UPDATE)
-    private long version;
+    private Long version;
 }

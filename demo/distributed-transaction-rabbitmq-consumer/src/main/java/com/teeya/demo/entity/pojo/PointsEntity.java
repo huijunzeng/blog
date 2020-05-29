@@ -29,7 +29,7 @@ public class PointsEntity implements Serializable {
      * id主键
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     /**
      * 积分值

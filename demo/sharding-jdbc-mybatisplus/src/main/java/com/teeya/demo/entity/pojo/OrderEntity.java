@@ -32,14 +32,14 @@ public class OrderEntity implements Serializable {
     /**
      * id主键
      */
-    //@TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 用户id
      */
     @TableField("user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 创建时间

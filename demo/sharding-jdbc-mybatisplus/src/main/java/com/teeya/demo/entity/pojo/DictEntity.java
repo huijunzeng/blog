@@ -32,13 +32,13 @@ public class DictEntity implements Serializable {
      * id主键
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     /**
      * 用户id
      */
     @TableField("user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 名称
