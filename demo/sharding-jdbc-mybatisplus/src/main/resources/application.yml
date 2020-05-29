@@ -93,7 +93,9 @@ spring:
                         inline:
                             sharding-column: id
                             algorithm-expression: t_order_$->{id % 3}
-
+                    key-generator:
+                        type: SNOWFLAKE
+                        column: id
                 # 订单表详情 根据订单id取模
                 o_order_item:
                     actual-data-nodes: db$->{0..2}.t_order_item_$->{0..2}
