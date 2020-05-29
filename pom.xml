@@ -3,7 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
     <groupId>com.teeya.blog</groupId>
     <artifactId>blog</artifactId>
     <packaging>pom</packaging>
@@ -21,9 +26,9 @@
     <properties>
         <java.version>1.8</java.version>
         <!--<spring-cloud.version>Greenwich.SR2</spring-cloud.version>-->
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
         <!--<spring.boot.version>2.1.7.RELEASE</spring.boot.version>-->
-        <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.0.RELEASE</spring.boot.version>
         <!--<spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>-->
         <spring.cloud.alibaba.version>2.1.1.RELEASE</spring.cloud.alibaba.version>
         <!-- 由于用到1.8语法的lambda表达式，所以需要设置编译时的jdk版本，否则回报错：-source 1.5 中不支持 lambda 表达式-->
@@ -104,13 +109,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
