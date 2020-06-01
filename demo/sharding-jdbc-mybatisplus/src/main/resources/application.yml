@@ -35,24 +35,60 @@ spring:
             # 真实数据源连接
             db:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 jdbcUrl: jdbc:mysql://localhost:3306/db?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db0:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 jdbcUrl: jdbc:mysql://localhost:3306/db0?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db1:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 jdbcUrl: jdbc:mysql://localhost:3306/db1?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db2:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 jdbcUrl: jdbc:mysql://localhost:3306/db2?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
