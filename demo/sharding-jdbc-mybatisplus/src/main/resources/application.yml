@@ -36,25 +36,25 @@ spring:
             db:
                 type: com.zaxxer.hikari.HikariDataSource
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
+                jdbcUrl: jdbc:mysql://localhost:3306/db?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db0:
                 type: com.zaxxer.hikari.HikariDataSource
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db0?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
+                jdbcUrl: jdbc:mysql://localhost:3306/db0?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db1:
                 type: com.zaxxer.hikari.HikariDataSource
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db1
+                jdbcUrl: jdbc:mysql://localhost:3306/db1?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db2:
                 type: com.zaxxer.hikari.HikariDataSource
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db2
+                jdbcUrl: jdbc:mysql://localhost:3306/db2?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
         # 分片规则
@@ -66,7 +66,7 @@ spring:
                 type: SNOWFLAKE
                 column: id
                 worker:
-                    id: order # 雪花算法workid  还没想好多实例docker情况下如何配置
+                    id: order # 雪花算法workid
                 max:
                     tolerate:
                         time:
@@ -81,12 +81,15 @@ spring:
             broadcast-tables:
                 - t_dict
             # 绑定表关系 分片策略相同的表，即可建立绑定关系
-            bindingTables:
+            binding-tables:
                 - t_order,t_order_item
             # 具体表策略
             tables:
+                # 字典表（广播表，配置在基础库db中）
+                t_dict:
+                    actual-data-nodes: db.t_dict
                 # 订单表 根据订单id取模
-                o_order:
+                t_order:
                     # 共9个节点 db0.t_order_0,db0.t_order_1,db0.t_order_2,db1.t_order_0,db1.t_order_1,db1.t_order_2,db2.t_order_0,db2.t_order_1,db2.t_order_2
                     actual-data-nodes: db$->{0..2}.t_order_$->{0..2}
                     table-strategy:
@@ -97,7 +100,7 @@ spring:
                         type: SNOWFLAKE
                         column: id
                 # 订单表详情 根据订单id取模
-                o_order_item:
+                t_order_item:
                     actual-data-nodes: db$->{0..2}.t_order_item_$->{0..2}
                     table-strategy:
                         inline:

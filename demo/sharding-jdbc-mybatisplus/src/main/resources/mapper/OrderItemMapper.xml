@@ -13,9 +13,9 @@
     <update id="createTableIfNotExists">
         CREATE TABLE IF NOT EXISTS
         `t_order_item` (
-        `id` varchar(30) NOT NULL COMMENT 'id',
-        `order_id` varchar(30) NOT NULL COMMENT '订单id',
-        `user_id` varchar(30) NOT NULL COMMENT '用户id',
+        `id` bigint(20) NOT NULL COMMENT 'id',
+        `order_id` bigint(20) NOT NULL COMMENT '订单id',
+        `user_id` bigint(20) NOT NULL COMMENT '用户id',
         `item_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL COMMENT '商品名称',
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

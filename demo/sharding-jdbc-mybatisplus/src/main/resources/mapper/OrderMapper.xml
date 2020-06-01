@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.teeya.demo.mapper.OrderMapper">
-    <select id="getCount" resultType="int">
-        select count(*) o_order
-    </select>
-    <select id="add" resultType="int">
-        insert into o_order(id) values(555)
-    </select>
 
     <update id="createTableIfNotExists">
         CREATE TABLE IF NOT EXISTS
         `t_order` (
-        `id` varchar(30) NOT NULL COMMENT 'id',
-        `user_id` varchar(30) NOT NULL COMMENT '用户id',
+        `id` bigint(20) NOT NULL COMMENT 'id',
+        `user_id` bigint(20) NOT NULL COMMENT '用户id',
         `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     </update>
+
+    <select id="getDetailById" resultType="com.teeya.demo.entity.pojo.OrderEntity">
+        SELECT t1.*  FROM t_order t1 LEFT JOIN t_order_item t2 ON t1.id = t2.order_id LEFT JOIN t_dict t3 ON t1.user_id = t3.user_id
+          WHERE t1.id = #{id} ORDER BY t1.created_time DESC LIMIT 1
+    </select>
 </mapper>

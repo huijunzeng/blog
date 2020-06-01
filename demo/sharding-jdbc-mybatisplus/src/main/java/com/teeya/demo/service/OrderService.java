@@ -14,4 +14,6 @@ import com.teeya.demo.entity.pojo.OrderEntity;
 public interface OrderService extends IService<OrderEntity> {
 
     boolean save();
+
+    OrderEntity get(Long id);
 }
