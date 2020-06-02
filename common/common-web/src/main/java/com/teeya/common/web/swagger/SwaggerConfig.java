@@ -46,11 +46,12 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
+        log.info("swaggerProperties: {}", swaggerProperties != null ? swaggerProperties.toString() : null);
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
-                .apis(RequestHandlerSelectors.basePackage("com.teeya.user"))
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getApiBasePackage()))
                 // 指定路径处理PathSelectors.any()代表所有的路径（除了被@ApiIgnore指定的请求）
                 .paths(PathSelectors.any())
                 .build()
@@ -74,6 +75,10 @@ public class SwaggerConfig {
                 .title("后台用户管理api")
                 .description("后台用户管理接口")
                 .version("2.0")
+                .contact(swaggerProperties.getContact() != null ? new Contact(
+                        Optional.ofNullable(swaggerProperties.getContact().getName()).orElse(""),
+                        Optional.ofNullable(swaggerProperties.getContact().getUrl()).orElse(""),
+                        Optional.ofNullable(swaggerProperties.getContact().getEmail()).orElse("")) : null)
                 .build();
     }
 
