@@ -2,6 +2,7 @@ package com.teeya.file.config;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  * @Date: 2019/12/5 10:15
  */
 
+@Slf4j
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

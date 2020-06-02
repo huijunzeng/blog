@@ -1,7 +1,8 @@
-package com.teeya.demo.config;
+package com.teeya.common.web.swagger;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +13,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.WildcardType;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -40,14 +38,20 @@ public class SwaggerConfig {
     @Autowired
     private TypeResolver typeResolver;
 
+    private final @NonNull SwaggerProperties swaggerProperties;
+
+    public SwaggerConfig(@NonNull SwaggerProperties swaggerProperties) {
+        this.swaggerProperties = swaggerProperties;
+    }
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
-                .apis(RequestHandlerSelectors.basePackage("com.teeya.demo"))
-                // 指定路径处理PathSelectors.any()代表所有的路径
+                .apis(RequestHandlerSelectors.basePackage("com.teeya.user"))
+                // 指定路径处理PathSelectors.any()代表所有的路径（除了被@ApiIgnore指定的请求）
                 .paths(PathSelectors.any())
                 .build()
                 .alternateTypeRules(
@@ -67,8 +71,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("分布式事务demo api")
-                .description("分布式事务demo接口")
+                .title("后台用户管理api")
+                .description("后台用户管理接口")
                 .version("2.0")
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.teeya.user.config;
 
 import com.teeya.common.web.interceptor.UserInterceptor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Author: ZJH
  * @Date: 2019/12/5 10:15
  */
+
+@Slf4j
 @Configuration
 public class WebServerMvcConfigurerAdapter implements WebMvcConfigurer {
 

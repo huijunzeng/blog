@@ -20,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/swagger-resources")
 public class SwaggerResourceHandler {
-
     @Autowired(required = false)
     private SecurityConfiguration securityConfiguration;
 

@@ -2,8 +2,10 @@ package com.teeya.demo.controller;
 
 
 import com.teeya.demo.service.OrderService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,8 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/order")
+@Api(value = "order", tags = {"demo订单操作接口"})
+@Slf4j
 public class OrderController {
 
     @Autowired
