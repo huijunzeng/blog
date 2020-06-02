@@ -13,5 +13,5 @@ import com.teeya.demo.entity.pojo.DictEntity;
  */
 public interface DictMapper extends BaseMapper<DictEntity> {
 
-    int createTableIfNotExists();
+    boolean createTableIfNotExists();
 }

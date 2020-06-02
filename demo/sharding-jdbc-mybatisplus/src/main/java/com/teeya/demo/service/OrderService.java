@@ -3,6 +3,8 @@ package com.teeya.demo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.demo.entity.pojo.OrderEntity;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -13,7 +15,13 @@ import com.teeya.demo.entity.pojo.OrderEntity;
  */
 public interface OrderService extends IService<OrderEntity> {
 
+    /**
+     * 创建数据库
+     * @return
+     */
+    boolean createTable();
+
     boolean save();
 
-    OrderEntity get(Long id);
+    Map get(Long id);
 }

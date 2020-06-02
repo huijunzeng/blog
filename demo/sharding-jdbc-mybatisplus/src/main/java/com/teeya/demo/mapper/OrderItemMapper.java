@@ -13,5 +13,5 @@ import com.teeya.demo.entity.pojo.OrderItemEntity;
  */
 public interface OrderItemMapper extends BaseMapper<OrderItemEntity> {
 
-    int createTableIfNotExists();
+    boolean createTableIfNotExists();
 }

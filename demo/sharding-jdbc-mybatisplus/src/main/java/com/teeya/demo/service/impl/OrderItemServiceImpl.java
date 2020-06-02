@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.teeya.demo.entity.pojo.OrderItemEntity;
 import com.teeya.demo.mapper.OrderItemMapper;
 import com.teeya.demo.service.OrderItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItemEntity> implements OrderItemService {
 
+    @Autowired
+    private OrderItemMapper orderItemMapper;
+
+    @Override
+    public boolean createTable() {
+        return orderItemMapper.createTableIfNotExists();
+    }
 }

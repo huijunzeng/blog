@@ -13,4 +13,9 @@ import com.teeya.demo.entity.pojo.OrderItemEntity;
  */
 public interface OrderItemService extends IService<OrderItemEntity> {
 
+    /**
+     * 创建数据库
+     * @return
+     */
+    boolean createTable();
 }

@@ -3,6 +3,8 @@ package com.teeya.demo.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.teeya.demo.entity.pojo.OrderEntity;
 
+import java.util.Map;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,7 +15,7 @@ import com.teeya.demo.entity.pojo.OrderEntity;
  */
 public interface OrderMapper extends BaseMapper<OrderEntity> {
 
-    int createTableIfNotExists();
+    boolean createTableIfNotExists();
 
-    OrderEntity getDetailById(Long id);
+    Map getDetailById(Long id);
 }

@@ -7,10 +7,11 @@ import com.teeya.demo.mapper.OrderMapper;
 import com.teeya.demo.service.OrderItemService;
 import com.teeya.demo.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -30,6 +31,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     private OrderMapper orderMapper;
 
     @Override
+    public boolean createTable() {
+        return orderMapper.createTableIfNotExists();
+    }
+
+    @Override
     @Transactional
     public boolean save() {
         /*for (int i = 0; i < 20; i++) {
@@ -47,12 +53,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
             orderItemService.save(orderItemEntity);
         }*/
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setUserId(80L);
+        orderEntity.setUserId(20L);
         orderEntity.setId(1266338382508789762L);
         log.info("insert_orderEntity=======: " + orderEntity.toString());
         super.save(orderEntity);
         OrderItemEntity orderItemEntity = new OrderItemEntity();
-        orderItemEntity.setUserId(80L);
+        orderItemEntity.setUserId(20L);
         orderItemEntity.setOrderId(orderEntity.getId());
         log.info("insert_orderEntity_id=======: " + orderEntity.getId());
         orderItemEntity.setItemName("三只松鼠芒果干");
@@ -62,7 +68,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     }
 
     @Override
-    public OrderEntity get(Long id) {
+    public Map get(Long id) {
         return orderMapper.getDetailById(id);
     }
 }
