@@ -2,11 +2,13 @@ package com.teeya.common.web.swagger;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -30,23 +32,27 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  */
 
 @Slf4j
-@Configuration
-@EnableSwagger2
+//@Configuration
+//@EnableSwagger2
+//@EnableConfigurationProperties(value = {SwaggerProperties.class})
+//@Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似
+@ConditionalOnProperty(name = "base.config.swagger.enabled", havingValue = "true") //在@Profile({"dev"})生效的前提下，如果application.yml配置文件中的base.config.swagger.enable为true才生效，不然不生效
 public class SwaggerConfig {
     // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui.html  IP为机器的IP，端口号为工程的端口
 
     @Autowired
     private TypeResolver typeResolver;
 
-    private final @NonNull SwaggerProperties swaggerProperties;
-
-    public SwaggerConfig(@NonNull SwaggerProperties swaggerProperties) {
+    // 需要使用构造注入
+    private SwaggerProperties swaggerProperties;
+    @Autowired
+    public SwaggerConfig(SwaggerProperties swaggerProperties) {
         this.swaggerProperties = swaggerProperties;
     }
 
     @Bean
     public Docket api() {
-        log.info("swaggerProperties: {}", swaggerProperties != null ? swaggerProperties.toString() : null);
+        log.info("swaggerProperties======================: {}", swaggerProperties != null ? swaggerProperties.toString() : null);
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
@@ -72,9 +78,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("后台用户管理api")
-                .description("后台用户管理接口")
-                .version("2.0")
+                .title(swaggerProperties.getTitle())
+                .description(swaggerProperties.getDescription())
+                .version(swaggerProperties.getVersion())
                 .contact(swaggerProperties.getContact() != null ? new Contact(
                         Optional.ofNullable(swaggerProperties.getContact().getName()).orElse(""),
                         Optional.ofNullable(swaggerProperties.getContact().getUrl()).orElse(""),

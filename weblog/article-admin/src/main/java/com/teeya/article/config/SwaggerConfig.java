@@ -4,8 +4,10 @@ import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -34,6 +36,8 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 @Slf4j
 @Configuration
 @EnableSwagger2
+@Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似
+@ConditionalOnProperty(name = "base.config.swagger.enabled", havingValue = "true") //在@Profile({"dev"})生效的前提下，如果application.yml配置文件中的base.config.swagger.enable为true才生效，不然不生效
 public class SwaggerConfig {
     // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui.html  IP为机器的IP，端口号为工程的端口
 
@@ -69,7 +73,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("博客文章管理api")
                 .description("博客文章管理接口")
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 

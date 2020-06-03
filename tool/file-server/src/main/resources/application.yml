@@ -1,4 +1,20 @@
 ## 用本地配置
+
+##自定义属性
+base:
+    config:
+        swagger:
+            enabled: true
+            api-base-package: com.teeya.file
+            contact:
+                name: ZJH
+                email: 18826233829@163.com
+                url:
+            title: 文件服务器管理api
+            description: 文件服务器管理接口
+            version: 2.0
+
+##非自定义属性
 server:
     port: 7900 # 启动端口
 spring:

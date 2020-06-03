@@ -1,4 +1,20 @@
 ## 用本地配置
+
+##自定义属性
+base:
+    config:
+        swagger:
+            enabled: true
+            api-base-package: com.teeya.article
+            contact:
+                name: ZJH
+                email: 18826233829@163.com
+                url:
+            title: 博客文章管理api
+            description: 博客文章管理接口
+            version: 2.0
+
+##非自定义属性
 server:
     port: 7800 # 启动端口
 spring:
