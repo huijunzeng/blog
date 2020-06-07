@@ -2,6 +2,7 @@ package com.teeya.demo.config;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  * @Date: 2019/12/5 10:15
  */
 
+@Slf4j
 @Configuration
 @EnableSwagger2
 @Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似

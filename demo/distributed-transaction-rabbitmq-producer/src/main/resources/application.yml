@@ -13,6 +13,11 @@ base:
             title: 分布式事务demo api
             description: 分布式事务demo接口
             version: 2.0
+        rabbitmq:
+            points-queue: points.queue
+            points-retry-queue: points.retry.queue
+            points-route-key: points.route.key
+            points-exchange: points.exchange
 
 ##非自定义属性
 server:
@@ -65,6 +70,7 @@ spring:
         virtual-host: / #虚拟主机 每个virtual-host相当于一个相对独立的RabbitMQ服务器，每个virtual-host之间是相互隔离的
         publisher-returns: true #消息接收确认
         publisher-confirm-type: correlated #确认回调
+        queue_name:
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射

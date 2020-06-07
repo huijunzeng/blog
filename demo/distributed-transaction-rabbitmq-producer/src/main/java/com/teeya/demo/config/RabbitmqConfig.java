@@ -2,11 +2,12 @@ package com.teeya.demo.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *
+ * @Bean方式是启动时自动创建队列，不需要手动在rabbitmq控制台创建
  */
 @Configuration
 @Slf4j
@@ -15,19 +16,23 @@ public class RabbitmqConfig {
     /**
      * 积分处理队列
      */
-    public static final String POINTS_QUEUE_NAME = "points.queue";
+    @Value("${base.config.rabbitmq.points-queue}")
+    public String POINTS_QUEUE_NAME = "points.queue";
     /**
      * 积分重试队列
      */
-    public static final String POINTS_RETRY_QUEUE_NAME = "points.retry.queue";
+    @Value("${base.config.rabbitmq.points-retry-queue}")
+    public String POINTS_RETRY_QUEUE_NAME = "points.retry.queue";
     /**
      * 积分处理路由KEY
      */
-    public static final String POINTS_ROUTE_NAME = "points.route";
+    @Value("${base.config.rabbitmq.points-route-key}")
+    public String POINTS_ROUTE_NAME = "points.route.key";
     /**
      * 积分处理交换机
      */
-    public static final String POINTS_EXCHANGE_NAME = "points.exchange";
+    @Value("${base.config.rabbitmq.points-exchange}")
+    public String POINTS_EXCHANGE_NAME = "points.exchange";
 
     /**
      * 积分队列
@@ -51,11 +56,12 @@ public class RabbitmqConfig {
     }
 
     /**
-     * 积分处理交换机
+     * 积分处理交换机（Direct Exchange（直连交换机 一对一））
      * @return
      */
     @Bean
     public DirectExchange pointsExchange() {
+        // Direct Exchange（直连交换机 一对一）
         // ExchangeBuilder.directExchange(POINTS_EXCHANGE_NAME);  这是另一种写法
         return new DirectExchange(POINTS_EXCHANGE_NAME);
     }

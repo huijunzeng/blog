@@ -5,13 +5,15 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.teeya.demo.entity.pojo.PointsEntity">
     <result column="id" property="id" />
+        <result column="account_id" property="accountId" />
+        <result column="account_name" property="accountName" />
         <result column="point" property="point" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        point
+        account_id, account_name, point
     </sql>
 
 </mapper>

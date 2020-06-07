@@ -13,6 +13,11 @@ base:
             title: 分布式事务demo api
             description: 分布式事务demo接口
             version: 2.0
+        rabbitmq:
+            points-queue: points.queue
+            points-retry-queue: points.retry.queue
+            points-route-key: points.route.key
+            points-exchange: points.exchange
 
 ##非自定义属性
 server:

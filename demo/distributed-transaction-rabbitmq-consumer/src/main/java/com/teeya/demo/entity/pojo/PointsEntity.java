@@ -32,6 +32,18 @@ public class PointsEntity implements Serializable {
     private Long id;
 
     /**
+     * 账号id
+     */
+    @TableField("account_id")
+    private Long accountId;
+
+    /**
+     * 账号名称
+     */
+    @TableField("account_name")
+    private String accountName;
+
+    /**
      * 积分值
      */
     @TableField("point")
