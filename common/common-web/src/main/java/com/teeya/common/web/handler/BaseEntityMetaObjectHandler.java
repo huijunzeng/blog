@@ -35,12 +35,25 @@ public class BaseEntityMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.setFieldValByName("createdBy", getCurrentUsername(), metaObject);
-        this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
-        this.setFieldValByName("createdTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
-        this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
-        this.setFieldValByName("deleted", 0, metaObject);
-        this.setFieldValByName("version", 0, metaObject);
+        // 先判断实体类中是否有这些字段
+        if (metaObject.hasSetter("createdBy")) {
+            this.setFieldValByName("createdBy", getCurrentUsername(), metaObject);
+        }
+        if (metaObject.hasSetter("updatedBy")) {
+            this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
+        }
+        if (metaObject.hasSetter("createdTime")) {
+            this.setFieldValByName("createdTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        }
+        if (metaObject.hasSetter("updatedTime")) {
+            this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        }
+        if (metaObject.hasSetter("deleted")) {
+            this.setFieldValByName("deleted", 0, metaObject);
+        }
+        if (metaObject.hasSetter("version")) {
+            this.setFieldValByName("version", 0, metaObject);
+        }
     }
 
     /**
@@ -49,7 +62,11 @@ public class BaseEntityMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
-        this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        if (metaObject.hasSetter("updatedBy")) {
+            this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
+        }
+        if (metaObject.hasSetter("updatedTime")) {
+            this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        }
     }
 }

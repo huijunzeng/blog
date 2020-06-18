@@ -248,7 +248,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
         // token增强器  可往token添加额外的信息
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
-        // token存储方式
+        // token存储方式  默认是内存
         defaultTokenServices.setTokenStore(tokenStore());
         return defaultTokenServices;
     }
