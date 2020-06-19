@@ -21,6 +21,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    private CustomAuthExceptionHandler customAuthExceptionHandler;
 
     /**
      *  与http安全配置相关 可配置拦截什么URL、设置什么权限等安全控制
@@ -54,7 +56,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 // 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
                 .resourceId(DEMO_RESOURCE_ID)
                 // 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
-                .tokenStore(tokenStore());
+                .tokenStore(tokenStore())
+                .accessDeniedHandler(customAuthExceptionHandler)
+                .authenticationEntryPoint(customAuthExceptionHandler);
     }
 
     /**
