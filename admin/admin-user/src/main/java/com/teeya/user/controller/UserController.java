@@ -9,6 +9,7 @@ import com.teeya.user.service.UserService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,7 +25,7 @@ public class UserController {
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
     @ApiImplicitParam(paramType = "form", name = "userSaveForm", value = "用户新增表单", required = true, dataType = "userSaveForm")
     @PostMapping
-    public boolean save(@RequestBody UserSaveForm userSaveForm) {
+    public boolean save(@Validated @RequestBody UserSaveForm userSaveForm) {
         return userService.save(userSaveForm);
     }
 
@@ -32,7 +33,7 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "userUpdateForm", value = "用户修改表单", required = true, dataType = "UserUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody UserUpdateForm userUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody UserUpdateForm userUpdateForm) {
         return userService.update(id, userUpdateForm);
     }
 

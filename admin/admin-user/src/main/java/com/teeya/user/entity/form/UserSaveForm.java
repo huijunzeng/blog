@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -38,6 +39,7 @@ public class UserSaveForm implements Serializable {
     private String phone;
 
     @ApiModelProperty("用户角色id集合")
+    @NotNull
     private Set<Long> roleIds;
 
 }

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -33,7 +34,7 @@ public class ArticleController {
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
     @ApiImplicitParam(paramType = "form", name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
     @PostMapping
-    public boolean save(@RequestBody ArticleSaveForm articleSaveForm) {
+    public boolean save(@Validated @RequestBody ArticleSaveForm articleSaveForm) {
         return articleService.save(articleSaveForm);
     }
 
@@ -41,7 +42,7 @@ public class ArticleController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody ArticleUpdateForm articleUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody ArticleUpdateForm articleUpdateForm) {
         return articleService.update(id, articleUpdateForm);
     }
 

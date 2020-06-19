@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class LabelController {
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
     @ApiImplicitParam(paramType = "form", name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
     @PostMapping
-    public boolean save(@RequestBody LabelSaveForm labelSaveForm) {
+    public boolean save(@Validated @RequestBody LabelSaveForm labelSaveForm) {
         return labelService.save(labelSaveForm);
     }
 
@@ -44,7 +45,7 @@ public class LabelController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody LabelUpdateForm labelUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody LabelUpdateForm labelUpdateForm) {
         return labelService.update(id, labelUpdateForm);
     }
 

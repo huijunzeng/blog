@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class ClassificationController {
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
     @ApiImplicitParam(paramType = "form", name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
     @PostMapping
-    public boolean save(@RequestBody ClassificationSaveForm classificationSaveForm) {
+    public boolean save(@Validated @RequestBody ClassificationSaveForm classificationSaveForm) {
         return classificationService.save(classificationSaveForm);
     }
 
@@ -44,7 +45,7 @@ public class ClassificationController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody ClassificationUpdateForm classificationUpdateForm) {
         return classificationService.update(id, classificationUpdateForm);
     }
 

@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class RoleController {
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @ApiImplicitParam(paramType = "form", name = "roleSaveForm", value = "角色新增表单", required = true, dataType = "RoleSaveForm")
     @PostMapping
-    public boolean save(@RequestBody RoleSaveForm roleSaveForm) {
+    public boolean save(@Validated @RequestBody RoleSaveForm roleSaveForm) {
         return roleService.save(roleSaveForm);
     }
 
@@ -37,7 +38,7 @@ public class RoleController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "roleUpdateForm", value = "角色修改表单", required = true, dataType = "RoleUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody RoleUpdateForm roleUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody RoleUpdateForm roleUpdateForm) {
         return roleService.update(id, roleUpdateForm);
     }
 

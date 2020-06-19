@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ResourceController {
     @ApiOperation(value = "新增资源", notes = "新增资源")
     @ApiImplicitParam(paramType = "form", name = "resourceSaveForm", value = "资源新增表单", required = true, dataType = "ResourceSaveForm")
     @PostMapping
-    public boolean save(@RequestBody ResourceSaveForm resourceSaveForm) {
+    public boolean save(@Validated @RequestBody ResourceSaveForm resourceSaveForm) {
         return resourceService.save(resourceSaveForm);
     }
 
@@ -37,7 +38,7 @@ public class ResourceController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "form", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @RequestBody ResourceUpdateForm resourceUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody ResourceUpdateForm resourceUpdateForm) {
         return resourceService.update(id, resourceUpdateForm);
     }
 
