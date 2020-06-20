@@ -1,7 +1,7 @@
 package com.teeya.authentication.config;
 
 import com.alibaba.fastjson.JSON;
-import com.teeya.common.core.entity.vo.CommonResponse;
+import com.teeya.common.core.entity.vo.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,7 +61,7 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         if (cause instanceof InvalidTokenException) {
             log.error("InvalidTokenException : {}",cause.getMessage());
             // Token无效  todo测试结果
-            response.getWriter().write(JSON.toJSONString(CommonResponse.fail(401, "invalid_token")));
+            response.getWriter().write(JSON.toJSONString(R.fail(401, "invalid_token")));
         } else {
             log.error("Unauthorized : Unauthorized");
             // 资源未授权
@@ -88,6 +88,6 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         response.addHeader("Access-Control-Max-Age", "1800");
         //访问资源的用户权限不足
         log.error("AccessDeniedException : {}", accessDeniedException.getMessage());
-        response.getWriter().write(JSON.toJSONString(CommonResponse.fail(401, accessDeniedException.getMessage())));
+        response.getWriter().write(JSON.toJSONString(R.fail(401, accessDeniedException.getMessage())));
     }
 }

@@ -140,6 +140,13 @@ spring:
                         inline:
                             sharding-column: order_id #分片列名  yml文件配置时，属性不能是String,只能是整型
                             algorithm-expression: t_order_item_$->{order_id % 3}  #分库算法Inline表达式，需要符合groovy动态语法
+    # jackson配置
+    jackson:
+        # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        # 属性值为NULL的字段则不参与序列化，即null值不返回给前端
+        default-property-inclusion: non_null
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射

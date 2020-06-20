@@ -2,7 +2,7 @@ package com.teeya.common.web.response;
 
 import com.alibaba.fastjson.JSONObject;
 import com.teeya.common.core.exception.SystemExceptionEnums;
-import com.teeya.common.core.entity.vo.CommonResponse;
+import com.teeya.common.core.entity.vo.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -30,12 +30,12 @@ public class BaseGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> 
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         log.info("start=============");
-        if(!(o instanceof CommonResponse)) {
+        if(!(o instanceof R)) {
             Object newObject = JSONObject.toJSON(o);
-            CommonResponse commonResponse = new CommonResponse(SystemExceptionEnums.SYSTEM_SUCCESS, newObject);
-            log.info("responseResult============={}", commonResponse.toString());
-            log.info("toJSON(responseResult)============={}", JSONObject.toJSON(commonResponse));
-            return commonResponse;
+            R r = new R(SystemExceptionEnums.SYSTEM_SUCCESS, newObject);
+            log.info("responseResult============={}", r.toString());
+            log.info("toJSON(responseResult)============={}", JSONObject.toJSON(r));
+            return r;
         }
         return o;
     }

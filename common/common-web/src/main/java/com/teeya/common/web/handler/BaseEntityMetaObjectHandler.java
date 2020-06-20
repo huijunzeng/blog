@@ -20,6 +20,13 @@ import java.util.Date;
 @Slf4j
 public class BaseEntityMetaObjectHandler implements MetaObjectHandler {
 
+    private static final String CREATED_BY = "createdBy";
+    private static final String UPDATED_BY = "updatedBy";
+    private static final String CREATED_TIME = "createdTime";
+    private static final String UPDATED_TIME = "updatedTime";
+    private static final String DELETED = "deleted";
+    private static final String VERSION = "version";
+
     /**
      * 获取当前交易的用户，为空返回默认system
      *
@@ -36,23 +43,23 @@ public class BaseEntityMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         // 先判断实体类中是否有这些字段
-        if (metaObject.hasSetter("createdBy")) {
-            this.setFieldValByName("createdBy", getCurrentUsername(), metaObject);
+        if (metaObject.hasSetter(CREATED_BY)) {
+            this.setFieldValByName(CREATED_BY, getCurrentUsername(), metaObject);
         }
-        if (metaObject.hasSetter("updatedBy")) {
-            this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
+        if (metaObject.hasSetter(UPDATED_BY)) {
+            this.setFieldValByName(UPDATED_BY, getCurrentUsername(), metaObject);
         }
-        if (metaObject.hasSetter("createdTime")) {
-            this.setFieldValByName("createdTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        if (metaObject.hasSetter(CREATED_TIME)) {
+            this.setFieldValByName(CREATED_TIME, Date.from(ZonedDateTime.now().toInstant()), metaObject);
         }
-        if (metaObject.hasSetter("updatedTime")) {
-            this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        if (metaObject.hasSetter(UPDATED_TIME)) {
+            this.setFieldValByName(UPDATED_TIME, Date.from(ZonedDateTime.now().toInstant()), metaObject);
         }
-        if (metaObject.hasSetter("deleted")) {
-            this.setFieldValByName("deleted", 0, metaObject);
+        if (metaObject.hasSetter(DELETED)) {
+            this.setFieldValByName(DELETED, 0, metaObject);
         }
-        if (metaObject.hasSetter("version")) {
-            this.setFieldValByName("version", 0, metaObject);
+        if (metaObject.hasSetter(VERSION)) {
+            this.setFieldValByName(VERSION, 0, metaObject);
         }
     }
 
@@ -62,11 +69,11 @@ public class BaseEntityMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        if (metaObject.hasSetter("updatedBy")) {
-            this.setFieldValByName("updatedBy", getCurrentUsername(), metaObject);
+        if (metaObject.hasSetter(UPDATED_BY)) {
+            this.setFieldValByName(UPDATED_BY, getCurrentUsername(), metaObject);
         }
-        if (metaObject.hasSetter("updatedTime")) {
-            this.setFieldValByName("updatedTime", Date.from(ZonedDateTime.now().toInstant()), metaObject);
+        if (metaObject.hasSetter(UPDATED_TIME)) {
+            this.setFieldValByName(UPDATED_TIME, Date.from(ZonedDateTime.now().toInstant()), metaObject);
         }
     }
 }

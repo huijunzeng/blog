@@ -1,6 +1,6 @@
 package com.teeya.gateway.exception;
 
-import com.teeya.common.core.exception.BaseException;
+import com.teeya.common.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -107,10 +107,10 @@ public class GateWayExceptionHandlerAdvice {
     public Map handle(Exception ex) {
         log.error("exception:{}", ex);
         Map<String, Object> map = new HashMap<>();
-        if (ex instanceof BaseException){
-            BaseException baseException = (BaseException) ex;
+        if (ex instanceof BusinessException){
+            BusinessException businessException = (BusinessException) ex;
             map.put("code", 404);
-            map.put("msg", baseException.getMessage());
+            map.put("msg", businessException.getMessage());
         } else if (ex instanceof ArithmeticException) {
             map.put("code", 404);
             map.put("msg", "算法异常");
