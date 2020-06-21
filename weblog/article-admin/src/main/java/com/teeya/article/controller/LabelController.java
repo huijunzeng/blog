@@ -24,11 +24,13 @@ import java.util.List;
  *
  * @author ZJH
  * @since 2020-03-10
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
  */
 @RestController
 @RequestMapping("/label")
 @Api(value = "label", tags = {"文章标签操作restful接口"})
 @Slf4j
+@Validated
 public class LabelController {
 
     @Autowired

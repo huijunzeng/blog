@@ -16,9 +16,12 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 全局异常处理类  按顺序优先处理
@@ -136,6 +139,23 @@ public class DefaultGlobalExceptionHandlerAdvice {
     }
 
     /**
+     * ConstraintViolationException 单个参数校验
+     * 返回状态码:500
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public R constraintViolationException(ConstraintViolationException ex){
+        log.error("constraintViolationException:{}", ex.getMessage());
+        StringBuilder msg = new StringBuilder();
+        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+        for (ConstraintViolation constraintViolation : constraintViolations
+             ) {
+            msg.append(", ").append(constraintViolation.getMessage());
+        }
+        return R.fail(SystemExceptionEnums.PARAM_VALID_ERROR, msg == null ? SystemExceptionEnums.PARAM_VALID_ERROR.getMsg() : msg.substring(2));
+    }
+
+    /**
      * BusinessException 业务异常处理
      * 返回状态码:500
      */
@@ -151,9 +171,9 @@ public class DefaultGlobalExceptionHandlerAdvice {
      * 返回状态码:500
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(Exception.class)
     public R exception(Exception ex) {
-        log.error("exception:{}", ex.getMessage());
+        log.error("exception:{}", ex);
         return R.fail(SystemExceptionEnums.INTERNAL_SERVER_ERROR);
     }
 

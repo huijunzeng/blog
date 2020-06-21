@@ -15,12 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+/**
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
+ */
 @RestController
 @RequestMapping("/role")
 @Api(value = "role", tags = {"角色操作接口"})
 @Slf4j
+@Validated
 public class RoleController {
 
     @Autowired
@@ -53,7 +58,7 @@ public class RoleController {
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "Long")
     @GetMapping
-    public List<RoleEntity> queryListByUserId(@RequestParam(value = "userId") Long userId) {
+    public List<RoleEntity> queryListByUserId(@NotBlank(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
         return roleService.queryListByUserId(userId);
     }
 

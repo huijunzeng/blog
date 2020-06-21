@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author ZJH
  * @since 2020-03-10
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
  */
 @RestController
 @RequestMapping("/article")
 @Api(value = "article", tags = {"文章操作restful接口"})
 @Slf4j
+@Validated
 public class ArticleController {
 
     @Autowired

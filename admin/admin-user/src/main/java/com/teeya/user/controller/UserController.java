@@ -12,11 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 
+/**
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
+ */
 @RestController
 @RequestMapping("/user")
 @Api(value = "user", tags = {"用户操作接口"})
 @Slf4j
+@Validated
 public class UserController {
 
     @Autowired
@@ -48,7 +53,7 @@ public class UserController {
     @ApiOperation(value = "获取用户", notes = "根据用户名/用户手机号码（唯一标识）获取指定用户信息")
     @ApiImplicitParam(paramType = "query", name = "uniqueId", value = "用户名/用户手机号码", required = true, dataType = "String")
     @GetMapping
-    public UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId) {
+    public UserEntity getByUniqueId(@NotBlank(message = "唯一标识不能为空") String uniqueId) {
         log.info("uniqueId: " + uniqueId);
         return userService.getByUniqueId(uniqueId);
     }

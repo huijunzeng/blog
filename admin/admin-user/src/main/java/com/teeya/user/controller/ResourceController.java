@@ -15,13 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-
+/**
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
+ */
 @RestController
 @RequestMapping("/resource")
 @Api(value = "resource", tags = {"资源操作restful接口"})
 @Slf4j
+@Validated
 public class ResourceController {
 
     @Autowired
@@ -53,7 +57,7 @@ public class ResourceController {
     @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
     @GetMapping
-    public List<ResourceEntity> queryListByUserId(@RequestParam(value = "userId") Long userId) {
+    public List<ResourceEntity> queryListByUserId(@NotBlank(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
         return resourceService.queryListByUserId(userId);
     }
 
