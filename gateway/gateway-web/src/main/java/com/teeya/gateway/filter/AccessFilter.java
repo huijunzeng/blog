@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * 路由请求鉴权过滤器
+ * 在路由到某个服务之前做一些额外处理
  */
 
 @Configuration
@@ -84,7 +85,7 @@ public class AccessFilter implements GlobalFilter {
             log.info("substring========:{} ", substringToken);
             Map<String, ?> stringMap = authService.checkToken(substringToken);
             // 信息安全  做加密  todo
-            // 可以根据个人需要在转发的请求头加上token解析后的body的信息
+            // 可以根据个人需要在转发的请求头加上token解析后的body的信息； 原有的请求头信息不受影响，会路由到具体服务中
             builder.header(X_CLIENT_USER, this.checkTokenAndParseAsJson(substringToken));
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }

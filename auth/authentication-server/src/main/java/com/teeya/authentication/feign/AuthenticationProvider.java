@@ -1,6 +1,7 @@
 package com.teeya.authentication.feign;
 
 import com.teeya.authentication.entity.ResourceEntity;
+import com.teeya.common.web.interceptor.FeignRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 @Component
-@FeignClient(name = "admin-user", fallback = AuthenticationProviderFallback.class)
+@FeignClient(name = "admin-user", configuration = FeignRequestInterceptor.class, fallback = AuthenticationProviderFallback.class)
 public interface AuthenticationProvider {
 
     /**
