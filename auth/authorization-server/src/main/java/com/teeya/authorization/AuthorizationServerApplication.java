@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients //调取其他服务的接口时必须加上这个注解
 public class AuthorizationServerApplication {
 
     public static void main(String[] args) {

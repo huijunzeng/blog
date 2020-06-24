@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients //调取其他服务的接口时必须加上这个注解
 //@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class}) //排除数据库配置
 @SpringBootApplication
 @RestController
