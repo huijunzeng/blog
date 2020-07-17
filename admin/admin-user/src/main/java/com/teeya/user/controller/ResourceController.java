@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -57,7 +57,7 @@ public class ResourceController {
     @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
     @GetMapping
-    public List<ResourceEntity> queryListByUserId(@NotBlank(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
+    public List<ResourceEntity> queryListByUserId(@NotNull(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
         return resourceService.queryListByUserId(userId);
     }
 

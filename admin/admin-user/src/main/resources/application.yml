@@ -29,8 +29,25 @@ spring:
         #sentinel配置
         sentinel:
             transport:
-                port: 8719 #指定客户端监控 API 的端口  默认，可不设置
+                port: 8719 #指定客户端监控 API 的端口 可不提供，默认为 8719，若端口冲突会自动向下探测可用的端口
                 dashboard: localhost:8080 #控制台的地址
+            datasource:
+                ds_flow: #读取nacos数据源的sentinel流控规则 admin-user-sentinel-flow-rules+DEFAULT_GROUP+a4d0cf40-1125-4263-81e5-3f628bc90302
+                    nacos:
+                        server-addr: localhost:8848
+                        data-id: ${spring.application.name}-sentinel-flow-rules #需要在nacos上面配置这个名称的json格式流控规则
+                        namespace: a4d0cf40-1125-4263-81e5-3f628bc90302
+                        group-id: DEFAULT_GROUP
+                        data-type: json
+                        rule-type: flow
+                ds_degrade: #读取nacos数据源的sentinel降级规则
+                    nacos:
+                        server-addr: localhost:8848
+                        data-id: ${spring.application.name}-sentinel-degrade-rules #需要在nacos上面配置这个名称的json格式降级规则
+                        group-id: DEFAULT_GROUP
+                        namespace: a4d0cf40-1125-4263-81e5-3f628bc90302
+                        data-type: json
+                        rule-type: degrade
     profiles:
         active: dev # 根据不同环境切换配置环境
         # 数据源mysql配置
@@ -75,7 +92,7 @@ mybatis-plus:
         # mybatis-plus配置控制台打印完整带参数SQL语句
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 name: admin-user  # 测试用
-##使用sentinel配置
+##feign使用sentinel配置
 feign:
     sentinel:
         enabled: true
