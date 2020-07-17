@@ -16,6 +16,7 @@ public enum SystemExceptionEnums implements ExceptionType {
     PARAM_MISS(400, "缺少必要的请求参数"),
     MSG_NOT_READABLE(400, "消息不能读取"),
     UN_AUTHORIZED(401, "请求未授权"),
+    INVALID_TOKEN(401, "无效token"),
     CLIENT_UN_AUTHORIZED(401, "客户端请求未授权"),
     REQ_REJECT(403, "请求被拒绝"),
     NOT_FOUND(404, "404 没找到请求"),
@@ -28,7 +29,6 @@ public enum SystemExceptionEnums implements ExceptionType {
     GATEWAY_ERROR(1003, "网关异常"),
     GATEWAY_CONNECT_TIME_OUT(1004, "网关超时"),
 
-    INVALID_TOKEN(2002, "无效token"),
     UPLOAD_FILE_SIZE_LIMIT(2003, "上传文件大小超过限制"),
 
     DUPLICATE_PRIMARY_KEY(3001,"唯一键冲突"),

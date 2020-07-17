@@ -21,7 +21,7 @@ public class UserSaveForm implements Serializable {
 
     //@NotEmpty :不能为null，且Size>0
     //@NotNull:不能为null，但可以为empty,没有Size的约束
-    //@NotBlank:只用于String,不能为null且trim()之后size>0
+    //@NotBlank:只用于String,不能为null且trim()之后size>0   不能用于包装类型如Long
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名称不能为空")
     private String username;

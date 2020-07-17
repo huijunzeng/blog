@@ -1,5 +1,6 @@
 package com.teeya.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -58,9 +59,13 @@ public class RoleController {
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "Long")
     @GetMapping
-    public List<RoleEntity> queryListByUserId(@NotBlank(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
+    @SentinelResource(value = "/role", blockHandler = "block", fallback = "fallback") //使用sentinel处理熔断降级demo
+    public List<RoleEntity> queryListByUserId(@NotNull(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
         return roleService.queryListByUserId(userId);
     }
+
+    public String block(){ return "blocked"; }
+    public String fallback(){ return "fallbacked"; }
 
     @ApiOperation(value = "根据用户名获取相应的角色集合", notes = "根据用户名获取相应的角色集合")
     @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")

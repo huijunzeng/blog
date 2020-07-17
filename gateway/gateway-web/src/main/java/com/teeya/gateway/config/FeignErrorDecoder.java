@@ -38,8 +38,8 @@ public class FeignErrorDecoder implements ErrorDecoder {
             log.info("response.body(): {}", message);
             log.info("response status: {}", response.status());
             return new BusinessException(response.status(), methodKey);
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            log.error("decode Exception: {}", e.getMessage());
         }
         log.info("BaseException: {}, {}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
         return new BusinessException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
