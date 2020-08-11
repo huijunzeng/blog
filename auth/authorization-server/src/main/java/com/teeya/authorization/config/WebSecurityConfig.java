@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * WebSecurityConfigurerAdapter与ResourceServerConfigurerAdapter的区别：
  *     WebSecurityConfigurerAdapter默认情况下是spring security的http配置
  *     ResourceServerConfigurerAdapter默认情况下是spring security oauth2的http配置
- * 优先级的问题  WebSecurityConfigurerAdapter的HttpSecurity低于这个（优先级高的会覆盖优先级低的）
+ * 优先级的问题  WebSecurityConfigurerAdapter的HttpSecurity低于这个ResourceServerConfigurerAdapter（优先级高的会覆盖优先级低的）
  * 查看源码，ResourceServerConfigurerAdapter的order为3，WebSecurityConfigurerAdapter的order为100，order值越小，优先级越高，所以默认情况下ResourceServerConfigurerAdapter执行生效
  * 假如需要优先执行WebSecurityConfigurerAdapter的HttpSecurity，在WebSecurityConfig配置类添加注解@Order(-1)，数值只要小于3即可
  */

@@ -29,7 +29,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      *  WebSecurityConfigurerAdapter与ResourceServerConfigurerAdapter的区别：
      *     WebSecurityConfigurerAdapter默认情况下是spring security的http配置
      *     ResourceServerConfigurerAdapter默认情况下是spring security oauth2的http配置
-     *  优先级的问题  WebSecurityConfigurerAdapter的HttpSecurity低于这个（优先级高的会覆盖优先级低的）
+     *  优先级的问题  WebSecurityConfigurerAdapter的HttpSecurity低于这个ResourceServerConfigurerAdapter（优先级高的会覆盖优先级低的）
      *  查看源码，ResourceServerConfigurerAdapter的order为3，WebSecurityConfigurerAdapter的order为100，order值越小，优先级越高，所以默认情况下ResourceServerConfigurerAdapter执行生效
      *  假如需要优先执行WebSecurityConfigurerAdapter的HttpSecurity，在WebSecurityConfig配置类添加注解@Order(-1)，数值只要小于3即可
      *  这里配置了拦截规则，可以省掉像authorization-server服务需要写WebSecurityConfig类去配置
@@ -43,6 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/test/**", "/actuator/**", "/auth/hello").permitAll()
                 .anyRequest().authenticated();
+        //http.addFilterBefore()
     }
 
     /**
@@ -57,8 +58,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .resourceId(DEMO_RESOURCE_ID)
                 // 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
                 .tokenStore(tokenStore())
-                .accessDeniedHandler(customAuthExceptionHandler)
-                .authenticationEntryPoint(customAuthExceptionHandler);
+                .accessDeniedHandler(customAuthExceptionHandler) // 处理未授权
+                .authenticationEntryPoint(customAuthExceptionHandler); // 处理未认证
     }
 
     /**
