@@ -5,6 +5,7 @@ import com.teeya.authorization.oauth2.granter.PhoneCustomTokenGranter;
 import com.teeya.authorization.oauth2.jwt.CustomJwtToken;
 import com.teeya.authorization.oauth2.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
 
+    @Qualifier("dataSource")
     @Autowired
     DataSource dataSource;
     // 自定义的用户管理类 用于从数据库中查找用户数据
