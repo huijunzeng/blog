@@ -5,10 +5,7 @@ import com.fasterxml.classmate.TypeResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,7 +16,6 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.*;
 
@@ -33,12 +29,12 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 @Slf4j
 //@Configuration
-//@EnableSwagger2
+//@EnableOpenApi
 //@EnableConfigurationProperties(value = {SwaggerProperties.class})
 //@Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似
 @ConditionalOnProperty(name = "base.config.swagger.enabled", havingValue = "true") //在@Profile({"dev"})生效的前提下，如果application.yml配置文件中的base.config.swagger.enable为true才生效，不然不生效
 public class SwaggerConfig {
-    // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui.html  IP为机器的IP，端口号为工程的端口
+    // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui/index.html  IP为机器的IP，端口号为工程的端口
 
     @Autowired
     private TypeResolver typeResolver;
@@ -90,8 +86,9 @@ public class SwaggerConfig {
 
     /**
      * 设置授权信息
+     * @return
      */
-    private List<ApiKey> securitySchemes() {
+    private List<SecurityScheme> securitySchemes() {
         // 在请求头header添加一个名为Authorization的token
         return Collections.singletonList(new ApiKey(HttpHeaders.AUTHORIZATION, "token", "header"));
     }
