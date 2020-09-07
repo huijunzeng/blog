@@ -5,12 +5,16 @@ import com.fasterxml.classmate.TypeResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
@@ -36,6 +40,8 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 public class SwaggerConfig {
     // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui/index.html  IP为机器的IP，端口号为工程的端口
 
+
+
     @Autowired
     private TypeResolver typeResolver;
 
@@ -49,7 +55,8 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         log.info("swaggerProperties======================: {}", swaggerProperties != null ? swaggerProperties.toString() : null);
-        return new Docket(DocumentationType.SWAGGER_2)
+        log.info("==============: " + swaggerProperties.getApiBasePackage());
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
@@ -103,9 +110,6 @@ public class SwaggerConfig {
                                 Collections.singletonList(new SecurityReference("Authorization",
                                         new AuthorizationScope[]{new AuthorizationScope("global", "")}
                                 )))
-                        // 可通过配置正则表达式去排除一些不需要携带token访问的接口 这里不做特殊处理，全部接口访问都需要携带
-                        // 比如.forPaths(PathSelectors.regex("^(?!auth).*$"))  对所有包含"auth"的接口不需要使用securitySchemes
-                        .forPaths(PathSelectors.any())
                         .build()
         );
     }

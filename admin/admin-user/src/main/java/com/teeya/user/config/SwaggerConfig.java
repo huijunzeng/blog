@@ -43,7 +43,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
@@ -70,6 +70,9 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("后台用户管理api")
                 .description("后台用户管理接口")
+                .contact(new Contact("zjh", null, "18826233829@163.com")) // 联系人信息
+                .license("Apache2.0")
+                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("2.0")
                 .build();
     }
@@ -93,9 +96,6 @@ public class SwaggerConfig {
                                 Collections.singletonList(new SecurityReference("Authorization",
                                         new AuthorizationScope[]{new AuthorizationScope("global", "")}
                                 )))
-                        // 可通过配置正则表达式去排除一些不需要携带token访问的接口 这里不做特殊处理，全部接口访问都需要携带
-                        // 比如.forPaths(PathSelectors.regex("^(?!auth).*$"))  对所有包含"auth"的接口不需要使用securitySchemes
-                        .forPaths(PathSelectors.any())
                         .build()
         );
     }

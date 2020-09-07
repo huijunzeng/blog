@@ -79,7 +79,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                             log.info("error:{}", responseData);
                         } else if (parseObject != null && parseObject.containsKey("error")) {
                             // /oauth/token端点异常：{"error":"unauthorized","error_description":null}
-                        } else if (parseObject != null && parseObject.containsKey("swagger")) {
+                        } else if (parseObject != null && parseObject.containsKey("components")) {
                             // swagger接口文档不封装直接返回
                         } else {
                             log.info("normal invoke return");

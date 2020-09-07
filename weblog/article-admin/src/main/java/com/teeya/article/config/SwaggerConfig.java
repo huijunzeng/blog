@@ -93,9 +93,6 @@ public class SwaggerConfig {
                                 Collections.singletonList(new SecurityReference("Authorization",
                                         new AuthorizationScope[]{new AuthorizationScope("global", "")}
                                 )))
-                        // 可通过配置正则表达式去排除一些不需要携带token访问的接口 这里不做特殊处理，全部接口访问都需要携带
-                        // 比如.forPaths(PathSelectors.regex("^(?!auth).*$"))  对所有包含"auth"的接口不需要使用securitySchemes
-                        .forPaths(PathSelectors.any())
                         .build()
         );
     }
