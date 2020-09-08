@@ -1,10 +1,10 @@
 package com.teeya.authentication.config;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.core.exception.SystemExceptionEnums;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -13,7 +13,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,16 +39,18 @@ import java.io.IOException;
 @Slf4j
 public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     /**
      * AuthenticationEntryPoint
      * @param request
      * @param response
      * @param authException
      * @throws IOException
-     * @throws ServletException
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         Throwable cause = authException.getCause();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -62,11 +63,11 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         if (cause instanceof InvalidTokenException) {
             log.error("InvalidTokenException : {}",cause.getMessage());
             // Token无效
-            response.getWriter().write(JSON.toJSONString(R.fail(SystemExceptionEnums.INVALID_TOKEN)));
+            response.getWriter().write(objectMapper.writeValueAsString(R.fail(SystemExceptionEnums.INVALID_TOKEN)));
         } else {
             log.error("Unauthorized : Unauthorized");
             // 资源未授权
-            response.getWriter().write(JSON.toJSONString(R.fail(SystemExceptionEnums.UN_AUTHORIZED)));
+            response.getWriter().write(objectMapper.writeValueAsString(R.fail(SystemExceptionEnums.UN_AUTHORIZED)));
         }
     }
 
@@ -76,10 +77,9 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
      * @param response
      * @param accessDeniedException
      * @throws IOException
-     * @throws ServletException
      */
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.addHeader("Access-Control-Allow-Origin", "*");
@@ -89,6 +89,6 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         response.addHeader("Access-Control-Max-Age", "1800");
         //访问资源的用户权限不足
         log.error("AccessDeniedException : {}", accessDeniedException.getMessage());
-        response.getWriter().write(JSON.toJSONString(R.fail(401, accessDeniedException.getMessage())));
+        response.getWriter().write(objectMapper.writeValueAsString(R.fail(401, accessDeniedException.getMessage())));
     }
 }

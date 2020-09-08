@@ -43,6 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/test/**", "/actuator/**", "/auth/hello").permitAll()
                 .anyRequest().authenticated();
+        //添加token续签过滤器（请求refresh token接口）
         //http.addFilterBefore()
     }
 

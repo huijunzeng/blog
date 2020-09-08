@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * @author zjh
- * @Description
+ * @Description  token续签过滤器；OncePerRequestFilter确保一次请求只执行一次
  * @date 2020/08/10 18:24
  */
 

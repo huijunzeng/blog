@@ -1,6 +1,5 @@
 package com.teeya.common.web.response;
 
-import com.alibaba.fastjson.JSONObject;
 import com.teeya.common.core.exception.SystemExceptionEnums;
 import com.teeya.common.core.entity.vo.R;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 //@RestControllerAdvice
 @Slf4j
 public class BaseGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
         return true;
@@ -32,10 +32,8 @@ public class BaseGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> 
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         log.info("start=============");
         if(!(o instanceof R)) {
-            Object newObject = JSONObject.toJSON(o);
-            R r = new R(SystemExceptionEnums.SYSTEM_SUCCESS, newObject);
+            R r = new R(SystemExceptionEnums.SYSTEM_SUCCESS, o);
             log.info("responseResult============={}", r.toString());
-            log.info("toJSON(responseResult)============={}", JSONObject.toJSON(r));
             return r;
         }
         return o;
