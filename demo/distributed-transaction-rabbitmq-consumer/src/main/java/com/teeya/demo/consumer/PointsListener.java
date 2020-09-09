@@ -1,7 +1,7 @@
 package com.teeya.demo.consumer;
 
-import com.alibaba.fastjson.JSONObject;
 import com.rabbitmq.client.Channel;
+import com.teeya.common.core.util.JSONUtils;
 import com.teeya.demo.entity.form.PointSaveForm;
 import com.teeya.demo.service.PointsService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,11 +42,10 @@ public class PointsListener {
         // 从队列中取出订单号
         byte[] body = message.getBody();
         String content = new String(body,"UTF-8");
-        JSONObject jsonObject = JSONObject.parseObject(content);
-        log.info("消费消息，消息内容为：{}", jsonObject);
+        log.info("消费消息，消息内容为：{}", content);
         PointSaveForm pointSaveForm = new PointSaveForm();
-        pointSaveForm.setAccountId(jsonObject.getLong("id"));
-        pointSaveForm.setAccountName(jsonObject.getString("name"));
+        pointSaveForm.setAccountId(JSONUtils.jsonToTree(content,"id").asLong());
+        pointSaveForm.setAccountName(JSONUtils.jsonToTree(content,"name").asText());
         pointSaveForm.setPoint(50);
         pointsService.save(pointSaveForm);
         // 确认消息有没有被收到，false表示手动确认  在处理完消息时，返回应答状态

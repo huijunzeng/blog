@@ -1,9 +1,9 @@
 package com.teeya.gateway.filter;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.core.exception.BusinessException;
+import com.teeya.common.core.util.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -32,6 +32,8 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 @Slf4j
 public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
+
+    /**确保过滤器最先执行*/
     @Override
     public int getOrder() {
         // -1 is response write filter, must be called before that
@@ -42,7 +44,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpResponse response = exchange.getResponse();
         DataBufferFactory bufferFactory = response.bufferFactory();
-        log.info("response====:{}", JSONObject.toJSONString(response));
+        log.info("response====:{}", JSONUtils.objectToJson(response));
         HttpStatus statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.OK) {
             ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
@@ -61,30 +63,27 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         String responseData = new String(content, StandardCharsets.UTF_8);
                         log.info("响应内容responseData:{}", responseData);
                         // responseData就是下游服务返回的内容,可以查看修改
-                        Object object = JSONObject.parseObject(responseData, Object.class);
+                        Object object = JSONUtils.jsonToPojo(responseData, Object.class);
                         log.info("object instanceof BaseException:{}", object instanceof BusinessException);
                         // 判断下游服务返回的是正常的响应数据还是异常信息
-                        JSONObject parseObject = null;
-                        if (object instanceof JSONObject) {// 对象类型
-                            parseObject = JSONObject.parseObject(responseData);
-                        } else if (object instanceof JSONArray) {// 数组类型
-                            String value = JSONObject.toJSONString(JSONObject.parseArray(responseData, Object.class).get(0));
-                            parseObject = JSONObject.parseObject(value);
+                        JsonNode jsonNode = JSONUtils.jsonToTree(responseData, null);
+                        if (jsonNode.isArray()) {// 数组类型
+                            jsonNode = jsonNode.get(0);
                         } else {// 其他类型
                             log.info("object========:{}", object);
                         }
-                        log.info("parseObject========:{}", JSONObject.toJSONString(parseObject));
-                        if (parseObject != null && parseObject.containsKey("code") && parseObject.containsKey("msg")) {
+                        log.info("parseObject========:{}", JSONUtils.objectToJson(jsonNode));
+                        if (object != null && jsonNode.has("code") && jsonNode.has("msg")) {
                             // 自定义异常信息不封装直接返回
                             log.info("error:{}", responseData);
-                        } else if (parseObject != null && parseObject.containsKey("error")) {
+                        } else if (jsonNode != null && jsonNode.has("error")) {
                             // /oauth/token端点异常：{"error":"unauthorized","error_description":null}
-                        } else if (parseObject != null && parseObject.containsKey("components")) {
+                        } else if (jsonNode != null && jsonNode.has("components")) {
                             // swagger接口文档不封装直接返回
                         } else {
                             log.info("normal invoke return");
                             R r = new R(HttpStatus.OK.value(), "success", object);
-                            responseData = JSONObject.toJSONString(r);
+                            responseData = JSONUtils.objectToJson(r);
                         }
                         byte[] uppedContent = new String(responseData.getBytes(), StandardCharsets.UTF_8).getBytes();
                         return bufferFactory.wrap(uppedContent);

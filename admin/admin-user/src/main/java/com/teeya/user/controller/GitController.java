@@ -1,6 +1,5 @@
 package com.teeya.user.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,7 +56,7 @@ public class GitController {
          * error_uri=https%3A%2F%2Fdeveloper.github.com%2Fapps%2Fmanaging-oauth-apps%2Ftroubleshooting-oauth-app-access-token-request-errors%2F%23incorrect-client-credentials
          * 成功：access_token=7c76186067e20d6309654c2bcc1545e41bac9c61&scope=&token_type=bearer
          *//*
-        Map<String, String> resultMap = (Map<String, String>) JSONObject.parseArray(result, Map.class);
+        Map<String, String> resultMap = (Map<String, String>) JSONUtils.jsonToMap(result);
         // 如果返回的map中包含error，表示失败，错误原因存储在error_description
         if(resultMap.containsKey("error")) {
             throw new Exception(resultMap.get("error_description"));

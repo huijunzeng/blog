@@ -1,10 +1,9 @@
 package com.teeya.authentication.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.core.exception.SystemExceptionEnums;
+import com.teeya.common.core.util.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -39,9 +38,6 @@ import java.io.IOException;
 @Slf4j
 public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     /**
      * AuthenticationEntryPoint
      * @param request
@@ -63,11 +59,11 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         if (cause instanceof InvalidTokenException) {
             log.error("InvalidTokenException : {}",cause.getMessage());
             // Token无效
-            response.getWriter().write(objectMapper.writeValueAsString(R.fail(SystemExceptionEnums.INVALID_TOKEN)));
+            response.getWriter().write(JSONUtils.objectToJson(R.fail(SystemExceptionEnums.INVALID_TOKEN)));
         } else {
             log.error("Unauthorized : Unauthorized");
             // 资源未授权
-            response.getWriter().write(objectMapper.writeValueAsString(R.fail(SystemExceptionEnums.UN_AUTHORIZED)));
+            response.getWriter().write(JSONUtils.objectToJson(R.fail(SystemExceptionEnums.UN_AUTHORIZED)));
         }
     }
 
@@ -89,6 +85,6 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         response.addHeader("Access-Control-Max-Age", "1800");
         //访问资源的用户权限不足
         log.error("AccessDeniedException : {}", accessDeniedException.getMessage());
-        response.getWriter().write(objectMapper.writeValueAsString(R.fail(401, accessDeniedException.getMessage())));
+        response.getWriter().write(JSONUtils.objectToJson(R.fail(401, accessDeniedException.getMessage())));
     }
 }

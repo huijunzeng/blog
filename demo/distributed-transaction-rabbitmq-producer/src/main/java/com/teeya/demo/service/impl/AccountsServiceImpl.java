@@ -1,6 +1,6 @@
 package com.teeya.demo.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.teeya.common.core.util.JSONUtils;
 import com.teeya.demo.entity.form.AccountSaveForm;
 import com.teeya.demo.entity.pojo.AccountsEntity;
 import com.teeya.demo.entity.pojo.TransactionalMessageEntity;
@@ -67,7 +67,7 @@ public class AccountsServiceImpl extends ServiceImpl<AccountsMapper, AccountsEnt
         transactionalMessageEntity.setExchangeType(ExchangeTypes.DIRECT);
         transactionalMessageEntity.setRoutingKey(POINTS_ROUTE_NAME);
         transactionalMessageEntity.setStatus(0);
-        String content = JSONObject.toJSONString(accountsEntity);
+        String content = JSONUtils.objectToJson(accountsEntity);
         transactionalMessageEntity.setMessage(content);
         // 保存事务消息记录
         boolean save = transactionalMessageService.save(transactionalMessageEntity);
