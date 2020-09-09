@@ -1,4 +1,20 @@
 ## 用本地配置
+
+##自定义属性
+base:
+    config:
+        swagger:
+            enabled: true
+            api-base-package: com.teeya.demo
+            contact:
+                name: ZJH
+                email: 18826233829@163.com
+                url:
+            title: sharding分表分库demo api
+            description: sharding分表分库demo接口
+            version: 2.0
+
+##非自定义属性
 server:
     port: 9903 # 启动端口
 spring:
@@ -31,30 +47,51 @@ spring:
         # 分库 数据源配置
         datasource:
             # 数据源汇总 这里案例使用三个数据库
-            names: db,db0,db1,db2
+            names: db0,db1,db2
             # 真实数据源连接
-            db:
-                type: com.zaxxer.hikari.HikariDataSource
-                driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
-                username: root
-                password: root
             db0:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db0?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT&allowPublicKeyRetrieval=true
+                jdbcUrl: jdbc:mysql://localhost:3306/db0?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db1:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db1
+                jdbcUrl: jdbc:mysql://localhost:3306/db1?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
             db2:
                 type: com.zaxxer.hikari.HikariDataSource
+                hikari:
+                    minimum-idle: 10 # 池中维护的最小空闲连接数
+                    idle-timeout: 60000 # 连接允许在池中闲置的最长时间
+                    maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
+                    auto-commit: true # 自动提交从池中返回的连接
+                    pool-name: HikariCP # 连接池的用户定义名称
+                    max-lifetime: 600000 # 池中连接最长生命周期
+                    connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
+                    connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
                 driver-class-name: com.mysql.cj.jdbc.Driver
-                jdbcUrl: jdbc:mysql://localhost:3306/db2
+                jdbcUrl: jdbc:mysql://localhost:3306/db2?characterEncoding=UTF-8&useUnicode=true&useSSL=false
                 username: root
                 password: root
         # 分片规则
@@ -66,7 +103,7 @@ spring:
                 type: SNOWFLAKE
                 column: id
                 worker:
-                    id: order # 雪花算法workid  还没想好多实例docker情况下如何配置
+                    id: order # 雪花算法workid
                 max:
                     tolerate:
                         time:
@@ -81,28 +118,35 @@ spring:
             broadcast-tables:
                 - t_dict
             # 绑定表关系 分片策略相同的表，即可建立绑定关系
-            bindingTables:
+            binding-tables:
                 - t_order,t_order_item
             # 具体表策略
             tables:
                 # 订单表 根据订单id取模
-                o_order:
+                t_order:
                     # 共9个节点 db0.t_order_0,db0.t_order_1,db0.t_order_2,db1.t_order_0,db1.t_order_1,db1.t_order_2,db2.t_order_0,db2.t_order_1,db2.t_order_2
                     actual-data-nodes: db$->{0..2}.t_order_$->{0..2}
                     table-strategy:
                         inline:
-                            sharding-column: id
-                            algorithm-expression: t_order_$->{id % 3}
+                            sharding-column: id #分片列名   yml文件配置时，属性不能是String,只能是整型
+                            algorithm-expression: t_order_$->{id % 3}  #分库算法Inline表达式，需要符合groovy动态语法
                     key-generator:
                         type: SNOWFLAKE
                         column: id
                 # 订单表详情 根据订单id取模
-                o_order_item:
+                t_order_item:
                     actual-data-nodes: db$->{0..2}.t_order_item_$->{0..2}
                     table-strategy:
                         inline:
-                            sharding-column: order_id
-                            algorithm-expression: t_order_item_$->{order_id % 3}
+                            sharding-column: order_id #分片列名  yml文件配置时，属性不能是String,只能是整型
+                            algorithm-expression: t_order_item_$->{order_id % 3}  #分库算法Inline表达式，需要符合groovy动态语法
+    # jackson配置
+    jackson:
+        # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        # 属性值为NULL的字段则不参与序列化，即null值不返回给前端
+        default-property-inclusion: non_null
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射

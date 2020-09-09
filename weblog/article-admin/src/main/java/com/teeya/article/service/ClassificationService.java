@@ -32,21 +32,21 @@ public interface ClassificationService extends IService<ClassificationEntity> {
      * @param classificationUpdateForm
      * @return
      */
-    boolean update(String id, ClassificationUpdateForm classificationUpdateForm);
+    boolean update(Long id, ClassificationUpdateForm classificationUpdateForm);
 
     /**
      * 根据文章分类id获取指定文章分类信息
      * @param id
      * @return
      */
-    ClassificationEntity get(String id);
+    ClassificationEntity get(Long id);
 
     /**
      * 根据条件获取文章分类信息列表
      * @param articleId
      * @return
      */
-    List<ClassificationEntity> queryListByArticleId(String articleId);
+    List<ClassificationEntity> queryListByArticleId(Long articleId);
 
     /**
      * 根据条件获取文章分类信息列表
@@ -66,5 +66,5 @@ public interface ClassificationService extends IService<ClassificationEntity> {
      * @param id
      * @return
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 }

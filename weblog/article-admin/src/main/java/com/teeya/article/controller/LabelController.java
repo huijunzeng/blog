@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ import java.util.List;
  *
  * @author ZJH
  * @since 2020-03-10
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
  */
 @RestController
 @RequestMapping("/label")
 @Api(value = "label", tags = {"文章标签操作restful接口"})
 @Slf4j
+@Validated
 public class LabelController {
 
     @Autowired
@@ -36,30 +39,30 @@ public class LabelController {
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
     @ApiImplicitParam(paramType = "form", name = "labelForm", value = "文章标签新增表单", required = true, dataType = "LabelForm")
     @PostMapping
-    public boolean save(@RequestBody LabelSaveForm labelSaveForm) {
+    public boolean save(@Validated @RequestBody LabelSaveForm labelSaveForm) {
         return labelService.save(labelSaveForm);
     }
 
     @ApiOperation(value = "修改文章标签", notes = "修改文章标签")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody LabelUpdateForm labelUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody LabelUpdateForm labelUpdateForm) {
         return labelService.update(id, labelUpdateForm);
     }
 
     @ApiOperation(value = "获取文章标签", notes = "根据文章标签id获取指定文章标签信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public LabelEntity get(@PathVariable String id) {
+    public LabelEntity get(@PathVariable Long id) {
         log.info("labelId: " + id);
         return labelService.get(id);
     }
 
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
-    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "Long")
     @GetMapping("/article/{articleId}")
-    public List<LabelEntity> queryListByArticleId(@PathVariable String articleId) {
+    public List<LabelEntity> queryListByArticleId(@PathVariable Long articleId) {
         return labelService.queryListByArticleId(articleId);
     }
     
@@ -78,9 +81,9 @@ public class LabelController {
     }
 
     @ApiOperation(value = "删除文章标签", notes = "根据id删除文章标签")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return labelService.remove(id);
     }
 }

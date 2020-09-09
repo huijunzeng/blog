@@ -1,4 +1,25 @@
 ## 用本地配置
+
+##自定义属性
+base:
+    config:
+        swagger:
+            enabled: true
+            api-base-package: com.teeya.demo
+            contact:
+                name: ZJH
+                email: 18826233829@163.com
+                url:
+            title: 分布式事务demo api
+            description: 分布式事务demo接口
+            version: 2.0
+        rabbitmq:
+            points-queue: points.queue
+            points-retry-queue: points.retry.queue
+            points-route-key: points.route.key
+            points-exchange: points.exchange
+
+##非自定义属性
 server:
     port: 9900 # 启动端口
 spring:
@@ -49,6 +70,13 @@ spring:
         virtual-host: / #虚拟主机 每个virtual-host相当于一个相对独立的RabbitMQ服务器，每个virtual-host之间是相互隔离的
         publisher-returns: true #消息接收确认
         publisher-confirm-type: correlated #确认回调
+    # jackson配置
+    jackson:
+        # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        # 属性值为NULL的字段则不参与序列化，即null值不返回给前端
+        default-property-inclusion: non_null
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射

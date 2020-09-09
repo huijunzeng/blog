@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,20 +21,22 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author ZJH
  * @since 2020-03-10
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
  */
 @RestController
 @RequestMapping("/web")
 @Api(value = "article", tags = {"前台页面展示文章操作restful接口"})
 @Slf4j
+@Validated
 public class WebController {
 
     @Autowired
     private ArticleService articleService;
 
     @ApiOperation(value = "前台页面获取文章", notes = "前台页面根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
     @GetMapping(value = "/article/{id}")
-    public ArticleEntity get(@PathVariable String id) {
+    public ArticleEntity get(@PathVariable Long id) {
         log.info("articleId: " + id);
         return articleService.get(id);
     }

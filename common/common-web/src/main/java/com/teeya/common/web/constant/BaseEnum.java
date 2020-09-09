@@ -3,7 +3,7 @@ package com.teeya.common.web.constant;
 public interface BaseEnum<C> {
     C code();
 
-    static <T extends BaseEnum<?>> T parse(Class<T> enumType, Object code) {
+    /*static <T extends BaseEnum<?>> T parse(Class<T> enumType, Object code) {
         BaseEnum[] enums = (BaseEnum[])enumType.getEnumConstants();
         BaseEnum[] var6 = enums;
         int var5 = enums.length;
@@ -16,6 +16,6 @@ public interface BaseEnum<C> {
         }
 
         throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." + code);
-    }
+    }*/
 }
 

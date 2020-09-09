@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true" scanPeriod="60 seconds">
 
-    <contextName>logback</contextName>
+    <!-- 只能设置为nacos，不然会报以下的错误 -->
+    <!-- ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name -->
+    <contextName>nacos</contextName>
 
     <!-- 线上环境 docker部署，所以需要将这个路径挂载到宿主机中filebeat挂载的日志收集路径 -->
     <property name="logback.logdir" value="/logs"/>
     <!-- 本地windows开发环境配置 不设置绝对路径时，默认为当前项目下的路径 -->
     <!--<property name="logback.logdir" value="E:\\filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
-    <property name="logback.appname" value="file-server"/>
+    <property name="logback.appname" value="distributed-transaction-rabbitmq-producer"/>
 
     <!-- 格式化日志输出节点 -->
     <!-- 控制台打印设置 -->

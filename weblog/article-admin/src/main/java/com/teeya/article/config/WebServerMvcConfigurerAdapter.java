@@ -15,13 +15,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebServerMvcConfigurerAdapter implements WebMvcConfigurer {
 
+    /**
+     * 用户信息拦截器
+     * @return
+     */
     @Bean
     public HandlerInterceptor userInterceptor() {
         return new UserInterceptor();
     }
 
     /**
-     * 注入用户信息拦截器
+     * 注入拦截器
      * @param registry
      */
     @Override

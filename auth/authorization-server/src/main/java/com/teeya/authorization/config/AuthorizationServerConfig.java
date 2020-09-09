@@ -5,6 +5,7 @@ import com.teeya.authorization.oauth2.granter.PhoneCustomTokenGranter;
 import com.teeya.authorization.oauth2.jwt.CustomJwtToken;
 import com.teeya.authorization.oauth2.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
 
+    @Qualifier("dataSource")
     @Autowired
     DataSource dataSource;
     // 自定义的用户管理类 用于从数据库中查找用户数据
@@ -89,9 +91,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         // 根据获取到的code请求获取token  http://localhost:9777/oauth/token?grant_type=authorization_code&code=QzQAV9&client_id=test_client&client_secret=test_secret&redirect_uri=http://www.baidu.com
 
-        // 密码模式 http://localhost:8443/authorization-server/oauth/token?scope=read&grant_type=password  然后Authorization选择Basic Auth，Username添加数据库表oauth_client_details的client_id以及Password填写client_secret，Body选择x-www-form-urlencoded类型输入username以及password值
+        // 密码模式 http://localhost:8443/authorization-server/oauth/token?scope=read&grant_type=password  然后Authorization选择Basic Auth，Username添加数据库表oauth_client_details的client_id以及Password填写client_secret（也可以在请求头headers添加Authorization参数，对应的值为 Basic + 加密Base64UrlEncode(clientId:clientSecret)后的字符串，如Basic BCRoZEp8X3dlYmoxMjM0NTY= ），Body选择x-www-form-urlencoded类型输入username以及password值
 
-        // 密码模式 http://localhost:9777/oauth/token?scope=read&grant_type=phone_sms_code 类似如上
+        // 自定义模式（手机验证码） http://localhost:9777/oauth/token?scope=read&grant_type=phone_sms_code 类似如上
 
         // 验证token http://localhost:8443/authorization-server/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiYmxvZyJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiXSwib3JnYW5pemF0aW9uIjoiYWRtaW4iLCJleHAiOjE1ODMxNjE1MDEsImF1dGhvcml0aWVzIjpbIlIwMDEiXSwianRpIjoiYjdjZWYyZGItMTVhMi00ZTRhLTg3ZDAtNmM4ZmI0ODQwNjI2IiwiY2xpZW50X2lkIjoidGVzdF9jbGllbnQifQ.3vHcVc_otDupief5K8ftCihpiEJDQw-jIpzU2uiieXw
 
@@ -165,6 +167,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 开启/oauth/token_key验证端口无权限访问  默认denyAll()拒绝访问   permitAll()允许访问  isAuthenticated()认证访问
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("permitAll()")
+                //.accessDeniedHandler()
                 // 是否允许表单认证，会调用ClientCredentialsTokenEndpointFilter判断是否需要拦截
                 // 默认不配置的情况下，请求必须Basic Base64(client_id+client_secret)，即假如是postman测试的时候，需要在Authorization属性选择Basic，然后在Username以及Password的表单中相对应填写client_id和client_secret的值才能成功请求到token
                 // 开启后，则可以在路径后直接拼接client_id和client_secret参数就能请求到token，当然上面的请求格式也一样支持，相对来说上面的那一种会安全点，所以我们大多取默认就行
@@ -248,7 +251,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //defaultTokenServices.setRefreshTokenValiditySeconds(); // access_token 的有效时长 (秒), 默认 12 小时
         // token增强器  可往token添加额外的信息
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
-        // token存储方式
+        // token存储方式  默认是内存
         defaultTokenServices.setTokenStore(tokenStore());
         return defaultTokenServices;
     }

@@ -21,14 +21,14 @@ public interface UserService extends IService<UserEntity> {
      * @param id
      * @param userUpdateForm
      */
-    boolean update(String id, UserUpdateForm userUpdateForm);
+    boolean update(Long id, UserUpdateForm userUpdateForm);
 
     /**
      * 根据用户id获取指定用户信息
      * @param id
      * @return
      */
-    UserEntity get(String id);
+    UserEntity get(Long id);
 
     /**
      * 根据用户名/用户手机号码（唯一标识）获取指定用户信息
@@ -48,6 +48,6 @@ public interface UserService extends IService<UserEntity> {
      * 根据用户id删除用户
      * @param id
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 
 }

@@ -29,7 +29,7 @@ public class AccountsEntity implements Serializable {
      * id主键
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     /**
      * 账号名称

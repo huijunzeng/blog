@@ -12,15 +12,20 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-
+/**
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
+ */
 @RestController
 @RequestMapping("/resource")
 @Api(value = "resource", tags = {"资源操作restful接口"})
 @Slf4j
+@Validated
 public class ResourceController {
 
     @Autowired
@@ -29,7 +34,7 @@ public class ResourceController {
     @ApiOperation(value = "新增资源", notes = "新增资源")
     @ApiImplicitParam(paramType = "form", name = "resourceSaveForm", value = "资源新增表单", required = true, dataType = "ResourceSaveForm")
     @PostMapping
-    public boolean save(@RequestBody ResourceSaveForm resourceSaveForm) {
+    public boolean save(@Validated @RequestBody ResourceSaveForm resourceSaveForm) {
         return resourceService.save(resourceSaveForm);
     }
 
@@ -37,14 +42,14 @@ public class ResourceController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "form", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataType = "ResourceUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody ResourceUpdateForm resourceUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody ResourceUpdateForm resourceUpdateForm) {
         return resourceService.update(id, resourceUpdateForm);
     }
 
     @ApiOperation(value = "获取资源", notes = "根据资源id获取指定资源信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String")
     @GetMapping(value = "/{id}")
-    public ResourceEntity get(@PathVariable String id) {
+    public ResourceEntity get(@PathVariable Long id) {
         log.info("resourceId: " + id);
         return resourceService.get(id);
     }
@@ -52,21 +57,21 @@ public class ResourceController {
     @ApiOperation(value = "根据用户id获取相应的资源集合", notes = "根据用户id获取相应的资源集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "String")
     @GetMapping
-    public List<ResourceEntity> queryListByUserId(@RequestParam(value = "userId") String userId) {
+    public List<ResourceEntity> queryListByUserId(@NotNull(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
         return resourceService.queryListByUserId(userId);
     }
 
     @ApiOperation(value = "根据用户名获取相应的资源集合", notes = "根据用户名获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataType = "Long")
     @GetMapping("/user/{username}")
     public List<ResourceEntity> queryListByUsername(@PathVariable String username) {
         return resourceService.queryListByUsername(username);
     }
 
     @ApiOperation(value = "根据角色code获取相应的资源集合", notes = "根据角色code获取相应的资源集合")
-    @ApiImplicitParam(paramType = "path", name = "roleId", value = "角色code", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "roleId", value = "角色code", required = true, dataType = "Long")
     @GetMapping("/role/{roleId}")
-    public List<ResourceEntity> queryListByRoleId(@PathVariable String roleId) {
+    public List<ResourceEntity> queryListByRoleId(@PathVariable Long roleId) {
         return resourceService.queryListByRoleId(roleId);
     }
 
@@ -85,9 +90,9 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "删除资源", notes = "根据id删除资源")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return resourceService.remove(id);
     }
 }

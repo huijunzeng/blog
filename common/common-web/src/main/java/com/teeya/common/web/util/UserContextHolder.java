@@ -5,10 +5,14 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 用户上下文
+ * 用户上下文  用于存放当前用户的信息
  */
 public class UserContextHolder {
 
+    /**
+     * ThreadLocal 用于提供线程局部变量，在多线程环境可以保证各个线程里的变量独立于其它线程里的变量。
+     * 也就是说 ThreadLocal 可以为每个线程创建一个【单独的变量副本】，相当于线程的 private static 类型变量。
+     */
     private ThreadLocal<Map<String, String>> threadLocal;
 
     private UserContextHolder() {
@@ -62,6 +66,7 @@ public class UserContextHolder {
 
     /**
      * 清空上下文
+     *
      */
     public void clear() {
         threadLocal.remove();

@@ -1,6 +1,5 @@
 package com.teeya.authentication.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +16,22 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String DEMO_RESOURCE_ID = "demo";
+    private static final String DEMO_RESOURCE_ID = "blog";
 
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    private CustomAuthExceptionHandler customAuthExceptionHandler;
 
     /**
      *  与http安全配置相关 可配置拦截什么URL、设置什么权限等安全控制
-     *  优先级的问题  WebSecurityConfigurerAdapter的configure优于这个
+     *  WebSecurityConfigurerAdapter与ResourceServerConfigurerAdapter的区别：
+     *     WebSecurityConfigurerAdapter默认情况下是spring security的http配置
+     *     ResourceServerConfigurerAdapter默认情况下是spring security oauth2的http配置
+     *  优先级的问题  WebSecurityConfigurerAdapter的HttpSecurity低于这个ResourceServerConfigurerAdapter（优先级高的会覆盖优先级低的）
+     *  查看源码，ResourceServerConfigurerAdapter的order为3，WebSecurityConfigurerAdapter的order为100，order值越小，优先级越高，所以默认情况下ResourceServerConfigurerAdapter执行生效
+     *  假如需要优先执行WebSecurityConfigurerAdapter的HttpSecurity，在WebSecurityConfig配置类添加注解@Order(-1)，数值只要小于3即可
      *  这里配置了拦截规则，可以省掉像authorization-server服务需要写WebSecurityConfig类去配置
      * @param http
      * @throws Exception
@@ -33,10 +39,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        // 配置对某些访问路径放行
+        // 配置对某些访问路径放行(不需要携带token即可访问)
         http.authorizeRequests()
                 .antMatchers("/test/**", "/actuator/**", "/auth/hello").permitAll()
                 .anyRequest().authenticated();
+        //添加token续签过滤器（请求refresh token接口）
+        //http.addFilterBefore()
     }
 
     /**
@@ -48,9 +56,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 // 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
-                .resourceId("blog")
+                .resourceId(DEMO_RESOURCE_ID)
                 // 配置token的验证  与授权服务的token保存方式保持一致，才能实现token的验证
-                .tokenStore(tokenStore());
+                .tokenStore(tokenStore())
+                .accessDeniedHandler(customAuthExceptionHandler) // 处理未授权
+                .authenticationEntryPoint(customAuthExceptionHandler); // 处理未认证
     }
 
     /**

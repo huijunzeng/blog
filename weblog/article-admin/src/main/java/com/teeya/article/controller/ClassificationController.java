@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ import java.util.List;
  *
  * @author ZJH
  * @since 2020-03-10
+ * 直接在方法内校验非实体类的单个参数时，需要加上@Validated注解（加@Valid无效）
  */
 @RestController
 @RequestMapping("/classification")
 @Api(value = "classification", tags = {"文章分类操作restful接口"})
 @Slf4j
+@Validated
 public class ClassificationController {
 
     @Autowired
@@ -36,30 +39,30 @@ public class ClassificationController {
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
     @ApiImplicitParam(paramType = "form", name = "classificationForm", value = "新增文章分类表单", required = true, dataType = "ClassificationForm")
     @PostMapping
-    public boolean save(@RequestBody ClassificationSaveForm classificationSaveForm) {
+    public boolean save(@Validated @RequestBody ClassificationSaveForm classificationSaveForm) {
         return classificationService.save(classificationSaveForm);
     }
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String"),
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long"),
             @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataType = "LabelUpdateForm")})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable String id, @RequestBody ClassificationUpdateForm classificationUpdateForm) {
+    public boolean update(@PathVariable Long id, @Validated @RequestBody ClassificationUpdateForm classificationUpdateForm) {
         return classificationService.update(id, classificationUpdateForm);
     }
 
     @ApiOperation(value = "获取文章分类", notes = "根据文章分类id获取指定文章分类信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long")
     @GetMapping(value = "/{id}")
-    public ClassificationEntity get(@PathVariable String id) {
+    public ClassificationEntity get(@PathVariable Long id) {
         log.info("classificationId: " + id);
         return classificationService.get(id);
     }
 
     @ApiOperation(value = "根据文章id获取相应的标签集合", notes = "根据文章id获取相应的标签集合")
-    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "articleId", value = "文章id", required = true, dataType = "Long")
     @GetMapping("/article/{articleId}")
-    public List<ClassificationEntity> queryListByArticleId(@PathVariable String articleId) {
+    public List<ClassificationEntity> queryListByArticleId(@PathVariable Long articleId) {
         return classificationService.queryListByArticleId(articleId);
     }
 
@@ -78,9 +81,9 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "删除文章分类", notes = "根据id删除文章分类")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "String")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataType = "Long")
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable String id) {
+    public boolean remove(@PathVariable Long id) {
         return classificationService.remove(id);
     }
 }

@@ -1,4 +1,20 @@
 ## 用本地配置
+
+##自定义属性
+base:
+    config:
+        swagger:
+            enabled: true
+            api-base-package: com.teeya.article
+            contact:
+                name: ZJH
+                email: 18826233829@163.com
+                url:
+            title: 博客文章管理api
+            description: 博客文章管理接口
+            version: 2.0
+
+##非自定义属性
 server:
     port: 7800 # 启动端口
 spring:
@@ -40,6 +56,13 @@ spring:
         host: localhost
         port: 6379
         password:
+    # jackson配置
+    jackson:
+        # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        # 属性值为NULL的字段则不参与序列化，即null值不返回给前端
+        default-property-inclusion: non_null
 # mybatis配置
 mybatis-plus:
     # mapper层xml文件路径映射

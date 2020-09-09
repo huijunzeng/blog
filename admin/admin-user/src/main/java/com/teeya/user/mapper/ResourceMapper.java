@@ -12,5 +12,5 @@ import java.util.Set;
  */
 public interface ResourceMapper extends BaseMapper<ResourceEntity> {
 
-    List<ResourceEntity> queryListByResourceIds(@Param("resourceIds") Set<String> resourceIds);
+    List<ResourceEntity> queryListByResourceIds(@Param("resourceIds") Set<Long> resourceIds);
 }

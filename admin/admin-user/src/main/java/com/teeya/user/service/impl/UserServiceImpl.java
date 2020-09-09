@@ -30,10 +30,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private UserMapper userMapper;
     @Autowired
     private UserRoleRelationService userRoleRelationService;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     public boolean save(UserSaveForm userSaveForm) {
@@ -47,7 +43,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserEntity userEntity = BeanUtils.instantiateClass(UserEntity.class);
         BeanUtils.copyProperties(userSaveForm, userEntity);
         if (StringUtils.isNotBlank(userEntity.getPassword())){
-            userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
+            // 密码加密
+            userEntity.setPassword(new BCryptPasswordEncoder().encode(userEntity.getPassword()));
         }
         super.save(userEntity);
         log.info("insert_userEntity=======: " + userEntity.toString());
@@ -55,12 +52,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean update(String id, UserUpdateForm userUpdateForm) {
+    public boolean update(Long id, UserUpdateForm userUpdateForm) {
         UserEntity userEntity = super.getById(id);
         Assert.notNull(userEntity, "user not found");
         BeanUtils.copyProperties(userUpdateForm, userEntity);
         if (StringUtils.isNotBlank(userUpdateForm.getPassword())){
-            userUpdateForm.setPassword(passwordEncoder().encode(userUpdateForm.getPassword()));
+            userUpdateForm.setPassword(new BCryptPasswordEncoder().encode(userUpdateForm.getPassword()));
         }
         userRoleRelationService.removeByUserId(id);
         super.updateById(userEntity);
@@ -68,7 +65,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity get(String id) {
+    public UserEntity get(Long id) {
         return super.getById(id);
     }
 
@@ -92,7 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         super.removeById(id);
         return userRoleRelationService.removeByUserId(id);
     }

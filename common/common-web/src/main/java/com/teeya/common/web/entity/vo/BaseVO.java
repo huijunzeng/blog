@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @ApiModel(value = "vo基础类")
-public class BaseVo implements Serializable {
+public class BaseVO implements Serializable {
 
     @ApiModelProperty("id主键")
     private Long id;

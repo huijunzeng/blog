@@ -13,5 +13,13 @@ import com.teeya.demo.entity.pojo.DictEntity;
  */
 public interface DictService extends IService<DictEntity> {
 
+    /**
+     * 创建数据库
+     * @return
+     */
+    boolean createTable();
+
     boolean save();
+
+    DictEntity get(Long id);
 }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class ArticleLabelRelationServiceImpl extends ServiceImpl<ArticleLabelRelationMapper, ArticleLabelRelationEntity> implements ArticleLabelRelationService {
 
     @Override
-    public boolean saveBatch(String articleId, Set<String> labelIds) {
+    public boolean saveBatch(Long articleId, Set<Long> labelIds) {
         if (labelIds.isEmpty()){
             return false;
         }
@@ -34,7 +34,7 @@ public class ArticleLabelRelationServiceImpl extends ServiceImpl<ArticleLabelRel
     }
 
     @Override
-    public boolean removeByArticleId(String articleId) {
+    public boolean removeByArticleId(Long articleId) {
         QueryWrapper<ArticleLabelRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ArticleLabelRelationEntity::getArticleId, articleId).eq(ArticleLabelRelationEntity::getDeleted, 0);
         return super.remove(queryWrapper);

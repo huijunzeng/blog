@@ -2,6 +2,7 @@ package com.teeya.user.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Author: ZJH
  * @Date: 2020/4/3 14:03
  */
+
+@Slf4j
 @EnableTransactionManagement
 @Configuration
 public class MybatisPlusConfig {

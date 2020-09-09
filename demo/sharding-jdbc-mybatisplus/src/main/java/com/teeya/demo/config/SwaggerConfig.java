@@ -2,23 +2,23 @@ package com.teeya.demo.config;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.WildcardType;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.*;
 
@@ -30,17 +30,20 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  * @Date: 2019/12/5 10:15
  */
 
+@Slf4j
 @Configuration
-@EnableSwagger2
+@EnableOpenApi
+@Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似
+@ConditionalOnProperty(name = "base.config.swagger.enabled", havingValue = "true") //在@Profile({"dev"})生效的前提下，如果application.yml配置文件中的base.config.swagger.enable为true才生效，不然不生效
 public class SwaggerConfig {
-    // swagger接口界面访问路径 ：http://localhost:9803/swagger-ui.html  IP为机器的IP，端口号为工程的端口
+    // swagger接口界面访问路径 ：http://localhost:9803/swagger-ui/index.html  IP为机器的IP，端口号为工程的端口
 
     @Autowired
     private TypeResolver typeResolver;
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
                 // api接口路径，即controller层路径
@@ -73,8 +76,9 @@ public class SwaggerConfig {
 
     /**
      * 设置授权信息
+     * @return
      */
-    private List<ApiKey> securitySchemes() {
+    private List<SecurityScheme> securitySchemes() {
         // 在请求头header添加一个名为Authorization的token
         return Collections.singletonList(new ApiKey(HttpHeaders.AUTHORIZATION, "token", "header"));
     }
@@ -89,9 +93,6 @@ public class SwaggerConfig {
                                 Collections.singletonList(new SecurityReference("Authorization",
                                         new AuthorizationScope[]{new AuthorizationScope("global", "")}
                                 )))
-                        // 可通过配置正则表达式去排除一些不需要携带token访问的接口 这里不做特殊处理，全部接口访问都需要携带
-                        // 比如.forPaths(PathSelectors.regex("^(?!auth).*$"))  对所有包含"auth"的接口不需要使用securitySchemes
-                        .forPaths(PathSelectors.any())
                         .build()
         );
     }

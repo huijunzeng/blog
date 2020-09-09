@@ -1,9 +1,5 @@
 package com.teeya.gateway.config;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.alibaba.fastjson.support.springfox.SwaggerJsonSerializer;
 import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
@@ -60,17 +56,6 @@ public class FeignJsonConfiguration {
         // 默认Spring的Jackson解析库
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Arrays.asList(mediaTypes));
-
-        // 假如用的是阿里巴巴的FastJson解析库，用以下的配置
-        /*FastJsonHttpMessageConverter fastJsonHttpMessageConverter =
-                new FastJsonHttpMessageConverter();
-        fastJsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(mediaTypes));
-        FastJsonConfig config = new FastJsonConfig();
-        config.getSerializeConfig()
-                .put(Json.class, new SwaggerJsonSerializer());
-        config.setSerializerFeatures(
-                SerializerFeature.DisableCircularReferenceDetect);
-        fastJsonHttpMessageConverter.setFastJsonConfig(config);*/
         return converter;
     }
 

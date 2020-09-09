@@ -1,7 +1,6 @@
 package com.teeya.file.exception;
 
-import com.teeya.common.core.exception.BaseException;
-import com.teeya.common.web.exception.DefaultGlobalExceptionHandlerAdvice;
+import com.teeya.common.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -58,11 +57,11 @@ public class GlobalExceptionHandler/* extends DefaultGlobalExceptionHandlerAdvic
     public Map<String, Object> handle(Exception ex) {
         log.error("exception:{}", ex);
         Map<String, Object> map = new HashMap<>();
-        if (ex instanceof BaseException){
-            BaseException baseException = (BaseException) ex;
+        if (ex instanceof BusinessException){
+            BusinessException businessException = (BusinessException) ex;
             //map.put("msg", ex1.getMsg());
             map.put("code", 404);
-            map.put("msg", baseException.getMessage());
+            map.put("msg", businessException.getMessage());
         } else if (ex instanceof ArithmeticException) {
             map.put("code", 404);
             map.put("msg", "算法异常");

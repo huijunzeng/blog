@@ -1,15 +1,10 @@
 package com.teeya.user.exception;
 
-import com.teeya.common.core.exception.BaseException;
 import com.teeya.common.web.exception.DefaultGlobalExceptionHandlerAdvice;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 全局异常处理

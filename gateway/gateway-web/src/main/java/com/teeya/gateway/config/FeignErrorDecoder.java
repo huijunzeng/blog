@@ -1,7 +1,6 @@
 package com.teeya.gateway.config;
 
-import com.teeya.common.core.exception.BaseException;
-import com.teeya.common.core.exception.SystemExceptionEnums;
+import com.teeya.common.core.exception.BusinessException;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
@@ -38,11 +37,11 @@ public class FeignErrorDecoder implements ErrorDecoder {
             log.info("response: {}", response);
             log.info("response.body(): {}", message);
             log.info("response status: {}", response.status());
-            return new BaseException(response.status(), methodKey);
-        } catch (Exception ignored) {
-
+            return new BusinessException(response.status(), methodKey);
+        } catch (Exception e) {
+            log.error("decode Exception: {}", e.getMessage());
         }
         log.info("BaseException: {}, {}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
-        return new BaseException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
+        return new BusinessException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
     }
 }

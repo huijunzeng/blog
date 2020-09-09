@@ -14,5 +14,5 @@ public interface RoleResourceRelationService extends IService<RoleResourceRelati
      * @param roleIds
      * @return
      */
-    List<RoleResourceRelationEntity> queryListByRoleIds(Set<String> roleIds);
+    List<RoleResourceRelationEntity> queryListByRoleIds(Set<Long> roleIds);
 }

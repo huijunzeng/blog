@@ -21,7 +21,7 @@ public class RoleResourceRelationServiceImpl extends ServiceImpl<RoleResourceRel
     private RoleResourceRelationMapper roleResourceRelationMapper;
 
     @Override
-    public List<RoleResourceRelationEntity> queryListByRoleIds(Set<String> roleIds) {
+    public List<RoleResourceRelationEntity> queryListByRoleIds(Set<Long> roleIds) {
         QueryWrapper<RoleResourceRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().in(RoleResourceRelationEntity::getRoleId, roleIds);
         return super.list(queryWrapper);

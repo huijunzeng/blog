@@ -1,5 +1,6 @@
 package com.teeya.demo.service;
 
+import com.teeya.demo.entity.form.PointSaveForm;
 import com.teeya.demo.entity.pojo.PointsEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PointsService extends IService<PointsEntity> {
 
+    boolean save(PointSaveForm pointSaveForm);
 }

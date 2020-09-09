@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ArticleClassificationRelationServiceImpl extends ServiceImpl<ArticleClassificationRelationMapper, ArticleClassificationRelationEntity> implements ArticleClassificationRelationService {
 
     @Override
-    public boolean saveBatch(String articleId, Set<String> classificationIds) {
+    public boolean saveBatch(Long articleId, Set<Long> classificationIds) {
         if (classificationIds.isEmpty()){
             return false;
         }
@@ -33,7 +33,7 @@ public class ArticleClassificationRelationServiceImpl extends ServiceImpl<Articl
     }
 
     @Override
-    public boolean removeByArticleId(String articleId) {
+    public boolean removeByArticleId(Long articleId) {
         QueryWrapper<ArticleClassificationRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ArticleClassificationRelationEntity::getArticleId, articleId).eq(ArticleClassificationRelationEntity::getDeleted, 0);
         return super.remove(queryWrapper);

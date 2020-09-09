@@ -32,21 +32,21 @@ public interface LabelService extends IService<LabelEntity> {
      * @param labelUpdateForm
      * @return
      */
-    boolean update(String id, LabelUpdateForm labelUpdateForm);
+    boolean update(Long id, LabelUpdateForm labelUpdateForm);
 
     /**
      * 根据文章标签id获取指定文章标签信息
      * @param id
      * @return
      */
-    LabelEntity get(String id);
+    LabelEntity get(Long id);
 
     /**
      * 根据文章id获取相应的标签集合
      * @param articleId
      * @return
      */
-    List<LabelEntity> queryListByArticleId(String articleId);
+    List<LabelEntity> queryListByArticleId(Long articleId);
 
     /**
      * 根据条件获取文章标签信息列表
@@ -66,5 +66,5 @@ public interface LabelService extends IService<LabelEntity> {
      * @param id
      * @return
      */
-    boolean remove(String id);
+    boolean remove(Long id);
 }

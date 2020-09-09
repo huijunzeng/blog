@@ -56,7 +56,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     }
 
     @Override
-    public boolean update(String id, ResourceUpdateForm resourceUpdateForm) {
+    public boolean update(Long id, ResourceUpdateForm resourceUpdateForm) {
         ResourceEntity resourceEntity = super.getById(id);
         Assert.notNull(resourceEntity, "resource not found");
         BeanUtils.copyProperties(resourceUpdateForm, resourceEntity);
@@ -64,21 +64,21 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     }
 
     @Override
-    public ResourceEntity get(String id) {
+    public ResourceEntity get(Long id) {
         return super.getById(id);
     }
 
     @Override
-    public List<ResourceEntity> queryListByResourceIds(Set<String> ids) {
+    public List<ResourceEntity> queryListByResourceIds(Set<Long> ids) {
         return super.listByIds(ids);
     }
 
     @Override
-    public List<ResourceEntity> queryListByUserId(String userId) {
+    public List<ResourceEntity> queryListByUserId(Long userId) {
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userId);
-        Set<String> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
+        Set<Long> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
-        Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
+        Set<Long> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);
     }
 
@@ -87,18 +87,18 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
         UserEntity userEntity = userService.getByUniqueId(username);
         Assert.notNull(userEntity, "user not found");
         List<RoleEntity> roleEntities = roleService.queryListByUserId(userEntity.getId());
-        Set<String> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
+        Set<Long> roleIds = roleEntities.stream().map(BaseEntity::getId).collect(Collectors.toSet());
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.queryListByRoleIds(roleIds);
-        Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
+        Set<Long> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);
     }
 
     @Override
-    public List<ResourceEntity> queryListByRoleId(String roleId) {
+    public List<ResourceEntity> queryListByRoleId(Long roleId) {
         QueryWrapper<RoleResourceRelationEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(RoleResourceRelationEntity::getRoleId, roleId);
         List<RoleResourceRelationEntity> roleResourceRelationEntities = roleResourceRelationService.list(queryWrapper);
-        Set<String> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
+        Set<Long> resourceIds = roleResourceRelationEntities.stream().map(roleResourceRelationEntity -> roleResourceRelationEntity.getResourceId()).collect(Collectors.toSet());
         return super.listByIds(resourceIds);
     }
 
@@ -122,7 +122,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, ResourceEnt
     }
 
     @Override
-    public boolean remove(String id) {
+    public boolean remove(Long id) {
         return super.removeById(id);
     }
 }

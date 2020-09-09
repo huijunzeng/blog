@@ -29,7 +29,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     /**
      * swagger默认的url后缀
      */
-    protected static final String API_URI = "/v2/api-docs";
+    protected static final String API_URI = "/v3/api-docs";
 
     /**
      * 网关路由 对应配置文件的spring.cloud.gateway.route的路由集合
@@ -64,7 +64,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
             swaggerResource.setUrl(url);
             swaggerResource.setUrl(url);
             swaggerResource.setName(name);
-            swaggerResource.setSwaggerVersion("2.0");
+            swaggerResource.setSwaggerVersion("3.0");
             resources.add(swaggerResource);
         });
         log.info("routesMap===============:" + routesMap.toString());
