@@ -1,0 +1,9 @@
+##sentinel降级规则
+[
+    {
+		"resource": "test1",
+		"grade": 0,
+		"count": 20.0,
+		"timeWindow": 60
+	}
+]

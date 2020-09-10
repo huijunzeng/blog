@@ -1,0 +1,22 @@
+##sentinel流控规则
+##顺序对应的字段解释：资源名;调用来源，default为不区分调用来源;限流阈值类型(QPS或并发线程数)；0根据并发数量来限流，1根据QPS来进行流量控制；限流阈值；调用关系限流策略；流量控制效果(直接拒绝、Warm Up、匀速排队)；是否为集群模式
+[
+    {
+        "resource": "/role",
+        "limitApp": "admin-user",
+        "grade": 1,
+        "count": 2,
+        "strategy": 0,
+        "controlBehavior": 0,
+        "clusterMode": false
+    },
+    {
+        "resource": "/role/all",
+        "limitApp": "admin-user",
+        "grade": 1,
+        "count": 2,
+        "strategy": 0,
+        "controlBehavior": 0,
+        "clusterMode": false
+    }
+]
