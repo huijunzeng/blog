@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/**/*.html",
                     "/**/*.css",
                     "/**/*.js",
-                    "/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v2/api-docs").permitAll()
+                    "/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v3/api-docs").permitAll()
             //设置拦截规则
             .anyRequest().authenticated()
             .and()

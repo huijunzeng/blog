@@ -140,6 +140,14 @@ spring:
                         inline:
                             sharding-column: order_id #分片列名  yml文件配置时，属性不能是String,只能是整型
                             algorithm-expression: t_order_item_$->{order_id % 3}  #分库算法Inline表达式，需要符合groovy动态语法
+    # zipkin配置，链路调用可视化面板
+    zipkin:
+        enabled: false #关闭，demo案例不需配置
+    # sleuth链路跟踪配置
+    sleuth:
+        sampler:
+            # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
+            probability: 1
     # jackson配置
     jackson:
         # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -163,6 +171,4 @@ name: sharding-jdbc-mybatisplus  # 测试用
 feign:
     sentinel:
         enabled: true
-logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
-    config: classpath:logback-logstash.xml
 

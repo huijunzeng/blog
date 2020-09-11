@@ -11,8 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+/**
+ * @author zjh
+ * @Description  启用SpringSecurity过滤器，过滤器通过传入的OAuth2令牌token对请求进行身份验证
+ * @date 2020/08/10 18:24
+ */
 @Configuration
-// 启用SpringSecurity过滤器，过滤器通过传入的OAuth2令牌token对请求进行身份验证
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
@@ -50,10 +54,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     /**
      * 与资源安全配置相关
      * @param resources
-     * @throws Exception
      */
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    public void configure(ResourceServerSecurityConfigurer resources) {
         resources
                 // 假如数据库oauth_client_details表的resource_ids资源ID集合不为空，那么这里需要配上有相对应的值
                 .resourceId(DEMO_RESOURCE_ID)

@@ -61,28 +61,22 @@ spring:
             transport:
                 port: 8719 #指定客户端监控 API 的端口  默认，可不设置
                 dashboard: localhost:8080 #控制台的地址
-    # 数据源mysql配置
-#    datasource:
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&useUnicode=true&useSSL=false
-#        username: root
-#        password: 123456
-        # 数据源hikari连接池配置
-#        type: com.zaxxer.hikari.HikariDataSource
-#        hikari:
-#            minimum-idle: 10 # 池中维护的最小空闲连接数
-#            idle-timeout: 60000 # 连接允许在池中闲置的最长时间
-#            maximum-pool-size: 20 # 池中最大连接数，包括闲置和使用中的连接
-#            auto-commit: true # 自动提交从池中返回的连接
-#            pool-name: HikariCP # 连接池的用户定义名称
-#            max-lifetime: 600000 # 池中连接最长生命周期
-#            connection-timeout: 30000 # 等待来自池的连接的最大毫秒数
-#            connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
     # redis配置
     redis:
         host: localhost
         port: 6379
         password:
+    # zipkin配置，链路调用可视化面板
+    zipkin:
+        enabled: true #默认允许开启
+        base-url: http://localhost:9411/ #zipkin服务器地址，sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        sender:
+            type: web #当配置了base-url，此项可不配置，默认使用http方式收集
+    # sleuth链路跟踪配置
+    sleuth:
+      sampler:
+          # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
+          probability: 1
     #profiles:
     #    active: dev # 根据不同环境切换配置环境
 name: gateway-web  #测试用
@@ -90,21 +84,9 @@ name: gateway-web  #测试用
 feign:
     sentinel:
         enabled: true
-logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
-    config: classpath:logback-logstash.xml
-
-############  skywalking 探针  在VM Options添加以下参数 -javaagent：agent的jar包所在路径  Dskywalking.agent.service_name：自定义的service的name -Dskywalking.collector.backend_service：aop的地址 ###########
-
-#-javaagent:D:/skywalking-agent/skywalking-agent.jar
-#-Dskywalking.agent.service_name=test
-#-Dskywalking.collector.backend_service=localhost:11800
-####################################################
-
-
 ############  sentinel引入 ###########
 #下载并启动sentinel-dashboard.jar  （暂时没有官方镜像）
 ####################################################
-
 
 ## 忽视鉴权的url
 gateway:

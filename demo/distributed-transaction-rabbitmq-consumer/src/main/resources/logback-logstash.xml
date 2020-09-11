@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true" scanPeriod="60 seconds">
 
-    <!-- 只能设置为nacos，不然会报以下的错误 -->
-    <!-- ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name -->
-    <contextName>nacos</contextName>
-
-    <!-- 线上环境 docker部署，所以需要将这个路径挂载到宿主机中filebeat挂载的日志收集路径 -->
-    <property name="logback.logdir" value="/logs"/>
-    <!-- 本地windows开发环境配置 不设置绝对路径时，默认为当前项目下的路径 -->
-    <!--<property name="logback.logdir" value="E:\\filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
-    <property name="logback.appname" value="distributed-transaction-rabbitmq-consumer"/>
+    <!-- 读取spring容器中的spring.application.name属性 -->
+    <springProperty scope="context" name="appName" source="spring.application.name" />
+    <!-- 线上linux环境 docker部署，所以需要将这个路径挂载到宿主机中filebeat挂载的日志收集路径 -->
+    <property name="logback.logDir" value="/logs"/>
+    <!-- 本地windows开发环境配置 不设置绝对路径时，默认在系统用户路径下 -->
+    <!--<property name="logback.logDir" value="E:\\filebeat-6.8.2-windows-x86_64\\filebeat-6.8.2-windows-x86_64\\data"/>-->
+    <!-- 日志输出编码格式化 -->
+    <property name="charset" value="UTF-8"/>
+    <!-- 日志保留时长，设置只保留最近15天的日志 -->
+    <property name="maxHistory" value="15"/>
+    <!--
+        结合Sleuth自定义日志输出格式：
+        %yellow() 指定颜色，需要用括号把内容括起来
+        %d——日志输出时间 标准年月日时分秒格式
+        %thread——输出日志的进程名字
+        %-5level——日志级别，并且使用5个字符靠左对齐
+        ${appName}——spring配置文件的spring.application.name属性值
+        %X{X-B3-TraceId}——Sleuth的traceId为一个请求分配的追踪ID号，用来标识一条请求链路。
+        %X{X-B3-SpanId}——Sleuth的spanId表示一个基本的工作单元，一个请求可以包含多个步骤，每个步骤都拥有自己的spanId。一个请求包含一个TraceId，多个SpanId
+        %X{X-Span-Export}——是否将Sleuth链路信息传输到Zipkin
+        %logger{50}——日志输出者的名字
+         %line——log在代码中埋点的行数
+        %msg——日志消息
+        %n——平台的换行符
+    -->
+    <property name="consoleLogPattern"
+              value="%d %yellow(%-5level [${appName},%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-Span-Export}]) [%thread] %green(%logger{50}) %line : %msg%n"/>
 
     <!-- 格式化日志输出节点 -->
-    <!-- 控制台打印设置 -->
+    <!-- 自定义控制台打印设置 -->
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
-                <!--
-                    %d{HH: mm:ss.SSS}——日志输出时间
-                    %thread——输出日志的进程名字
-                    %-5level——日志级别，并且使用5个字符靠左对齐
-                    %logger{36}——日志输出者的名字
-                    %tid——skywalking的traceId
-                    %msg——日志消息
-                    %n——平台的换行符
-                -->
-                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level logger_name:%logger{36} - [%tid] - message:%msg%n</pattern>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${consoleLogPattern}</pattern>
             </layout>
         </encoder>
     </appender>
@@ -33,57 +42,57 @@
     <!-- 日志系统设置 -->
     <!-- info级别的日志输出配置 -->
     <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，
-            所以我们使用下面的策略，可以避免输出 Error 的日志-->
+        <!-- 如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，
+            所以我们使用下面的策略，可以避免输出 Error 的日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!--过滤 Error-->
+            <!-- 过滤 Error -->
             <level>ERROR</level>
-            <!--匹配到就禁止-->
+            <!-- 匹配到就禁止 -->
             <onMatch>DENY</onMatch>
-            <!--没有匹配到就允许-->
+            <!-- 没有匹配到就允许 -->
             <onMismatch>ACCEPT</onMismatch>
         </filter>
-        <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+        <!-- 日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
             如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
             的日志改名为今天的日期。即，<File> 的日志都是当天的。
         -->
-        <File>${logback.logdir}/info.${logback.appname}.log</File>
-        <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
+        <File>${logback.logDir}/info.${appName}.log</File>
+        <!-- 滚动策略，按照时间滚动 TimeBasedRollingPolicy -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
-            <FileNamePattern>${logback.logdir}/info.${logback.appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--只保留最近15天的日志-->
-            <maxHistory>15</maxHistory>
+            <!-- 文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
+            <FileNamePattern>${logback.logDir}/info.${appName}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 日志保留时长 -->
+            <maxHistory>${maxHistory}</maxHistory>
         </rollingPolicy>
-        <!--日志输出编码格式化-->
+        <!-- 日志输出编码格式化 -->
         <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+            <charset>${charset}</charset>
+            <pattern>${consoleLogPattern}</pattern>
         </encoder>
     </appender>
 
     <!-- error级别的日志输出配置 -->
     <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--如果只是想要 Error 级别的日志，那么需要过滤一下，默认是 info 级别的，ThresholdFilter-->
+        <!-- 如果只是想要 Error 级别的日志，那么需要过滤一下，默认是 info 级别的，ThresholdFilter -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>Error</level>
         </filter>
-        <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+        <!-- 日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
             如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
             的日志改名为今天的日期。即，<File> 的日志都是当天的。
         -->
-        <File>${logback.logdir}/error.${logback.appname}.log</File>
-        <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
+        <File>${logback.logDir}/error.${appName}.log</File>
+        <!-- 滚动策略，按照时间滚动 TimeBasedRollingPolicy -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
-            <FileNamePattern>${logback.logdir}/error.${logback.appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--只保留最近15天的日志-->
-            <maxHistory>15</maxHistory>
+            <!-- 文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
+            <FileNamePattern>${logback.logDir}/error.${appName}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 日志保留时长 -->
+            <maxHistory>${maxHistory}</maxHistory>
         </rollingPolicy>
-        <!--日志输出编码格式化-->
+        <!-- 日志输出编码格式化 -->
         <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+            <charset>${charset}</charset>
+            <pattern>${consoleLogPattern}</pattern>
         </encoder>
     </appender>
 

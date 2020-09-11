@@ -61,6 +61,14 @@ spring:
         host: localhost
         port: 6379
         password:
+    # zipkin配置，链路调用可视化面板
+    zipkin:
+        enabled: false #关闭，demo案例不需配置
+    # sleuth链路跟踪配置
+    sleuth:
+        sampler:
+            # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
+            probability: 1
     #rabbitmq配置
     rabbitmq:
         host: localhost #ip
@@ -93,5 +101,3 @@ name: distributed-transaction-rabbitmq-producer  # 测试用
 feign:
     sentinel:
         enabled: true
-logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
-    config: classpath:logback-logstash.xml

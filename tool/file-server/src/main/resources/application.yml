@@ -42,6 +42,17 @@ spring:
         host: localhost
         port: 6379
         password:
+    # zipkin配置，链路调用可视化面板
+    zipkin:
+        enabled: true #默认允许开启
+        base-url: http://localhost:9411/ #zipkin服务器地址，sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        sender:
+            type: web #当配置了base-url，此项可不配置，默认使用http方式收集
+    # sleuth链路跟踪配置
+    sleuth:
+        sampler:
+            # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
+            probability: 1
     # jackson配置
     jackson:
         # 以下为时间格式转换全局设置，如果只需局部设置则在时间字段上加注解@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -54,11 +65,6 @@ name: file-server  # 测试用
 feign:
     sentinel:
         enabled: true
-##logger_name:o.s.c.b.c.PropertySourceBootstrapConfiguration - [TID: N/A] - message:Error opening logging config file classpath:logback-logstash.xml
- #java.lang.IllegalStateException: Logback configuration error detected:
- #ERROR in ch.qos.logback.classic.joran.action.ContextNameAction - Failed to rename context [nacos] as [logback] java.lang.IllegalStateException: Context has been already given a name
-logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件，假如本地不配置这个，会出现上面的报错信息
-    config: classpath:logback-logstash.xml
 # 七牛云配置参数
 qiniu:
     accessKey: iNffcCO5SH8qw-GgV9L_QGbTH2_xLgEVdZIsq6nW

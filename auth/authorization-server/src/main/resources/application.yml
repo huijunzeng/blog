@@ -39,6 +39,17 @@ spring:
         host: localhost
         port: 6379
         password:
+    # zipkin配置，链路调用可视化面板
+    zipkin:
+        enabled: true #默认允许开启
+        base-url: http://localhost:9411/ #zipkin服务器地址，sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        sender:
+            type: web #当配置了base-url，此项可不配置，默认使用http方式收集
+    # sleuth链路跟踪配置
+    sleuth:
+        sampler:
+            # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
+            probability: 1
     #jwt的密钥
     security:
         oauth2:
@@ -49,5 +60,3 @@ name: authorization-server  #测试用
 feign:
     sentinel:
         enabled: true
-logging: #日志配置文件引入 classpath的默认路径为resources目录下，所以需要在resources目录下添加logback-logstash.xml日志配置文件
-    config: classpath:logback-logstash.xml
