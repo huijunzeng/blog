@@ -1,5 +1,5 @@
-基于本地消息的最终一致性方案demo  rabbitmq消息生产方（即上游服务）
-
+### 基于本地消息的最终一致性方案demo  rabbitmq消息生产方（即上游服务）
+***
 这里展示的demo为distributed-transaction-rabbitmq-producer服务创建account用户账号的时候，调用distributed-transaction-rabbitmq-consumer下游服务同时创建相对应的一条points积分记录；因为上下游通过mq消息异步通信的，所以是无感知的，也就是说上游事务成功后发送消息到mq，下游监听到消息后进行消费需要确保不出现业务上的异常，否则回滚上游事务比较困难（需要进行补偿事务操作）
 
 基于本地消息，所以需要在上游服务创建一张记录事务提交消息的数据表，以便于mq发送消息失败时的check回检机制
