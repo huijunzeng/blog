@@ -8,7 +8,7 @@ Kibana|http://129.211.34.120:5601/ | https://www.elastic.co/cn/ | 日志系统�
 Zipkin控制台 | http://129.211.34.120:9411/ | https://zipkin.io/ | 链路追踪可视化 
 Nacos控制台 | http://129.211.34.120:8848/nacos | https://nacos.io/zh-cn/docs/what-is-nacos.html | 注册中心以及配置中心，持久化部署，需要执行sql脚本，路径在`\sql\nacos\nacos_config.sql`
 Sentinel控制台(需启动jar包) | http://129.211.34.120:8088 | https://github.com/alibaba/Sentinel/wiki/%E4%BB%8B%E7%BB%8D | 熔断器 
-RabbitMQ控制台 | http://129.211.34.120:15671 | https://www.rabbitmq.com/ | 消息队列 
+RabbitMQ控制台 | http://129.211.34.120:15672 | https://www.rabbitmq.com/ | 消息队列 
 xxl-job控制台| http://129.211.34.120:9090/xxl-job-admin/ | https://www.xuxueli.com/xxl-job/ | 分布式定时任务,需要执行sql脚本，路径在`\sql\xxljob\xxl_job.sql` 
 Swagger接口文档 | http://129.211.34.120:9800/swagger-ui/index.html | http://springfox.github.io/springfox/ | springfox的SwaggerV3版本 
 Portainer控制台 | http://129.211.34.120:9000 | https://github.com/portainer/portainer | 管理docker容器 
