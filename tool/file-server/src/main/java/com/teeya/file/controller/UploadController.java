@@ -29,7 +29,7 @@ public class UploadController {
     private UploadService uploadService;
 
     @ApiOperation(value = "图片上传", notes = "图片上传")
-    @ApiImplicitParam(paramType = "query", name = "file", value = "图片上传文件", required = true, dataType = "MultipartFile")
+    @ApiImplicitParam(paramType = "query", name = "file", value = "图片上传文件", required = true, dataTypeClass = MultipartFile.class)
     @PostMapping("/img")
     public UploadResultVo imgUpload(@NotBlank(message = "上传文件不能为空") @RequestParam("file") MultipartFile file) {
         return uploadService.imgUpload(file);

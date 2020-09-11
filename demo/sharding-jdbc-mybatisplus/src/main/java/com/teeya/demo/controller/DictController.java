@@ -40,7 +40,7 @@ public class DictController {
     }
 
     @ApiOperation(value = "查询字典单（测试广播表查询）", notes = "根据id查询")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "字典id", required = true, dataType = "Long")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "字典id", required = true, dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
     public DictEntity get(@PathVariable Long id) {
         return dictService.get(id);

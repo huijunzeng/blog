@@ -28,7 +28,7 @@ public class AccountsController {
     private AccountsService accountsService;
 
     @ApiOperation(value = "新增用户", notes = "新增一个账号")
-    @ApiImplicitParam(paramType = "form", name = "userSaveForm", value = "账号新增表单", required = true, dataType = "accountSaveForm")
+    @ApiImplicitParam(paramType = "form", name = "userSaveForm", value = "账号新增表单", required = true, dataTypeClass = AccountSaveForm.class)
     @PostMapping
     public boolean save(@RequestBody AccountSaveForm accountSaveForm) {
         return accountsService.save(accountSaveForm);

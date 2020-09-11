@@ -34,7 +34,7 @@ public class WebController {
     private ArticleService articleService;
 
     @ApiOperation(value = "前台页面获取文章", notes = "前台页面根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataTypeClass = Long.class)
     @GetMapping(value = "/article/{id}")
     public ArticleEntity get(@PathVariable Long id) {
         log.info("articleId: " + id);
@@ -42,7 +42,7 @@ public class WebController {
     }
 
     @ApiOperation(value = "前台页面搜索文章", notes = "前台页面根据条件获取文章信息列表")
-    @ApiImplicitParam(paramType = "form", name = "webArticleQueryParam", value = "文章查询参数", required = true, dataType = "WebArticleQueryParam")
+    @ApiImplicitParam(paramType = "form", name = "webArticleQueryParam", value = "文章查询参数", required = true, dataTypeClass = WebArticleQueryParam.class)
     @PostMapping(value = "/article/list")
     public IPage queryList(@RequestBody WebArticleQueryParam webArticleQueryParam) {
         log.info("webArticleQueryParam:{}", webArticleQueryParam);

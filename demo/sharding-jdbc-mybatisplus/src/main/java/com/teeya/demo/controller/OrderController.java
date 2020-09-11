@@ -41,7 +41,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "查询订单（测试广播表以及绑定表）", notes = "根据订单id查询")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "订单id", required = true, dataType = "Long")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "订单id", required = true, dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
     public Map get(@PathVariable Long id) {
         return orderService.get(id);

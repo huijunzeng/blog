@@ -34,22 +34,22 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
-    @ApiImplicitParam(paramType = "form", name = "articleForm", value = "新增文章表单", required = true, dataType = "ArticleForm")
+    @ApiImplicitParam(paramType = "form", name = "articleForm", value = "新增文章表单", required = true, dataTypeClass = ArticleSaveForm.class)
     @PostMapping
     public boolean save(@Validated @RequestBody ArticleSaveForm articleSaveForm) {
         return articleService.save(articleSaveForm);
     }
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long"),
-            @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataType = "ArticleUpdateForm")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataTypeClass = Long.class),
+            @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataTypeClass = ArticleUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public boolean update(@PathVariable Long id, @Validated @RequestBody ArticleUpdateForm articleUpdateForm) {
         return articleService.update(id, articleUpdateForm);
     }
 
     @ApiOperation(value = "获取文章", notes = "根据文章id获取指定文章信息")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
     public ArticleEntity get(@PathVariable Long id) {
         log.info("articleId: " + id);
@@ -57,7 +57,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "搜索文章", notes = "根据条件获取文章信息列表")
-    @ApiImplicitParam(paramType = "form", name = "articleQueryForm", value = "文章查询表单", required = true, dataType = "ArticleQueryForm")
+    @ApiImplicitParam(paramType = "form", name = "articleQueryForm", value = "文章查询表单", required = true, dataTypeClass = ArticleQueryForm.class)
     @PostMapping(value = "/list")
     public IPage queryList(@RequestBody ArticleQueryForm articleQueryForm) {
         log.info("articleQueryForm:{}", articleQueryForm);
@@ -65,7 +65,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "删除文章", notes = "根据id删除文章")
-    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataType = "Long")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataTypeClass = Long.class)
     @DeleteMapping("/{id}")
     public boolean remove(@PathVariable Long id) {
         return articleService.remove(id);
