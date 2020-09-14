@@ -1,9 +1,27 @@
+### 项目框架版本信息以及项目启动所需工具：
+框架/工具名称 | 版本信息 |  | 备注 
+ :---:  | :---: | :---: | :---: 
+ SpringBoot | 2.3.3.RELEASE | 最新版本（一直更新）
+ SpringCloud | Hoxton.SR8 | 最新版本（一直更新）
+ SpringCloud Alibaba  | 2.2.1.RELEASE | 最新版本（一直更新）
+ Swagger2  | v3 | springfox整合的最新版本
+ MySQL  | 8.x版本 | 关系型数据库
+ Redis  | 5.x版本 | 非关系型数据库，用作缓存
+ Lombok  | idea插件下载 | 实体类工具，省略get/set等方法，使得代码优雅简洁
+ Nacos  | 自行官网下载安装 | 服务注册中心以及配置中心
+ Sentinel  | 自行官网下载安装 | 断路器
+ RabbitMQ  | 自行官网下载安装 | mq消息队列工具，用于链路追踪信息发送、服务间解耦以及分布式消息事务等
+ Zipkin  | 自行官网下载安装 | zipkin服务器，链路调用可视化面板
+ xxl-job  | 自行官网下载安装搭建 | 分布式定时调度
+ elk(Elasticsearch、Logstash、Kibana、Filebeat)  | 自行官网下载安装整合 | 日志系统，非必须
+ 
+***
 ### 执行命令`mvn install common`安装基础工程
 ***
 #### 工具控制台访问地址：
 工具名称 | 访问地址 | 官方/学习文档 | 备注 
  :---:  | :---: | :---: | :---: 
-查看es信息 | http://129.211.34.120:9200/ | https://www.elastic.co/cn/ | elasticSearch 
+查看es信息 | http://129.211.34.120:9200/省略 | https://www.elastic.co/cn/ | elasticSearch 
 Kibana|http://129.211.34.120:5601/ | https://www.elastic.co/cn/ | 日志系统可视化 
 Zipkin控制台 | http://129.211.34.120:9411/ | https://zipkin.io/ | 链路追踪可视化 
 Nacos控制台 | http://129.211.34.120:8848/nacos | https://nacos.io/zh-cn/docs/what-is-nacos.html | 注册中心以及配置中心，持久化部署，需要执行sql脚本，路径在`\sql\nacos\nacos_config.sql`
