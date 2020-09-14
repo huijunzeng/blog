@@ -42,14 +42,27 @@ spring:
     # zipkin配置，链路调用可视化面板
     zipkin:
         enabled: true #默认允许开启
-        base-url: http://localhost:9411/ #zipkin服务器地址，sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        #base-url: http://localhost:9411/ #zipkin服务器地址（只有sender type为web时才需要配置），sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
         sender:
-            type: web #当配置了base-url，此项可不配置，默认使用http方式收集
+            type: rabbit #发送方式（一共四种，默认web，需要配置base-url参数；设置其他三项则需要配置mq参数（连接成功后默认会生成一个zipkin的队列名称进行链路消息的发送与消费），无需再配置base-url参数，使用mq的好处能达到解耦，不需关心Zipkin服务器的状态）：activemq，rabbit，kafka，web  当配置了base-url，此项可不配置，默认使用http方式收集
     # sleuth链路跟踪配置
     sleuth:
         sampler:
             # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
             probability: 1
+    #rabbitmq配置
+    rabbitmq:
+        host: localhost #ip
+        port: 5672 #端口
+        username: guest #用户名
+        password: guest #密码
+        virtual-host: / #虚拟主机 每个virtual-host相当于一个相对独立的RabbitMQ服务器，每个virtual-host之间是相互隔离的
+        listener:
+            simple:
+                retry:
+                    enabled: false #监听重试是否可用
+                    max-attempts: 5 #最大重试次数
+                    initial-interval: 3000 #重试间隔次数
     #jwt的密钥
     security:
         oauth2:
