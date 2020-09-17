@@ -16,30 +16,34 @@ base:
 
 ##非自定义属性
 server:
-    port: 7800 # 启动端口
+    port: ${SERVER_PORT:7800} # 启动端口
 spring:
     application:
-        name: article-admin
+        name: ${SPRING_APPLICATION_NAME:article-admin}
     cloud:
         nacos:
             discovery: # nacos注册中心地址配置
-                server-addr: localhost:8848
+                server-addr: ${SPRING_CLOUD_NACOS_SERVERADDR:localhost:8848}
+                namespace: ${SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE:a4d0cf40-1125-4263-81e5-3f628bc90302} # 命名空间ID
+                group: ${SPRING_CLOUD_NACOS_DISCOVERY_GROUP:blog} # 配置管理Group
             config: # nacos配置中心地址配置
-                server-addr: localhost:8848
+                server-addr: ${SPRING_CLOUD_NACOS_SERVERADDR:localhost:8848}
+                file-extension: ${SPRING_CLOUD_NACOS_FILEEXTENSION:yml} # nacos配置文件格式后缀
+                namespace: ${SPRING_CLOUD_NACOS_CONFIG_NAMESPACE:a4d0cf40-1125-4263-81e5-3f628bc90302} # 命名空间ID
+                group: ${SPRING_CLOUD_NACOS_CONFIG_GROUP:blog} # 配置管理Group
         #sentinel配置
         sentinel:
             transport:
-                port: 8719 #指定客户端监控 API 的端口  默认，可不设置
-                dashboard: localhost:8080 #控制台的地址
+                port: ${SPRING_CLOUD_SENTINEL_TRANSPORT_PORT:8719} #指定客户端监控 API 的端口 可不提供，默认为 8719，若端口冲突会自动向下探测可用的端口
+                dashboard: ${SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD:localhost:8080} #控制台的地址
     profiles:
         active: dev # 根据不同环境切换配置环境
     # 数据源mysql配置
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/weblog?characterEncoding=UTF-8&useUnicode=true&useSSL=false
-        username: root
-        password: 123456
-        max-idle: 5
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/weblog?characterEncoding=UTF-8&useUnicode=true&useSSL=false}
+        username: ${SPRING_DATASOURCE_USERNAME:root}
+        password: ${SPRING_DATASOURCE_PASSWORD:123456}
         # 数据源hikari连接池配置
         type: com.zaxxer.hikari.HikariDataSource
         hikari:
@@ -53,26 +57,26 @@ spring:
             connection-test-query: SELECT 1 # 指定校验连接合法性执行的sql语句
     # redis配置
     redis:
-        host: localhost
-        port: 6379
-        password:
+        host: ${SPRING_REDIS_HOST:localhost}
+        port: ${SPRING_REDIS_PORT:6379}
+        password: ${SPRING_REDIS_PASSWORD:}
     # zipkin配置，链路调用可视化面板
     zipkin:
-        enabled: true #默认允许开启
-        #base-url: http://localhost:9411/ #zipkin服务器地址（只有sender type为web时才需要配置），sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        enabled: ${SPRING_ZIPKIN_ENABLED:true} #默认允许开启
+        #base-url: ${SPRING_ZIPKIN_BASEURL:http://localhost:9411/} #zipkin服务器地址（只有sender type为web时才需要配置），sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
         sender:
-            type: rabbit #发送方式（一共四种，默认web，需要配置base-url参数；设置其他三项则需要配置mq参数（连接成功后默认会生成一个zipkin的队列名称进行链路消息的发送与消费），无需再配置base-url参数，使用mq的好处能达到解耦，不需关心Zipkin服务器的状态）：activemq，rabbit，kafka，web  当配置了base-url，此项可不配置，默认使用http方式收集
+            type: ${SPRING_ZIPKIN_SENDER_TYPE:rabbit} #发送方式（一共四种，默认web，需要配置base-url参数；设置其他三项则需要配置mq参数（连接成功后默认会生成一个zipkin的队列名称进行链路消息的发送与消费），无需再配置base-url参数，使用mq的好处能达到解耦，不需关心Zipkin服务器的状态）：activemq，rabbit，kafka，web  当配置了base-url，此项可不配置，默认使用http方式收集
     # sleuth链路跟踪配置
     sleuth:
         sampler:
             # 设置采集日志的百分比，数值范围0-1， 1代表100%采集；可依据环境以及实际情况设置
-            probability: 1
+            probability: ${SPRING_SLEUTH_SAMPLER_PROBABILITY:1}
     #rabbitmq配置
     rabbitmq:
-        host: localhost #ip
-        port: 5672 #端口
-        username: guest #用户名
-        password: guest #密码
+        host: ${SPRING_RABBITMQ_HOST:localhost} #ip
+        port: ${SPRING_RABBITMQ_PORT:5672} #端口
+        username: ${SPRING_RABBITMQ_USERNAME:guest} #用户名
+        password: ${SPRING_RABBITMQ_PASSWORD:guest} #密码
         virtual-host: / #虚拟主机 每个virtual-host相当于一个相对独立的RabbitMQ服务器，每个virtual-host之间是相互隔离的
         listener:
             simple:
@@ -102,11 +106,12 @@ name: article-admin  # 测试用
 ##使用sentinel配置
 feign:
     sentinel:
-        enabled: true
+        enabled: ${FEIGN_SENTINEL_ENABLED:true}
 # xxl-job配置参数
 xxl:
     job:
         admin: ### 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
-            addresses: http://127.0.0.1:8080/xxl-job-admin
+            addresses: ${XXL_JOB_ADMIN_ADDRESSES:http://127.0.0.1:8080/xxl-job-admin}
         executor: ### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
-            appname: article-admin
+            appname: ${XXL_JOB_EXECUTOR_APPNAME:article-admin}
+            port: ${XXL_JOB_EXECUTOR_PORT:9005}
