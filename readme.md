@@ -5,10 +5,11 @@
  SpringCloud | Hoxton.SR8 | 最新版本（一直更新）
  SpringCloud Alibaba  | 2.2.1.RELEASE | 最新版本（一直更新）
  Maven  | 3.3.9 | 最新版本（一直更新）
+ Lombok  | idea插件下载 | 实体类工具，省略get/set等方法，使得代码优雅简洁
  Swagger2  | v3 | springfox整合的最新版本
+ Docker  | 结合compose使用，安装请看官网教程 | 容器技术，以下工具的安装都是基于docker-compose编排
  MySQL  | 8.x版本 | 关系型数据库
  Redis  | 5.x版本 | 非关系型数据库，用作缓存
- Lombok  | idea插件下载 | 实体类工具，省略get/set等方法，使得代码优雅简洁
  Nacos  | 自行官网下载安装 | 服务注册中心以及配置中心
  Sentinel  | 自行官网下载安装 | 断路器
  RabbitMQ  | 自行官网下载安装 | mq消息队列工具，用于链路追踪信息发送、服务间解耦以及分布式消息事务等
@@ -18,7 +19,7 @@
  gpe(Prometheus、Grafana、Node-Exporter)  | 自行官网下载安装整合 | 监控预警系统，非必须
  
 ***
-### 执行命令`mvn install common`安装基础工程
+### 打包：先执行命令`mvn install common`安装基础依赖，再再blog工程下执行`mvn deploy`，会根据Dockerfile文件构建镜像并发布到指定服务器中
 ***
 #### 工具控制台访问地址：
 工具名称 | 访问地址 | 官方/学习文档 | 备注 
