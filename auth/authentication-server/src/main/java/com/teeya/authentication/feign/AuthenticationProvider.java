@@ -1,6 +1,7 @@
 package com.teeya.authentication.feign;
 
 import com.teeya.authentication.entity.ResourceEntity;
+import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.web.interceptor.FeignRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,8 @@ public interface AuthenticationProvider {
      * 必须匹配admin-user服务的完整/user/selectByUsername路径
      */
     @GetMapping("/resource/all")
-    List<ResourceEntity> getAll();
+    R<List<ResourceEntity>> getAll();
 
     @GetMapping("/resource/user/{username}")
-    List<ResourceEntity> queryListByUsername(@PathVariable(value = "username") String username);
+    R<List<ResourceEntity>> queryListByUsername(@PathVariable(value = "username") String username);
 }

@@ -2,7 +2,6 @@ package com.teeya.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.teeya.user.entity.pojo.RoleResourceRelationEntity;
-import com.teeya.user.entity.pojo.UserEntity;
 
 import java.util.List;
 import java.util.Set;

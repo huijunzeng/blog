@@ -1,5 +1,6 @@
 package com.teeya.gateway.feign;
 
+import com.teeya.common.core.entity.vo.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public interface AuthenticationProvider {
 
     @PostMapping(value = "/auth/permission")
-    boolean hasPermission(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestParam("url") String url, @RequestParam("method") String method);
+    R<Boolean> hasPermission(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestParam("url") String url, @RequestParam("method") String method);
 
     @GetMapping(value = "/test/hello")
-    String test();
+    R<String> test();
 
 }

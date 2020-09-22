@@ -1,6 +1,7 @@
 package com.teeya.authentication.feign;
 
 import com.teeya.authentication.entity.ResourceEntity;
+import com.teeya.common.core.entity.vo.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +17,13 @@ import java.util.List;
 public class AuthenticationProviderFallback implements AuthenticationProvider {
 
     @Override
-    public List<ResourceEntity> getAll() {
-        return null;
+    public R<List<ResourceEntity>> getAll() {
+        return R.fail("降级");
     }
 
     @Override
-    public List<ResourceEntity> queryListByUsername(String username) {
+    public R<List<ResourceEntity>> queryListByUsername(String username) {
         log.info("=================触发降级");
-        return null;
+        return R.fail("降级");
     }
 }

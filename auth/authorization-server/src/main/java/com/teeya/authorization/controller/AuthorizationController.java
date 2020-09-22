@@ -1,6 +1,7 @@
 package com.teeya.authorization.controller;
 
 import com.teeya.authorization.service.AuthorizationService;
+import com.teeya.common.core.entity.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ public class AuthorizationController {
     @ApiOperation(value = "用户登出", notes = "用户登出")
     @ApiImplicitParam(paramType = "path", name = "token", value = "token", required = true, dataTypeClass = String.class)
     @DeleteMapping("/oauth/token/{token}")
-    public boolean logout(@PathVariable String token) {
-        return authorizationService.logout(token);
+    public R<Boolean> logout(@PathVariable String token) {
+        return R.success(authorizationService.logout(token));
     }
 }

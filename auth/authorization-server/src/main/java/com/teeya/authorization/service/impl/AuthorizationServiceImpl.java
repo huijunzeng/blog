@@ -32,12 +32,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public UserEntity getByUniqueId(String uniqueId) {
-        return authorizationProvider.getByUniqueId(uniqueId);
+        return authorizationProvider.getByUniqueId(uniqueId).getData();
     }
 
     @Override
     public List<RoleEntity> queryListByUsername(String username) {
-        return authorizationProvider.queryListByUsername(username);
+        return authorizationProvider.queryListByUsername(username).getData();
     }
 
     @Override

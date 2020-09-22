@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +64,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(username, new BCryptPasswordEncoder().encode("1234567"), true, true, true, true,authoritiesSet);*/
         // 数据库的方式
         // 从数据库验证用户密码 查询用户权限  测试账号 用户名：admin  密码：password
-        UserEntity userEntity = authorizationService.getByUniqueId(username);
+        UserEntity userEntity = authorizationService.getByUniqueId(username).getData();
         log.info(userEntity.toString());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         /*grantedAuthorities = userVo.getRoleIds().stream().map(e -> new SimpleGrantedAuthority(e.trim())).collect(Collectors.toSet());*/
@@ -91,10 +92,10 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(UserEntity userEntity) {
-        List<RoleEntity> roles = authorizationService.queryListByUsername(userEntity.getUsername());
+        List<RoleEntity> roles = authorizationService.queryListByUsername(userEntity.getUsername()).getData();
         log.info("user:{},roles:{}", userEntity.getUsername(), roles);
         if (null == roles || roles.isEmpty()) {
-            return null;
+            return new HashSet<>();
         }
         // 用户的所有角色code
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());

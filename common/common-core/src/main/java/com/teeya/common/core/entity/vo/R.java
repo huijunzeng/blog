@@ -58,15 +58,15 @@ public class R<T> implements Serializable {
         this(code, msg, null);
     }
 
-    public static <T> R<T> data(Integer code, String msg, T data) {
+    public static <T> R<T> success(Integer code, String msg, T data) {
         return new R<>(code, msg, data);
     }
 
-    public static <T> R<T> data(String msg, T data) {
+    public static <T> R<T> success(String msg, T data) {
         return new R<>(SystemExceptionEnums.SYSTEM_SUCCESS, msg, data);
     }
 
-    public static <T> R<T> data(T data) {
+    public static <T> R<T> success(T data) {
         return new R<>(SystemExceptionEnums.SYSTEM_SUCCESS, data);
     }
 

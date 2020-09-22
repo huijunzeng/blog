@@ -2,6 +2,7 @@ package com.teeya.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.teeya.common.core.entity.vo.R;
 import com.teeya.user.entity.form.RoleSaveForm;
 import com.teeya.user.entity.form.RoleQueryForm;
 import com.teeya.user.entity.form.RoleUpdateForm;
@@ -35,8 +36,8 @@ public class RoleController {
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @ApiImplicitParam(paramType = "form", name = "roleSaveForm", value = "角色新增表单", required = true, dataTypeClass = RoleSaveForm.class)
     @PostMapping
-    public boolean save(@Validated @RequestBody RoleSaveForm roleSaveForm) {
-        return roleService.save(roleSaveForm);
+    public R<Boolean> save(@Validated @RequestBody RoleSaveForm roleSaveForm) {
+        return R.success(roleService.save(roleSaveForm));
     }
 
 
@@ -44,55 +45,52 @@ public class RoleController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataTypeClass = Long.class),
             @ApiImplicitParam(paramType = "form", name = "roleUpdateForm", value = "角色修改表单", required = true, dataTypeClass = RoleUpdateForm.class)})
     @PutMapping(value = "/{id}")
-    public boolean update(@PathVariable Long id, @Validated @RequestBody RoleUpdateForm roleUpdateForm) {
-        return roleService.update(id, roleUpdateForm);
+    public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody RoleUpdateForm roleUpdateForm) {
+        return R.success(roleService.update(id, roleUpdateForm));
     }
 
     @ApiOperation(value = "获取角色", notes = "根据角色id获取指定角色信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataTypeClass = Long.class)
     @GetMapping(value = "/{id}")
-    public RoleEntity get(@PathVariable Long id) {
+    public R<RoleEntity> get(@PathVariable Long id) {
         log.info("roleId: " + id);
-        return roleService.get(id);
+        return R.success(roleService.get(id));
     }
 
     @ApiOperation(value = "根据用户id获取相应的角色集合", notes = "根据用户id获取相应的角色集合")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataTypeClass = Long.class)
     @GetMapping
     @SentinelResource(value = "/role", blockHandler = "block", fallback = "fallback") //使用sentinel处理熔断降级demo
-    public List<RoleEntity> queryListByUserId(@NotNull(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
-        return roleService.queryListByUserId(userId);
+    public R<List<RoleEntity>> queryListByUserId(@NotNull(message = "用户id不能为空") @RequestParam(value = "userId") Long userId) {
+        return R.success(roleService.queryListByUserId(userId));
     }
-
-    public String block(){ return "blocked"; }
-    public String fallback(){ return "fallbacked"; }
 
     @ApiOperation(value = "根据用户名获取相应的角色集合", notes = "根据用户名获取相应的角色集合")
     @ApiImplicitParam(paramType = "path", name = "username", value = "用户名", required = true, dataTypeClass = String.class)
     @GetMapping("/user/{username}")
-    public List<RoleEntity> queryListByUsername(@PathVariable String username) {
-        return roleService.queryListByUsername(username);
+    public R<List<RoleEntity>> queryListByUsername(@PathVariable String username) {
+        return R.success(roleService.queryListByUsername(username));
     }
 
     @ApiOperation(value = "搜索角色", notes = "根据条件获取角色信息列表")
     @ApiImplicitParam(paramType = "form", name = "roleQueryForm", value = "角色查询参数", required = true, dataTypeClass = RoleQueryForm.class)
     @PostMapping(value = "/list")
-    public IPage queryList(@RequestBody RoleQueryForm roleQueryForm) {
+    public R<IPage> queryList(@RequestBody RoleQueryForm roleQueryForm) {
         log.info("roleQueryForm:{}", roleQueryForm);
-        return roleService.queryList(roleQueryForm);
+        return R.success(roleService.queryList(roleQueryForm));
     }
 
     @ApiOperation(value = "搜索角色", notes = "获取所有角色信息列表")
     @GetMapping(value = "/all")
-    public List<RoleEntity> getAll() {
-        return roleService.getAll();
+    public R<List<RoleEntity>> getAll() {
+        return R.success(roleService.getAll());
     }
 
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataTypeClass = Long.class)
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable Long id) {
-        return roleService.remove(id);
+    public R<Boolean> remove(@PathVariable Long id) {
+        return R.success(roleService.remove(id));
     }
 
 }

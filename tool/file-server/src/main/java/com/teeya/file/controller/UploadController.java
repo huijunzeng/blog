@@ -1,5 +1,6 @@
 package com.teeya.file.controller;
 
+import com.teeya.common.core.entity.vo.R;
 import com.teeya.file.entity.vo.UploadResultVo;
 import com.teeya.file.service.UploadService;
 import io.swagger.annotations.Api;
@@ -31,8 +32,8 @@ public class UploadController {
     @ApiOperation(value = "图片上传", notes = "图片上传")
     @ApiImplicitParam(paramType = "query", name = "file", value = "图片上传文件", required = true, dataTypeClass = MultipartFile.class)
     @PostMapping("/img")
-    public UploadResultVo imgUpload(@NotBlank(message = "上传文件不能为空") @RequestParam("file") MultipartFile file) {
-        return uploadService.imgUpload(file);
+    public R<UploadResultVo> imgUpload(@NotBlank(message = "上传文件不能为空") @RequestParam("file") MultipartFile file) {
+        return R.success(uploadService.imgUpload(file));
     }
 
 }

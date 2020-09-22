@@ -80,13 +80,9 @@ public class AccessFilter implements GlobalFilter {
             log.info("进入鉴权判断");
             ServerHttpRequest.Builder builder = request.mutate();
             //将jwt token中的用户信息传给服务
-            //builder.header(X_CLIENT_TOKEN_USER, getUserToken(authentication));
-            String substringToken = StringUtils.substring(token, BEARER.length());
-            log.info("substring========:{} ", substringToken);
-            Map<String, ?> stringMap = authService.checkToken(substringToken);
             // 信息安全  做加密  todo
             // 可以根据个人需要在转发的请求头加上token解析后的body的信息； 原有的请求头信息不受影响，会路由到具体服务中
-            builder.header(X_CLIENT_USER, this.checkTokenAndParseAsJson(substringToken));
+            builder.header(X_CLIENT_USER, this.checkTokenAndParseAsJson(token));
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         return unauthorized(exchange);
@@ -106,12 +102,14 @@ public class AccessFilter implements GlobalFilter {
      * 	"client_id": "test_client"
      * }
      *
-     * @param substringToken
+     * @param token
      * @return
      */
-    private String checkTokenAndParseAsJson(String substringToken) {
+    private String checkTokenAndParseAsJson(String token) {
         String tokenBodyInfo = "{}";
         try {
+            String substringToken = StringUtils.substring(token, BEARER.length());
+            log.info("substring========:{} ", substringToken);
             tokenBodyInfo = new ObjectMapper().writeValueAsString(authService.checkToken(substringToken));
             log.info("checkTokenAndParseAsJson========:{}", tokenBodyInfo);
             return tokenBodyInfo;

@@ -2,6 +2,7 @@ package com.teeya.authorization.feign;
 
 import com.teeya.authorization.entity.UserEntity;
 import com.teeya.authorization.entity.RoleEntity;
+import com.teeya.common.core.entity.vo.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,14 +22,14 @@ public class AuthorizationProviderFallback implements FallbackFactory<Authorizat
     public AuthorizationProvider create(Throwable throwable) {
         return new AuthorizationProvider() {
             @Override
-            public UserEntity getByUniqueId(String uniqueId) {
+            public R<UserEntity> getByUniqueId(String uniqueId) {
                 log.info("===============降级");
-                return null;
+                return R.fail("降级");
             }
 
             @Override
-            public List<RoleEntity> queryListByUsername(String username) {
-                return null;
+            public R<List<RoleEntity>> queryListByUsername(String username) {
+                return R.fail("降级");
             }
         };
     }

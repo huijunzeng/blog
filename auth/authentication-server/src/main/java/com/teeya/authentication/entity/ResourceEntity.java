@@ -14,7 +14,7 @@ public class ResourceEntity extends BaseEntity {
     private String name;
 
     /**
-     * 资源类型
+     * 资源类型(0菜单 1按钮)
      */
     private String type;
 
@@ -22,5 +22,10 @@ public class ResourceEntity extends BaseEntity {
      * 资源url
      */
     private String url;
+
+    /**
+     * 资源请求方法
+     */
+    private String method;
 
 }

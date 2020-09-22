@@ -1,6 +1,7 @@
 package com.teeya.authentication.controller;
 
 import com.teeya.authentication.service.AuthenticationService;
+import com.teeya.common.core.entity.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,15 +34,15 @@ public class AuthenticationController {
         @ApiImplicitParam(paramType = "query", name = "method", value = "method方法名", required = true, dataTypeClass = String.class)
     })
     @PostMapping("/permission")
-    public boolean hasPermission(HttpServletRequest request, @RequestParam("url") String url, @RequestParam("method") String method) {
+    public R<Boolean> hasPermission(HttpServletRequest request, @RequestParam("url") String url, @RequestParam("method") String method) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         log.info("进入authentication-server鉴权判断: " + token);
         boolean b = authenticationService.hasPermission(url, method);
-        return b;
+        return R.success(b);
     }
 
     @GetMapping("/hello")
-    public String test(){
-        return "hello oauth";
+    public R<String> test(){
+        return R.success("hello oauth");
     }
 }

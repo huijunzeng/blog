@@ -2,6 +2,7 @@ package com.teeya.authorization.feign;
 
 import com.teeya.authorization.entity.UserEntity;
 import com.teeya.authorization.entity.RoleEntity;
+import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.web.interceptor.FeignRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,8 @@ public interface AuthorizationProvider {
      * @return
      */
     @GetMapping("/user")
-    UserEntity getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId);
+    R<UserEntity> getByUniqueId(@RequestParam(value = "uniqueId") String uniqueId);
 
     @GetMapping("/role/user/{username}")
-    List<RoleEntity> queryListByUsername(@PathVariable(value = "username") String username);
+    R<List<RoleEntity>> queryListByUsername(@PathVariable(value = "username") String username);
 }

@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean hasPermission(String token, String url, String method) {
         log.info("进入鉴权判断222");
-        return authenticationProvider.hasPermission(token, url, method);
+        return authenticationProvider.hasPermission(token, url, method).getData();
     }
 
     @Override
@@ -53,6 +53,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String hello() {
-        return authenticationProvider.test();
+        return authenticationProvider.test().getData();
     }
 }
