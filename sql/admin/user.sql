@@ -21,18 +21,20 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for resource
 -- ----------------------------
 DROP TABLE IF EXISTS `resource`;
-CREATE TABLE `resource`  (
+
+CREATE TABLE `resource` (
   `id` bigint(20) NOT NULL COMMENT '资源id',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源名称',
-  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源类型',
-  `url` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源url',
-  `created_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `created_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `updated_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `deleted` int(2) NULL DEFAULT 0 COMMENT '是否已删除 1已删除 0未删除',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `version` bigint(15) NULL DEFAULT 0 COMMENT '版本号',
+  `name` varchar(50) NOT NULL COMMENT '资源名称',
+  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源类型(0菜单 1按钮)',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源url',
+  `method` varchar(50) DEFAULT NULL COMMENT '资源请求方法',
+  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `created_by` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `updated_by` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `deleted` int(2) DEFAULT '0' COMMENT '是否已删除 1已删除 0未删除',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `version` bigint(15) DEFAULT '0' COMMENT '版本号',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '后台资源表' ROW_FORMAT = Dynamic;
 
