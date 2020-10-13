@@ -17,11 +17,11 @@ import java.io.Serializable;
 @Data
 public class RoleUpdateForm implements Serializable {
 
-    @ApiModelProperty("角色名称")
+    @ApiModelProperty(value = "角色名称", example = "超管")
     @NotBlank(message = "角色名称不能为空")
     @Length(min = 1, max = 8, message = "角色名称长度不合法，请输入1至8位长度之内")
     private String name;
 
-    @ApiModelProperty("描述")
+    @ApiModelProperty(value = "描述", example = "超管拥有所有资源权限")
     private String description;
 }

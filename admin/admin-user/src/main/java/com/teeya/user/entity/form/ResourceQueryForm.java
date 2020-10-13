@@ -14,13 +14,13 @@ import lombok.Data;
 @Data
 public class ResourceQueryForm extends BaseQueryForm {
 
-    @ApiModelProperty("资源名称")
+    @ApiModelProperty(value = "资源名称", example = "admin-user")
     private String name;
 
-    @ApiModelProperty("资源类型")
+    @ApiModelProperty(value = "资源类型", example = "资源类型(0菜单 1按钮)")
     private String type;
 
-    @ApiModelProperty("资源url")
+    @ApiModelProperty(value = "资源url", example = "/admin-user")
     private String url;
 
 }

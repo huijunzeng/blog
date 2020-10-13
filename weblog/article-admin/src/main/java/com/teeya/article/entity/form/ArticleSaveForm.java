@@ -17,26 +17,26 @@ import java.util.Set;
 @Data
 public class ArticleSaveForm implements Serializable {
 
-    @ApiModelProperty("文章标题")
+    @ApiModelProperty(value = "文章标题", example = "docker使用教程")
     @NotBlank(message = "文章标题不能为空")
     private String title;
 
-    @ApiModelProperty("文章内容")
+    @ApiModelProperty(value = "文章内容", example = "1231456")
     @NotBlank(message = "文章内容不能为空")
     private String content;
 
-    @ApiModelProperty("标签id集合")
+    @ApiModelProperty(value = "标签id集合", example = "1,,2")
     @NotBlank(message = "文章标签不能为空")
     private Set<Long> labelIds;
 
-    @ApiModelProperty("分类id集合")
+    @ApiModelProperty(value = "分类id集合", example = "1,,2")
     @NotBlank(message = "文章分类不能为空")
     private Set<Long> classificationIds;
 
-    @ApiModelProperty("是否私密不可见 0否 1是")
+    @ApiModelProperty(value = "是否私密不可见 0否 1是", example = "1")
     private String visible;
 
-    @ApiModelProperty("阅读数")
+    @ApiModelProperty(value = "阅读数", example = "1")
     private Integer readingNumber;
 
 }

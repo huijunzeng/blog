@@ -42,7 +42,7 @@ public class WebController {
     }
 
     @ApiOperation(value = "前台页面搜索文章", notes = "前台页面根据条件获取文章信息列表")
-    @ApiImplicitParam(paramType = "form", name = "webArticleQueryParam", value = "文章查询参数", required = true, dataTypeClass = WebArticleQueryParam.class)
+    @ApiImplicitParam(paramType = "body", name = "webArticleQueryParam", value = "文章查询参数", required = true, dataTypeClass = WebArticleQueryParam.class)
     @PostMapping(value = "/article/list")
     public R<IPage> queryList(@RequestBody WebArticleQueryParam webArticleQueryParam) {
         log.info("webArticleQueryParam:{}", webArticleQueryParam);

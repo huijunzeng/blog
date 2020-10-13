@@ -38,7 +38,7 @@ public class ClassificationController {
     private ClassificationService classificationService;
 
     @ApiOperation(value = "新增文章分类", notes = "新增一个文章分类")
-    @ApiImplicitParam(paramType = "form", name = "classificationForm", value = "新增文章分类表单", required = true, dataTypeClass = ClassificationSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "classificationForm", value = "新增文章分类表单", required = true, dataTypeClass = ClassificationSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody ClassificationSaveForm classificationSaveForm) {
         return R.success(classificationService.save(classificationSaveForm));
@@ -46,7 +46,7 @@ public class ClassificationController {
 
     @ApiOperation(value = "修改文章分类", notes = "修改文章分类")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章分类id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataTypeClass = ClassificationUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "labelUpdateForm", value = "文章分类修改表单", required = true, dataTypeClass = ClassificationUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody ClassificationUpdateForm classificationUpdateForm) {
         return R.success(classificationService.update(id, classificationUpdateForm));
@@ -68,7 +68,7 @@ public class ClassificationController {
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "根据条件获取文章分类信息列表")
-    @ApiImplicitParam(paramType = "form", name = "classificationQueryForm", value = "文章分类查询表单", required = true, dataTypeClass = ClassificationQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "classificationQueryForm", value = "文章分类查询表单", required = true, dataTypeClass = ClassificationQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody ClassificationQueryForm classificationQueryForm) {
         log.info("classificationQueryForm:{}", classificationQueryForm);

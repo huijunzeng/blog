@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 public class LabelUpdateForm implements Serializable {
 
-    @ApiModelProperty("标签名称")
+    @ApiModelProperty(value = "标签名称", example = "java")
     @NotBlank(message = "标签名称不能为空")
     private String name;
 }

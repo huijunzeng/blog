@@ -33,7 +33,7 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @ApiOperation(value = "新增资源", notes = "新增资源")
-    @ApiImplicitParam(paramType = "form", name = "resourceSaveForm", value = "资源新增表单", required = true, dataTypeClass = ResourceSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "resourceSaveForm", value = "资源新增表单", required = true, dataTypeClass = ResourceSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody ResourceSaveForm resourceSaveForm) {
         return R.success(resourceService.save(resourceSaveForm));
@@ -41,7 +41,7 @@ public class ResourceController {
 
     @ApiOperation(value = "修改资源", notes = "更新资源信息")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "资源id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataTypeClass = ResourceUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "resourceUpdateForm", value = "资源修改表单", required = true, dataTypeClass = ResourceUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody ResourceUpdateForm resourceUpdateForm) {
         return R.success(resourceService.update(id, resourceUpdateForm));
@@ -77,7 +77,7 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "搜索资源", notes = "根据条件获取资源信息列表")
-    @ApiImplicitParam(paramType = "form", name = "resourceQueryForm", value = "资源查询参数", required = true, dataTypeClass = ResourceQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "resourceQueryForm", value = "资源查询参数", required = true, dataTypeClass = ResourceQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody ResourceQueryForm resourceQueryForm) {
         log.info("resourceQueryForm:{}", resourceQueryForm);

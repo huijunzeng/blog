@@ -11,10 +11,10 @@ import java.io.Serializable;
 @Data
 public class PageQueryForm implements Serializable {
 
-    @ApiModelProperty("页码")
+    @ApiModelProperty(value = "页码", example = "1")
     private int pageNum = 1;
 
-    @ApiModelProperty("页大小")
+    @ApiModelProperty(value = "页大小", example = "10")
     private int pageSize = 10;
 
     /**

@@ -18,9 +18,6 @@ public class SwaggerProperties {
     @ApiModelProperty("api接口路径，即controller层路径")
     private String apiBasePackage;
 
-    @ApiModelProperty("创建人信息  可用于定位该模块的负责人")
-    private Contact contact;
-
     @ApiModelProperty("标题")
     private String title;
 
@@ -33,9 +30,12 @@ public class SwaggerProperties {
     @ApiModelProperty("主机ip")
     private String host = "localhost";
 
+    /**属性多层嵌套处理*/
+    @ApiModelProperty("创建人信息  可用于定位该模块的负责人")
+    private Contact contact = new Contact();
+
     @Data
-    //@Getter
-    public /*static*/ class Contact {
+    public class Contact {
 
         @ApiModelProperty("创建人名字")
         private String name;
@@ -46,6 +46,4 @@ public class SwaggerProperties {
         @ApiModelProperty("创建人项目地址")
         private String url;
     }
-
-
 }

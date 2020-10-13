@@ -34,7 +34,7 @@ public class RoleController {
     private RoleService roleService;
 
     @ApiOperation(value = "新增角色", notes = "新增角色")
-    @ApiImplicitParam(paramType = "form", name = "roleSaveForm", value = "角色新增表单", required = true, dataTypeClass = RoleSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "roleSaveForm", value = "角色新增表单", required = true, dataTypeClass = RoleSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody RoleSaveForm roleSaveForm) {
         return R.success(roleService.save(roleSaveForm));
@@ -43,7 +43,7 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色", notes = "更新指定角色信息")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "角色id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "roleUpdateForm", value = "角色修改表单", required = true, dataTypeClass = RoleUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "roleUpdateForm", value = "角色修改表单", required = true, dataTypeClass = RoleUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody RoleUpdateForm roleUpdateForm) {
         return R.success(roleService.update(id, roleUpdateForm));
@@ -73,7 +73,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "搜索角色", notes = "根据条件获取角色信息列表")
-    @ApiImplicitParam(paramType = "form", name = "roleQueryForm", value = "角色查询参数", required = true, dataTypeClass = RoleQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "roleQueryForm", value = "角色查询参数", required = true, dataTypeClass = RoleQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody RoleQueryForm roleQueryForm) {
         log.info("roleQueryForm:{}", roleQueryForm);

@@ -15,13 +15,13 @@ import lombok.Data;
 @Data
 public class UserQueryForm extends BaseQueryForm {
 
-    @ApiModelProperty("用户名")
+    @ApiModelProperty(value = "用户名", example = "admin")
     private String username;
 
-    @ApiModelProperty("手机号码")
+    @ApiModelProperty(value = "手机号码", example = "12345678910")
     private String phone;
 
-    @ApiModelProperty("是否已删除 1已删除 0未删除")
+    @ApiModelProperty(value = "是否已删除 1已删除 0未删除", example = "1")
     private Integer deleted;
 
 }

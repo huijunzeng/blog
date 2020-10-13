@@ -14,13 +14,13 @@ import lombok.Data;
 @Data
 public class WebArticleQueryParam extends PageQueryParam {
 
-    @ApiModelProperty("文章标题")
+    @ApiModelProperty(value = "文章标题", example = "docker使用教程")
     private String title;
 
-    @ApiModelProperty("标签id")
+    @ApiModelProperty(value = "标签id", example = "1")
     private Long labelId;
 
-    @ApiModelProperty("分类id")
+    @ApiModelProperty(value = "分类id", example = "1")
     private Long classificationId;
 
 }

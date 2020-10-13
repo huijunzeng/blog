@@ -1,27 +1,29 @@
 package com.teeya.gateway.routes;
 
 import com.alibaba.cloud.nacos.NacosConfigProperties;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.teeya.common.core.util.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.expression.Expression;
-import org.springframework.util.CollectionUtils;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
@@ -47,24 +49,109 @@ import java.util.concurrent.Executor;
  * @Author: ZJH
  * @Date: 2020/3/3 11:35
  */
+
+@Component
 @Slf4j
-public class NacosRouteDefinitionRepository extends DiscoveryClientRouteDefinitionLocator {
+public class NacosRouteDefinitionRepository /*extends DiscoveryClientRouteDefinitionLocator*/ {
 
-    private static final String SCG_DATA_ID = "scg-routes";
-    private static final String SCG_GROUP_ID = "SCG_GATEWAY";
+    private static final String DATA_ID = "gateway-routes";
+    private static final String GROUP_ID = "blog";
 
+    @Autowired
+    private DynamicRouteServiceImpl dynamicRouteService;
+
+
+    private ConfigService configService;
+
+    /*public NacosRouteDefinitionRepository(ReactiveDiscoveryClient discoveryClient, DiscoveryLocatorProperties properties) {
+        super(discoveryClient, properties);
+    }*/
+
+    @PostConstruct
+    public void init() {
+        log.info("gateway route init...");
+        try{
+            configService = initConfigService();
+            if(configService == null){
+                log.warn("initConfigService fail");
+                return;
+            }
+            String configInfo = configService.getConfig(DATA_ID, GROUP_ID, 3000);
+            log.info("获取网关当前配置:\r\n{}",configInfo);
+            List<RouteDefinition> definitionList = JSONUtils.jsonToList(configInfo, RouteDefinition.class);
+            for(RouteDefinition definition : definitionList){
+                log.info("update route : {}",definition.toString());
+                dynamicRouteService.add(definition);
+            }
+        } catch (Exception e) {
+            log.error("初始化网关路由时发生错误",e);
+        }
+        dynamicRouteByNacosListener(DATA_ID, GROUP_ID);
+    }
+
+    /**
+     * 监听Nacos下发的动态路由配置
+     * @param dataId
+     * @param group
+     */
+    public void dynamicRouteByNacosListener (String dataId, String group){
+        try {
+            configService.addListener(dataId, group, new Listener()  {
+                @Override
+                public void receiveConfigInfo(String configInfo) {
+                    log.info("进行网关更新:\n\r{}",configInfo);
+                    List<RouteDefinition> definitionList = JSONUtils.jsonToList(configInfo, RouteDefinition.class);
+                    for(RouteDefinition definition : definitionList){
+                        log.info("update route : {}",definition.toString());
+                        dynamicRouteService.update(definition);
+                    }
+                }
+                @Override
+                public Executor getExecutor() {
+                    log.info("getExecutor\n\r");
+                    return null;
+                }
+            });
+        } catch (NacosException e) {
+            log.error("从nacos接收动态路由配置出错!!!",e);
+        }
+    }
+
+    /**
+     * 初始化网关路由 nacos config
+     * @return
+     */
+    private ConfigService initConfigService(){
+        try{
+            Properties properties = new Properties();
+            properties.setProperty("serverAddr","129.211.34.120:8848");
+            properties.setProperty("namespace","a4d0cf40-1125-4263-81e5-3f628bc90302");
+            return configService= NacosFactory.createConfigService(properties);
+        } catch (Exception e) {
+            log.error("初始化网关路由时发生错误",e);
+            return null;
+        }
+    }
+
+    /*@Autowired
     private ApplicationEventPublisher publisher;
 
+    @Autowired
     private NacosConfigProperties nacosConfigProperties;
+
+    private ConfigService configService;
 
     public NacosRouteDefinitionRepository(ReactiveDiscoveryClient discoveryClient, DiscoveryLocatorProperties properties) {
         super(discoveryClient, properties);
+        addListener();
     }
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
         try {
-            String content = nacosConfigProperties.configServiceInstance().getConfig(SCG_DATA_ID, SCG_GROUP_ID,5000);
+            // 参数分别对应Nacos配置中心的 dataId、 group 以及 timeoutMs 超时时间(毫秒)
+            String content = configService.getConfig("gateway-routes", GROUP_ID,3000);
+            log.info("routes from config center : {}", content);
             List<RouteDefinition> routeDefinitions = getListByStr(content);
             return Flux.fromIterable(routeDefinitions);
         } catch (NacosException e) {
@@ -73,12 +160,12 @@ public class NacosRouteDefinitionRepository extends DiscoveryClientRouteDefiniti
         return Flux.fromIterable(Collections.EMPTY_SET);
     }
 
-    /**
+    *//**
      * 添加Nacos监听
-     */
+     *//*
     private void addListener() {
         try {
-            nacosConfigProperties.configServiceInstance().addListener(SCG_DATA_ID, SCG_GROUP_ID, new Listener() {
+            configService.addListener(DATA_ID, GROUP_ID, new Listener() {
                 @Override
                 public Executor getExecutor() {
                     return null;
@@ -93,10 +180,11 @@ public class NacosRouteDefinitionRepository extends DiscoveryClientRouteDefiniti
             log.error("nacos-addListener-error", e);
         }
     }
+
     private List<RouteDefinition> getListByStr(String content) {
         if (!StringUtils.isEmpty(content)) {
             return JSONUtils.jsonToList(content, RouteDefinition.class);
         }
         return new ArrayList<>(0);
-    }
+    }*/
 }

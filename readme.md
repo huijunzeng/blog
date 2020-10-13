@@ -7,7 +7,7 @@
  Maven  | 3.3.9 | 最新版本（一直更新）
  Lombok  | idea插件下载 | 实体类工具，省略get/set等方法，使得代码优雅简洁
  Swagger2  | v3 | springfox整合的最新版本
- Docker  | 结合compose使用，安装请看官网教程 | 容器技术，以下工具的安装都是基于docker-compose编排
+ Docker  | 结合compose使用，安装请看官网教程 | 容器技术，以下工具的安装都是基于docker-compose编排，也可以自行下载包安装
  MySQL  | 8.x版本 | 关系型数据库
  Redis  | 5.x版本 | 非关系型数据库，用作缓存
  Nacos  | 自行官网下载安装 | 服务注册中心以及配置中心
@@ -17,6 +17,7 @@
  xxl-job  | 自行官网下载安装搭建 | 分布式定时调度
  elk(Elasticsearch、Logstash、Kibana、Filebeat)  | 自行官网下载安装整合 | 日志系统，非必须
  gpe(Prometheus、Grafana、Node-Exporter)  | 自行官网下载安装整合 | 监控预警系统，非必须
+ Jenkins  | 自行官网下载安装 | 持续集成工具
  
 ***
 ### 打包：先执行命令`mvn install common`安装基础依赖，再再blog工程下执行`mvn deploy`，会根据Dockerfile文件构建镜像并发布到指定服务器中
@@ -34,6 +35,7 @@ xxl-job控制台| http://129.211.34.120:9090/xxl-job-admin/ | https://www.xuxuel
 Swagger接口文档 | http://129.211.34.120:9800/swagger-ui/index.html | http://springfox.github.io/springfox/ | springfox的SwaggerV3版本 
 Portainer控制台 | http://129.211.34.120:9000 | https://github.com/portainer/portainer | 管理docker容器 
 Grafana控制台 | http://129.211.34.120:3000 | https://grafana.com/docs/grafana/latest/ | 监控预警系统Grafana可视化面板
+Jenkins控制台 | http://129.211.34.120:8888 | https://www.jenkins.io/doc/ | 持续集成工具控制台
 
 日志配置：elk + filebeat  本地启动输出日志到elk，需要下载安装filebeat，然后配置logstash的输出地址（`129.211.34.120:5044`）以及监听的日志文件路径(启动fielbeat看到输出 `Connection to backoff(async(tcp://129.211.34.120:5044)) established` 表示连接成功)
 

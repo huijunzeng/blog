@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 public class ClassificationUpdateForm implements Serializable {
 
-    @ApiModelProperty("分类名称")
+    @ApiModelProperty(value = "分类名称", example = "java")
     @NotBlank(message = "分类名称不能为空")
     private String name;
 }

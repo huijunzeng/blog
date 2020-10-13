@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class LabelQueryForm extends BaseQueryForm {
 
-    @ApiModelProperty("标签名称")
+    @ApiModelProperty(value = "标签名称", example = "java")
     private String name;
 
 }

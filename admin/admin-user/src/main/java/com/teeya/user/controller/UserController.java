@@ -29,7 +29,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
-    @ApiImplicitParam(paramType = "form", name = "userSaveForm", value = "用户新增表单", required = true, dataTypeClass = UserSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "userSaveForm", value = "用户新增表单", required = true, dataTypeClass = UserSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody UserSaveForm userSaveForm) {
         return R.success(userService.save(userSaveForm));
@@ -37,7 +37,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户", notes = "更新指定用户信息")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "用户id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "userUpdateForm", value = "用户修改表单", required = true, dataTypeClass = UserUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "userUpdateForm", value = "用户修改表单", required = true, dataTypeClass = UserUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody UserUpdateForm userUpdateForm) {
         return R.success(userService.update(id, userUpdateForm));
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "搜索用户", notes = "根据条件获取用户信息列表")
-    @ApiImplicitParam(paramType = "form", name = "userQueryForm", value = "用户查询参数", required = true, dataTypeClass = UserQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "userQueryForm", value = "用户查询参数", required = true, dataTypeClass = UserQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody UserQueryForm userQueryForm) {
         log.info("userQueryForm:{}", userQueryForm);

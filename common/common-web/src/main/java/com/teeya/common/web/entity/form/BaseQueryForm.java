@@ -20,10 +20,10 @@ import java.util.Date;
 @Slf4j
 public class BaseQueryForm<T extends BaseEntity> extends PageQueryForm implements Serializable {
 
-    @ApiModelProperty("查询开始时间")
+    @ApiModelProperty(value = "查询开始时间", example = "2019-11-24 23:11:18")
     private Date createdTimeStart;
 
-    @ApiModelProperty("查询结束时间")
+    @ApiModelProperty(value = "查询结束时间", example = "2019-11-24 23:11:18")
     private Date createdTimeEnd;
 
     // 封装时间查询包装器方法，避免重复代码

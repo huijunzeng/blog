@@ -17,16 +17,16 @@ import java.io.Serializable;
 @Data
 public class RoleSaveForm implements Serializable {
 
-    @ApiModelProperty("角色编码")
+    @ApiModelProperty(value = "角色编码", example = "R001")
     @NotBlank(message = "角色编码不能为空")
     @Length(min = 4, max = 8, message = "角色编码长度不合法，请输入4至8位长度之内")
     private String code;
 
-    @ApiModelProperty("角色名称")
+    @ApiModelProperty(value = "角色名称", example = "超管")
     @NotBlank(message = "角色名称不能为空")
     @Length(min = 1, max = 8, message = "角色名称长度不合法，请输入1至8位长度之内")
     private String name;
 
-    @ApiModelProperty("描述")
+    @ApiModelProperty(value = "描述", example = "超管拥有所有资源权限")
     private String description;
 }

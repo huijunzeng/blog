@@ -14,10 +14,10 @@ import lombok.Data;
 @Data
 public class RoleQueryForm extends BaseQueryForm {
 
-    @ApiModelProperty("角色编码")
+    @ApiModelProperty(value = "角色编码", example = "R001")
     private String code;
 
-    @ApiModelProperty("角色名称")
+    @ApiModelProperty(value = "角色名称", example = "超管")
     private String name;
 
 }

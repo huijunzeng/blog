@@ -38,7 +38,7 @@ public class LabelController {
     private LabelService labelService;
 
     @ApiOperation(value = "新增文章标签", notes = "新增一个文章标签")
-    @ApiImplicitParam(paramType = "form", name = "labelForm", value = "文章标签新增表单", required = true, dataTypeClass = LabelSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "labelForm", value = "文章标签新增表单", required = true, dataTypeClass = LabelSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody LabelSaveForm labelSaveForm) {
         return R.success(labelService.save(labelSaveForm));
@@ -46,7 +46,7 @@ public class LabelController {
 
     @ApiOperation(value = "修改文章标签", notes = "修改文章标签")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章标签id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataTypeClass = LabelUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "labelUpdateForm", value = "文章标签修改表单", required = true, dataTypeClass = LabelUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody LabelUpdateForm labelUpdateForm) {
         return R.success(labelService.update(id, labelUpdateForm));
@@ -68,7 +68,7 @@ public class LabelController {
     }
     
     @ApiOperation(value = "搜索文章标签", notes = "根据条件获取文章标签信息列表")
-    @ApiImplicitParam(paramType = "form", name = "labelQueryForm", value = "文章标签查询表单", required = true, dataTypeClass = LabelQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "labelQueryForm", value = "文章标签查询表单", required = true, dataTypeClass = LabelQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody LabelQueryForm labelQueryForm) {
         log.info("labelQueryForm:{}", labelQueryForm);

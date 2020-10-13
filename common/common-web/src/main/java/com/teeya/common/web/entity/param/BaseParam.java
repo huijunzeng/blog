@@ -11,10 +11,10 @@ import java.util.Date;
 @ApiModel(value = "查询基础类")
 public class BaseParam implements Serializable {
 
-    @ApiModelProperty("查询开始时间")
+    @ApiModelProperty(value = "查询开始时间", example = "2019-11-24 23:11:18")
     private Date createdTimeStart;
 
-    @ApiModelProperty("查询结束时间")
+    @ApiModelProperty(value = "查询结束时间", example = "2019-11-24 23:11:18")
     private Date createdTimeEnd;
 
 }

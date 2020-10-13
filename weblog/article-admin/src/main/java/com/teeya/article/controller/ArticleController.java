@@ -35,7 +35,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation(value = "新增文章", notes = "新增一篇文章")
-    @ApiImplicitParam(paramType = "form", name = "articleForm", value = "新增文章表单", required = true, dataTypeClass = ArticleSaveForm.class)
+    @ApiImplicitParam(paramType = "body", name = "articleForm", value = "新增文章表单", required = true, dataTypeClass = ArticleSaveForm.class)
     @PostMapping
     public R<Boolean> save(@Validated @RequestBody ArticleSaveForm articleSaveForm) {
         return R.success(articleService.save(articleSaveForm));
@@ -43,7 +43,7 @@ public class ArticleController {
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "path", name = "id", value = "文章id", required = true, dataTypeClass = Long.class),
-            @ApiImplicitParam(paramType = "form", name = "articleUpdateForm", value = "文章修改表单", required = true, dataTypeClass = ArticleUpdateForm.class)})
+            @ApiImplicitParam(paramType = "body", name = "articleUpdateForm", value = "文章修改表单", required = true, dataTypeClass = ArticleUpdateForm.class)})
     @PutMapping(value = "/{id}")
     public R<Boolean> update(@PathVariable Long id, @Validated @RequestBody ArticleUpdateForm articleUpdateForm) {
         return R.success(articleService.update(id, articleUpdateForm));
@@ -58,7 +58,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "搜索文章", notes = "根据条件获取文章信息列表")
-    @ApiImplicitParam(paramType = "form", name = "articleQueryForm", value = "文章查询表单", required = true, dataTypeClass = ArticleQueryForm.class)
+    @ApiImplicitParam(paramType = "body", name = "articleQueryForm", value = "文章查询表单", required = true, dataTypeClass = ArticleQueryForm.class)
     @PostMapping(value = "/list")
     public R<IPage> queryList(@RequestBody ArticleQueryForm articleQueryForm) {
         log.info("articleQueryForm:{}", articleQueryForm);
