@@ -5,7 +5,6 @@ base:
     config:
         swagger:
             enabled: true
-            api-base-package: com.teeya.file
             contact:
                 name: ZJH
                 email: 18826233829@163.com

@@ -72,9 +72,9 @@ spring:
     # zipkin配置，链路调用可视化面板
     zipkin:
         enabled: ${SPRING_ZIPKIN_ENABLED:true} #默认允许开启
-            #base-url: ${SPRING_ZIPKIN_BASEURL:http://localhost:9411/} #zipkin服务器地址（只有sender type为web时才需要配置），sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
-            sender:
-                type: ${SPRING_ZIPKIN_SENDER_TYPE:rabbit} #发送方式（一共四种，默认web，需要配置base-url参数；设置其他三项则需要配置mq参数（连接成功后默认会生成一个zipkin的队列名称进行链路消息的发送与消费），无需再配置base-url参数，使用mq的好处能达到解耦，不需关心Zipkin服务器的状态）：activemq，rabbit，kafka，web  当配置了base-url，此项可不配置，默认使用http方式收集
+        #base-url: ${SPRING_ZIPKIN_BASEURL:http://localhost:9411/} #zipkin服务器地址（只有sender type为web时才需要配置），sleuth会将数据传输到zipkin服务器 需自行到zipkin官网下载jar包安装运行
+        sender:
+            type: ${SPRING_ZIPKIN_SENDER_TYPE:rabbit} #发送方式（一共四种，默认web，需要配置base-url参数；设置其他三项则需要配置mq参数（连接成功后默认会生成一个zipkin的队列名称进行链路消息的发送与消费），无需再配置base-url参数，使用mq的好处能达到解耦，不需关心Zipkin服务器的状态）：activemq，rabbit，kafka，web  当配置了base-url，此项可不配置，默认使用http方式收集
     # sleuth链路跟踪配置
     sleuth:
         sampler:

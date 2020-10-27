@@ -2,9 +2,11 @@ package com.teeya.user.config;
 
 import com.fasterxml.classmate.GenericType;
 import com.fasterxml.classmate.TypeResolver;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -33,21 +35,26 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 @Slf4j
 @Configuration
 @EnableOpenApi
+@EnableConfigurationProperties(value = {SwaggerProperties.class})
 @Profile({"dev"}) //只在dev环境生效 与@ConditionalOnProperty效果类似
 @ConditionalOnProperty(name = "base.config.swagger.enabled", havingValue = "true") //在@Profile({"dev"})生效的前提下，如果application.yml配置文件中的base.config.swagger.enable为true才生效，不然不生效
 public class SwaggerConfig {
-    // swagger接口界面访问路径 ：http://localhost:9800/swagger-ui/index.html  IP为机器的IP，端口号为工程的端口
+    // swagger接口界面访问路径 ：http://localhost:8081/swagger-ui/index.html  IP为机器的IP，端口号为工程的端口
 
     @Autowired
     private TypeResolver typeResolver;
 
+    @Autowired
+    private SwaggerProperties swaggerProperties;
+
     @Bean
     public Docket api() {
+        log.info("swaggerProperties======================: {}", swaggerProperties != null ? swaggerProperties.toString() : null);
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                // api接口路径，即controller层路径
-                .apis(RequestHandlerSelectors.basePackage("com.teeya.user"))
+                // api接口路径，即controller层路径(三种方式匹配，1basePackage即扫描Controller层的路径，2withMethodAnnotation即扫描对应的方法注解，3withClassAnnotation即扫描对应的类注解)
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 指定路径处理PathSelectors.any()代表所有的路径（除了被@ApiIgnore指定的请求）
                 .paths(PathSelectors.any())
                 .build()
@@ -68,12 +75,13 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("后台用户管理api")
-                .description("后台用户管理接口")
-                .contact(new Contact("zjh", null, "18826233829@163.com")) // 联系人信息
-                .license("Apache2.0")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("2.0")
+                .title(swaggerProperties.getTitle())
+                .description(swaggerProperties.getDescription())
+                .version(swaggerProperties.getVersion())
+                .contact(swaggerProperties.getContact() != null ? new Contact(
+                        Optional.ofNullable(swaggerProperties.getContact().getName()).orElse(""),
+                        Optional.ofNullable(swaggerProperties.getContact().getUrl()).orElse(""),
+                        Optional.ofNullable(swaggerProperties.getContact().getEmail()).orElse("")) : null)
                 .build();
     }
 
@@ -83,7 +91,7 @@ public class SwaggerConfig {
      */
     private List<SecurityScheme> securitySchemes() {
         // 在请求头header添加一个名为Authorization的token
-        return Collections.singletonList(new ApiKey(HttpHeaders.AUTHORIZATION, "Authorization", "header"));
+        return Collections.singletonList(new ApiKey(HttpHeaders.AUTHORIZATION, "token", "header"));
     }
 
     /**

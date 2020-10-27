@@ -1,18 +1,19 @@
-package com.teeya.common.web.swagger;
+package com.teeya.user.config;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * swagger属性封装类
+ */
 @Data
-//@Getter
 @Component
 @ToString
 // 读取application.yml配置文件以base.config.swagger为前缀的同名属性并封装成一个SwaggerProperties Bean类
-//@ConfigurationProperties(prefix = "base.config.swagger")
+@ConfigurationProperties(prefix = "base.config.swagger")
 public class SwaggerProperties {
 
     @ApiModelProperty("标题")
@@ -40,4 +41,6 @@ public class SwaggerProperties {
         @ApiModelProperty("创建人项目地址")
         private String url;
     }
+
+
 }

@@ -18,6 +18,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleEntity> queryListByUsername(String username) {
-        return authorizationProvider.queryListByUsername(username);
+        return authorizationProvider.queryListByUsername(username).getData();
     }
 }

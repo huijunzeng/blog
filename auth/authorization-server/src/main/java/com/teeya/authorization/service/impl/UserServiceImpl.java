@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getByUniqueId(String uniqueId) {
-        return authorizationProvider.getByUniqueId(uniqueId);
+        return authorizationProvider.getByUniqueId(uniqueId).getData();
     }
 
 }
