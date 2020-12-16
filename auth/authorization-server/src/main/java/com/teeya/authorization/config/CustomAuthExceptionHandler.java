@@ -1,4 +1,4 @@
-package com.teeya.authentication.config;
+package com.teeya.authorization.config;
 
 import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.core.exception.SystemExceptionEnums;

@@ -32,6 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+    @Autowired
+    private CustomAuthExceptionHandler customAuthExceptionHandler;
+
     /**
      * 认证对象管理
      * springboot2.1.x版本需要注入父类的authenticationManager  不然AuthorizationServerConfig授权服务器依赖AuthenticationManager报错
@@ -73,7 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     *  HTTP请求安全处理  对请求信息的设置
+     * 资源授权
+     * HTTP请求安全处理  对请求信息的设置
      * @param http
      * @throws Exception
      */
@@ -89,9 +93,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/webjars/springfox-swagger-ui/images/**","/swagger-resources/configuration/*","/swagger-resources","/v3/api-docs").permitAll()
             //设置拦截规则
             .anyRequest().authenticated()
-            .and()
-            .formLogin().and()
-            .csrf().disable()
+            .and().exceptionHandling()
+            .accessDeniedHandler(customAuthExceptionHandler) // 处理未授权
+            .authenticationEntryPoint(customAuthExceptionHandler) // 处理未认证
+            .and().formLogin()
+            .and().csrf().disable()
             .httpBasic();
     }
 
