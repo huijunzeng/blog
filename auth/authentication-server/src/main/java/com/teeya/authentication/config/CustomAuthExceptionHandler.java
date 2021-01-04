@@ -4,6 +4,7 @@ import com.teeya.common.core.entity.vo.R;
 import com.teeya.common.core.exception.SystemExceptionEnums;
 import com.teeya.common.core.util.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -85,6 +86,6 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, Acc
         response.addHeader("Access-Control-Max-Age", "1800");
         //访问资源的用户权限不足
         log.error("AccessDeniedException : {}", accessDeniedException.getMessage());
-        response.getWriter().write(JSONUtils.objectToJson(R.fail(401, accessDeniedException.getMessage())));
+        response.getWriter().write(JSONUtils.objectToJson(R.fail(HttpStatus.UNAUTHORIZED.value(), accessDeniedException.getMessage())));
     }
 }
